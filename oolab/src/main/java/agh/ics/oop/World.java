@@ -32,8 +32,8 @@ public class World {
     }
 
     static void run(Direction[] tab){
-        System.out.print("Zwierzak ");
         for(Direction ele : tab){
+            System.out.print("Zwierzak ");
             if(ele == Direction.FORWARD){
                 System.out.println("idzie do przodu.");
             }
