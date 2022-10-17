@@ -1,8 +1,46 @@
 package agh.ics.oop;
 
 public class World {
+
+
     public static void main(String[] args){
+        //zad1(args);
+        zad2(args);
+    }
+
+    static void zad2(String[] args){
+        System.out.println("Zadanie 2");
+        testVector2d();
+        testMapDirection();
+    }
+
+    static void testVector2d(){
+        System.out.println("TEST_VECTOR2D");
+        System.out.print("v1: ");
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        System.out.print("v2: ");
+        Vector2d position2 = new Vector2d(-1,3);
+        System.out.println(position2);
+        System.out.print("wynik funkcji: ");
+        System.out.println(position1.add(position2));
+    }
+
+    static void testMapDirection(){
+        System.out.println("TEST_MAP_DIRECTION");
+        System.out.print("Dir1: ");
+        MapDirection dir1 = MapDirection.SOUTH;
+        System.out.println(dir1);
+        System.out.print("Dir2: ");
+        MapDirection dir2 = MapDirection.WEST;
+        System.out.println(dir2);
+        System.out.print("wynik funkcji: ");
+        System.out.println(dir1.toUnitVector());
+    }
+
+    static void zad1(String[] args){
         //napis poczatkowy
+        System.out.println("Zadanie 1");
         System.out.println("Start");
 
         //zamiana tablicy stringow na tablice enumow
