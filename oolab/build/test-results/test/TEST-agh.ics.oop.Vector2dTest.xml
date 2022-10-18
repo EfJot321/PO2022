@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="agh.ics.oop.Vector2dTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-10-18T11:36:36" hostname="LAPTOP-6J70ATOR" time="0.016">
+  <properties/>
+  <testcase name="oppositeTest()" classname="agh.ics.oop.Vector2dTest" time="0.016"/>
+  <system-out><![CDATA[Test metody opposite(): zaliczony
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

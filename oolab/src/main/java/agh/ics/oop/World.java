@@ -10,12 +10,12 @@ public class World {
 
     static void zad2(String[] args){
         System.out.println("Zadanie 2");
-        testVector2d();
-        testMapDirection();
+        checkVector2d();
+        checkMapDirection();
     }
 
-    static void testVector2d(){
-        System.out.println("TEST_VECTOR2D");
+    static void checkVector2d(){
+        System.out.println("sprawdzenie funkcji wektorow");
         System.out.print("v1: ");
         Vector2d position1 = new Vector2d(1,2);
         System.out.println(position1);
@@ -26,8 +26,8 @@ public class World {
         System.out.println(position1.add(position2));
     }
 
-    static void testMapDirection(){
-        System.out.println("TEST_MAP_DIRECTION");
+    static void checkMapDirection(){
+        System.out.println("sprawdzenie funkcji mapdirection");
         System.out.print("Dir1: ");
         MapDirection dir1 = MapDirection.SOUTH;
         System.out.println(dir1);
