@@ -1,1 +1,9 @@
-#Test metody opposite(): zaliczony
+Test metody upperRight()
+Test metody add()
+Test metody precedes(): Test metody opposite()
+Test metody lowerLeft()
+Test metody equals()
+Test metody toString()
+	Test metody subtract()
+
+Test metody follows()

@@ -5,7 +5,19 @@ public class World {
 
     public static void main(String[] args){
         //zad1(args);
-        zad2(args);
+        //zad2(args);
+        zad3(args);
+    }
+
+    static void zad3(String[] args){
+        OptionsParser parser = new OptionsParser();
+        MoveDirection[] moveTab = parser.parse(args);
+        Animal animal = new Animal();
+        System.out.println(animal);
+        for(MoveDirection dir: moveTab){
+            animal.move(dir);
+        }
+        System.out.println(animal);
     }
 
     static void zad2(String[] args){

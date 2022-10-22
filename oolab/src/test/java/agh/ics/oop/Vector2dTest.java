@@ -2,63 +2,36 @@ package agh.ics.oop;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class Vector2dTest {
 
     @Test
     public void equalsTest(){
-        System.out.print("Test metody equals(): ");
+        System.out.println("Test metody equals()");
         Vector2d v1 = new Vector2d(1,10);
         Vector2d v2 = new Vector2d(1,10);
-        if(!v1.equals(v2)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.equals(v1)) {
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertTrue(v1.equals(v2), v1.toString()+", "+v2.toString());
+        assertTrue(v2.equals(v1), v2.toString()+", "+v1.toString());
         v2 = v1;
-        if(!v1.equals(v2)){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertTrue(v1.equals(v2), v1.toString()+", "+v2.toString());
         v2 = new Vector2d(1, 0);
-        if(v1.equals(v2)){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertFalse(v1.equals(v2), v1.toString()+", "+v2.toString());
         v1 = new Vector2d(-1,5);
-        if(v1.equals(v2)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        System.out.println("zaliczony");
+        assertFalse(v1.equals(v2), v1.toString()+", "+v2.toString());
     }
 
     @Test
     public void toStringTest(){
-        System.out.print("Test metody toString(): ");
+        System.out.println("Test metody toString()");
         Vector2d v1 = new Vector2d(1,10);
-        if(!v1.toString().equals("(1,10)")){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals("(1,10)", v1.toString());
         v1 = new Vector2d(0,0);
-        if(!v1.toString().equals("(0,0)")){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals("(0,0)", v1.toString());
         v1 = new Vector2d(-100,0);
-        if(!v1.toString().equals("(-100,0)")){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals("(-100,0)", v1.toString());
         v1 = new Vector2d(10,-10);
-        if(!v1.toString().equals("(10,-10)")){
-            System.out.println("niezaliczony");
-            return;
-        }
-        System.out.println("zaliczony");
+        assertEquals("(10,-10)", v1.toString());
     }
 
     @Test
@@ -66,249 +39,121 @@ public class Vector2dTest {
         System.out.print("Test metody precedes(): ");
         Vector2d v1 = new Vector2d(1,10);
         Vector2d v2 = new Vector2d(1,10);
-        if(v1.precedes(v2)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(v2.precedes(v1)){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertTrue(v1.precedes(v2), v1.toString()+", "+v2.toString());
+        assertTrue(v2.precedes(v1), v2.toString()+", "+v1.toString());
         v2 = new Vector2d(-10, 0);
-        if(v1.precedes(v2)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.precedes(v1)){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertFalse(v1.precedes(v2), v1.toString()+", "+v2.toString());
+        assertTrue(v2.precedes(v1), v2.toString()+", "+v1.toString());
         v1 = new Vector2d(0,10);
         v2 = new Vector2d(-1, 10);
-        if(v2.precedes(v1)){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertTrue(v2.precedes(v1), v2.toString()+", "+v1.toString());
         v2 = new Vector2d(0, 0);
-        if(v2.precedes(v1)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        System.out.println("zaliczony");
+        assertTrue(v2.precedes(v1), v2.toString()+", "+v1.toString());
+        v1 = new Vector2d(-1, -5);
+        assertFalse(v2.precedes(v1), v2.toString()+", "+v1.toString());
     }
 
     @Test
     public void followsTest(){
-        System.out.print("Test metody follows(): ");
+        System.out.println("Test metody follows()");
         Vector2d v1 = new Vector2d(1,10);
         Vector2d v2 = new Vector2d(1,10);
-        if(!v1.follows(v2)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.follows(v1)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        v1 = new Vector2d(2, 30);
-        if(!v1.follows(v2)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(v2.follows(v1)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        v1 = new Vector2d(0, -1);
-        v2 = new Vector2d(-10, -2);
-        if(!v1.follows(v2)){
-            System.out.println("niezaliczony");
-            return;
-        }
-        System.out.println("zaliczony");
+        assertTrue(v1.follows(v2), v1.toString()+", "+v2.toString());
+        assertTrue(v2.follows(v1), v2.toString()+", "+v1.toString());
+        v2 = new Vector2d(-10, 0);
+        assertTrue(v1.follows(v2), v1.toString()+", "+v2.toString());
+        assertFalse(v2.follows(v1), v2.toString()+", "+v1.toString());
+        v1 = new Vector2d(0,10);
+        v2 = new Vector2d(-1, 10);
+        assertFalse(v2.follows(v1), v2.toString()+", "+v1.toString());
+        v2 = new Vector2d(0, 0);
+        assertFalse(v2.follows(v1), v2.toString()+", "+v1.toString());
+        v1 = new Vector2d(-1, -5);
+        assertTrue(v2.follows(v1), v2.toString()+", "+v1.toString());
     }
 
     @Test
     public void upperRightTest(){
-        System.out.print("Test metody upperRight(): ");
+        System.out.println("Test metody upperRight()");
         Vector2d v1 = new Vector2d(1,10);
         Vector2d v2 = new Vector2d(1,10);
-        if(!v1.upperRight(v2).equals(new Vector2d(1,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.upperRight(v1).equals(new Vector2d(1,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(1,10), v1.upperRight(v2));
+        assertEquals(new Vector2d(1,10), v2.upperRight(v1));
         v1 = new Vector2d(2, 20);
-        if(!v1.upperRight(v2).equals(new Vector2d(2,20))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(2,20), v1.upperRight(v2));
         v1 = new Vector2d(-10, 15);
-        if(!v1.upperRight(v2).equals(new Vector2d(1,15))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(1,15), v1.upperRight(v2));
         v2 = new Vector2d(-11, 16);
-        if(!v1.upperRight(v2).equals(new Vector2d(-10,16))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        System.out.println("zaliczony");
+        assertEquals(new Vector2d(-10,16), v1.upperRight(v2));
     }
 
     @Test
     public void lowerLeftTest(){
-        System.out.print("Test metody lowerLeft(): ");
+        System.out.println("Test metody lowerLeft()");
         Vector2d v1 = new Vector2d(1,10);
         Vector2d v2 = new Vector2d(1,10);
-        if(!v1.lowerLeft(v2).equals(new Vector2d(1,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.lowerLeft(v1).equals(new Vector2d(1,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(1,10), v1.lowerLeft(v2));
+        assertEquals(new Vector2d(1,10), v2.lowerLeft(v1));
         v1 = new Vector2d(2, 20);
-        if(!v1.lowerLeft(v2).equals(new Vector2d(1,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.lowerLeft(v1).equals(new Vector2d(1,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(1,10), v1.lowerLeft(v2));
+        assertEquals(new Vector2d(1,10), v2.lowerLeft(v1));
         v1 = new Vector2d(-10, 15);
-        if(!v1.lowerLeft(v2).equals(new Vector2d(-10,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(-10,10), v1.lowerLeft(v2));
         v2 = new Vector2d(-11, 16);
-        if(!v1.lowerLeft(v2).equals(new Vector2d(-11,15))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        System.out.println("zaliczony");
+        assertEquals(new Vector2d(-11,15), v1.lowerLeft(v2));
     }
 
     @Test
     public void addTest(){
-        System.out.print("Test metody add(): ");
+        System.out.println("Test metody add()");
         Vector2d v1 = new Vector2d(1,10);
         Vector2d v2 = new Vector2d(1,10);
-        if(!v1.add(v2).equals(new Vector2d(2,20))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.add(v1).equals(new Vector2d(2,20))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(2,20), v1.add(v2));
+        assertEquals(new Vector2d(2,20), v2.add(v1));
         v1 = new Vector2d(2, 20);
-        if(!v1.add(v2).equals(new Vector2d(3,30))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.add(v1).equals(new Vector2d(3,30))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(3,30), v1.add(v2));
+        assertEquals(new Vector2d(3,30), v2.add(v1));
         v1 = new Vector2d(-10, 15);
-        if(!v1.add(v2).equals(new Vector2d(-9,25))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(-9,25), v1.add(v2));
         v2 = new Vector2d(-11, 16);
-        if(!v1.add(v2).equals(new Vector2d(-21,31))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(-21,31), v1.add(v2));
         v1 = new Vector2d(11, -16);
-        if(!v1.add(v2).equals(new Vector2d(0,0))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        System.out.println("zaliczony");
+        assertEquals(new Vector2d(0,0), v1.add(v2));
     }
 
     @Test
     public void subtractTest(){
-        System.out.print("Test metody subtract(): ");
+        System.out.println("Test metody subtract()");
         Vector2d v1 = new Vector2d(1,10);
         Vector2d v2 = new Vector2d(1,10);
-        if(!v1.subtract(v2).equals(new Vector2d(0,0))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.subtract(v1).equals(new Vector2d(0,0))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(0,0), v1.subtract(v2));
+        assertEquals(new Vector2d(0,0), v2.subtract(v1));
         v1 = new Vector2d(2, 20);
-        if(!v1.subtract(v2).equals(new Vector2d(1,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        if(!v2.subtract(v1).equals(new Vector2d(-1,-10))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(1,10), v1.subtract(v2));
+        assertEquals(new Vector2d(-1,-10), v2.subtract(v1));
         v1 = new Vector2d(-10, 15);
-        if(!v1.subtract(v2).equals(new Vector2d(-11,5))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(-11,5), v1.subtract(v2));
         v2 = new Vector2d(-11, 16);
-        if(!v1.subtract(v2).equals(new Vector2d(1,-1))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(1,-1), v1.subtract(v2));
         v1 = new Vector2d(11, -16);
-        if(!v1.subtract(v2).equals(new Vector2d(22,-32))){
-            System.out.println("niezaliczony");
-            return;
-        }
-        System.out.println("zaliczony");
+        assertEquals(new Vector2d(22,-32), v1.subtract(v2));
     }
 
     @Test
     public void oppositeTest(){
-        System.out.print("Test metody opposite(): ");
+        System.out.println("Test metody opposite()");
         Vector2d v1 = new Vector2d(1,10);
-        if(!v1.opposite().equals(new Vector2d(-1,-10))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(-1,-10), v1.opposite());
         v1 = new Vector2d(-1,10);
-        if(!v1.opposite().equals(new Vector2d(1,-10))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(1,-10), v1.opposite());
         v1 = new Vector2d(1,-10);
-        if(!v1.opposite().equals(new Vector2d(-1,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(-1,10), v1.opposite());
         v1 = new Vector2d(-1,-10);
-        if(!v1.opposite().equals(new Vector2d(1,10))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(1,10), v1.opposite());
         v1 = new Vector2d(0,0);
-        if(!v1.opposite().equals(new Vector2d(0,0))){
-            System.out.println("niezaliczony");
-            return;
-        }
+        assertEquals(new Vector2d(0,0), v1.opposite());
         v1 = new Vector2d(100, 200);
-        if(!v1.opposite().opposite().equals(v1)){
-            System.out.println("niezaliczony");
-            return;
-        }
-
-        System.out.println("zaliczony");
+        assertEquals(v1, v1.opposite().opposite());
     }
 
 }

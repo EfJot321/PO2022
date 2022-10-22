@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.Objects;
+
 class Vector2d{
     public final int x;
     public final int y;
@@ -19,7 +21,7 @@ class Vector2d{
     }
 
     boolean precedes(Vector2d other){
-        if(this.x < other.x && this.y < other.y){
+        if(this.x <= other.x && this.y <= other.y){
             return  true;
         }
         return false;
@@ -96,6 +98,10 @@ class Vector2d{
             return true;
         }
         return false;
+    }
+
+    public int hashCode(){
+        return Objects.hash(x,y);
     }
 
 
