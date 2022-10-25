@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+
 public class Animal {
     private MapDirection dir;
     private Vector2d pos;
@@ -45,6 +46,9 @@ public class Animal {
         }
         if(direction == MoveDirection.FORWARD || direction == MoveDirection.BACKWARD){
             Vector2d distance = dir.toUnitVector();
+            if(direction == MoveDirection.BACKWARD){
+                distance = distance.opposite();
+            }
             if(ifICanGo(pos.add(distance))){
                 pos = pos.add(distance);
             }
