@@ -11,7 +11,7 @@ public class Animal {
 
     public String toString(){
         String toReturn = "";
-        toReturn += "Pos: ";
+        toReturn += "Posi: ";
         toReturn += pos.toString();
         toReturn += ", Dir: ";
         toReturn += dir.toString();
