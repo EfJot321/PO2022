@@ -19,7 +19,7 @@ public class OptionsParser {
             if(args[i].equals("l") || args[i].equals("left")){
                 toReturn[i] = MoveDirection.LEFT;
             }
-            if(toReturn != null){
+            if(toReturn[i] != null){
                 n++;
             }
         }
