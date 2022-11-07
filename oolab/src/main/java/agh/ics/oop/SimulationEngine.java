@@ -1,6 +1,4 @@
-package agh;
-
-import agh.ics.oop.IEngine;
+package agh.ics.oop;
 
 public class SimulationEngine implements IEngine{
 
