@@ -19,6 +19,10 @@ public class Animal {
         return toReturn;
     }
 
+    public Vector2d getPos(){
+        return pos;
+    }
+
     public boolean isAt(Vector2d position){
         return pos.equals(position);
     }
