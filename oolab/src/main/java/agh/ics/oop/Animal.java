@@ -5,18 +5,28 @@ public class Animal {
     private MapDirection dir;
     private Vector2d pos;
 
-    public Animal(){
-        dir = MapDirection.NORTH;
-        pos = new Vector2d(2,2);
+    private IWorldMap map;
+
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        this.dir = MapDirection.NORTH;
+        this.pos = initialPosition;
+        this.map = map;
     }
 
     public String toString(){
-        String toReturn = "";
-        toReturn += "Pos: ";
-        toReturn += pos.toString();
-        toReturn += ", Dir: ";
-        toReturn += dir.toString();
-        return toReturn;
+        if(dir == MapDirection.NORTH){
+            return "^";
+        }
+        if(dir == MapDirection.EAST){
+            return ">";
+        }
+        if(dir == MapDirection.SOUTH){
+            return "v";
+        }
+        if(dir == MapDirection.WEST){
+            return "<";
+        }
+        return "";
     }
 
     public Vector2d getPos(){
@@ -25,19 +35,6 @@ public class Animal {
 
     public boolean isAt(Vector2d position){
         return pos.equals(position);
-    }
-
-    private boolean ifICanGo(Vector2d position){
-        Vector2d ogr1 = new Vector2d(0,0);
-        Vector2d ogr2 = new Vector2d(4,4);
-
-        if(!position.lowerLeft(ogr1).equals(ogr1)){
-            return false;
-        }
-        if(!position.upperRight(ogr2).equals(ogr2)){
-            return false;
-        }
-        return true;
     }
 
 
@@ -53,8 +50,9 @@ public class Animal {
             if(direction == MoveDirection.BACKWARD){
                 distance = distance.opposite();
             }
-            if(ifICanGo(pos.add(distance))){
-                pos = pos.add(distance);
+            Vector2d targetPos = pos.add(distance);
+            if(map.canMoveTo(targetPos)){
+                pos = targetPos;
             }
         }
     }
