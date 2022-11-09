@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-//NIEAKTUALNE
 
 public class IntegrationTest {
 
