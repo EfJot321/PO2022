@@ -19,10 +19,12 @@ public class SimulationEngine implements IEngine{
         for(Vector2d startPos : startPoss){
             Animal newBorn = new Animal(this.map, startPos);
             if(map.place(newBorn)){
-                animals.add(nOfAnimals, newBorn);
+                animals.add(newBorn);
                 nOfAnimals++;
             }
         }
+
+        
 
 
     }
@@ -30,10 +32,13 @@ public class SimulationEngine implements IEngine{
     @Override
     public void run() {
         int iterator = 0;
-        for(MoveDirection command : moves){
-            animals.get(iterator%nOfAnimals).move(command);
-            iterator++;
+        if(nOfAnimals > 0){
+            for(MoveDirection command : moves){
+                animals.get(iterator%nOfAnimals).move(command);
+                iterator++;
+            }
         }
+        
         
     }
         
