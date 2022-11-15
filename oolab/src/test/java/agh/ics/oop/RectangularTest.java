@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 
-public class IntegrationTest {
+public class RectangularTest {
 
     IWorldMap mapSim(String[] args, Vector2d[] positions, int width, int height){
         MoveDirection[] directions = new OptionsParser().parse(args);

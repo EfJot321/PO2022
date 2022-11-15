@@ -1,7 +1,7 @@
 package agh.ics.oop;
 
 
-public class Animal {
+public class Animal extends AbstractWorldMapElement{
     private MapDirection dir;
     private Vector2d pos;
 
@@ -29,8 +29,12 @@ public class Animal {
         return "";
     }
 
-    public Vector2d getPos(){
+    public Vector2d getPosition(){
         return pos;
+    }
+
+    public String getType(){
+        return "Animal";
     }
 
     public boolean isAt(Vector2d position){
@@ -55,5 +59,6 @@ public class Animal {
                 pos = targetPos;
             }
         }
+
     }
 }
