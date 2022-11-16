@@ -1,13 +1,16 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-abstract class AbstractWorldMap implements IWorldMap{
-    protected List<IMapElement> objects;
+abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
+    protected Map<Vector2d, IMapElement> objects;
+
+    final MapVisualizer visualizer;
 
     public AbstractWorldMap(){
-        objects = new ArrayList<>();
+        visualizer = new MapVisualizer(this);
+        objects = new HashMap<>();
     }
 
     public boolean canMoveTo(Vector2d position) {
@@ -16,36 +19,35 @@ abstract class AbstractWorldMap implements IWorldMap{
 
     public boolean place(Animal animal) {
         if(canMoveTo(animal.getPosition())){
-            objects.add(animal);
+            objects.put(animal.getPosition(),animal);
             return true;
         }
         return false;
     }
 
     public boolean isOccupied(Vector2d position) {
-        return (objectAt(position) != null);
+        return (objects.get(position) != null);
     }
 
     public Object objectAt(Vector2d position) {
-        Object toReturn = null;
-        for(IMapElement object : objects){
-            if(object.isAt(position)){
-                if(object.getType().equals("Animal")){
-                    return object;
-                }
-                toReturn = object;
-                
-            }
+        return objects.get(position);
+    }
+
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        IMapElement object = objects.get(oldPosition);
+        if(object.getType().equals("Animal")){
+            objects.remove(oldPosition);
+            //amciu
+            objects.remove(newPosition);
+            //go on
+            objects.put(newPosition, object);
         }
-        return toReturn;
     }
 
     abstract Vector2d[] limes();
 
     public String toString(){
-        MapVisualizer visualizer = new MapVisualizer(this);
-        String toReturn = visualizer.draw(limes()[0], limes()[1]);
-        return toReturn;
+        Vector2d[] limess = limes();
+        return visualizer.draw(limess[0], limess[1]);
     }
-
 }

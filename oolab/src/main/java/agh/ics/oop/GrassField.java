@@ -13,7 +13,8 @@ public class GrassField extends AbstractWorldMap{
         this.nOfGrasses = nOfGrasses;
 
         for(int i=0;i<nOfGrasses;i++){
-            objects.add(placeGrass(i));
+            Grass grass = placeGrass(i);
+            objects.put(grass.getPosition(), grass);
         }
 
     }
@@ -47,11 +48,11 @@ public class GrassField extends AbstractWorldMap{
         Vector2d lim1 = new Vector2d(0, 0);
         Vector2d lim2 = new Vector2d(5, 5);
         if(objects.size()>0){
-            lim1 = objects.get(0).getPosition();
-            lim2 = objects.get(0).getPosition();
-            for(IMapElement object : objects){
-                lim1 = lim1.lowerLeft(object.getPosition());
-                lim2 = lim2.upperRight(object.getPosition());
+            lim1 = new Vector2d(0, 0);
+            lim2 = new Vector2d(0, 0);
+            for(Vector2d pos : objects.keySet()){
+                lim1 = lim1.lowerLeft(pos);
+                lim2 = lim2.upperRight(pos);
             }
 
         }
