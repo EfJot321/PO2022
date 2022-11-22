@@ -19,7 +19,10 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
 
     public boolean place(Animal animal) {
         if(canMoveTo(animal.getPosition())){
+            //dodawanie zwierzaka do mapy
             objects.put(animal.getPosition(),animal);
+            //dodawanie siebie jako obserwatora do zwierzaka
+            animal.addObserver(this);
             return true;
         }
         return false;
@@ -32,6 +35,7 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     public Object objectAt(Vector2d position) {
         return objects.get(position);
     }
+
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         IMapElement object = objects.get(oldPosition);

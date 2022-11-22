@@ -1,11 +1,15 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class Animal extends AbstractWorldMapElement{
     private MapDirection dir;
     private Vector2d pos;
 
     private IWorldMap map;
+
+    List<IPositionChangeObserver> observers = new ArrayList<>();
 
     public Animal(IWorldMap map, Vector2d initialPosition){
         this.dir = MapDirection.NORTH;
@@ -56,9 +60,30 @@ public class Animal extends AbstractWorldMapElement{
             }
             Vector2d targetPos = pos.add(distance);
             if(map.canMoveTo(targetPos)){
+                positionChanged(pos, targetPos);
                 pos = targetPos;
             }
         }
 
     }
+
+    void addObserver(IPositionChangeObserver observer){
+        observers.add(observer);
+    }
+
+    void removeObserver(IPositionChangeObserver observer){
+        for(IPositionChangeObserver obs:observers){
+            if(obs.equals(observer)){
+                observers.remove(observer);
+            }
+        }
+    }
+
+    void positionChanged(Vector2d actPos, Vector2d nextpos){
+        for(IPositionChangeObserver obs:observers){
+            obs.positionChanged(actPos, nextpos);
+        }
+    }
+
+
 }
