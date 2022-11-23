@@ -25,7 +25,8 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
             animal.addObserver(this);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException(animal.getPosition().toString() + " is wrong place.");
+        
     }
 
     public boolean isOccupied(Vector2d position) {
@@ -41,9 +42,6 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         IMapElement object = objects.get(oldPosition);
         if(object.getType().equals("Animal")){
             objects.remove(oldPosition);
-            //amciu
-            objects.remove(newPosition);
-            //go on
             objects.put(newPosition, object);
         }
     }

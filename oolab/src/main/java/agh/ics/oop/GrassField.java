@@ -13,23 +13,21 @@ public class GrassField extends AbstractWorldMap{
         this.nOfGrasses = nOfGrasses;
 
         for(int i=0;i<nOfGrasses;i++){
-            Grass grass = placeGrass(i);
+            Grass grass = placeGrass();
             objects.put(grass.getPosition(), grass);
         }
 
     }
 
-    private Grass placeGrass(int num){
+    private Grass placeGrass(){
         Vector2d pos = null;
         int maxPos = (int)(Math.sqrt(nOfGrasses*10));
         boolean notFound = true;
         while(notFound){
             pos = new Vector2d(randInt(0, maxPos), randInt(0, maxPos));
             notFound = false;
-            for(int i=0;i<num;i++){
-                if(isOccupied(pos)){
-                    notFound = true;
-                }
+            if(isOccupied(pos)){
+                notFound = true;
             }
         }
         return new Grass(pos);

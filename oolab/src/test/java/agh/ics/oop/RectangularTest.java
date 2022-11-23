@@ -1,8 +1,8 @@
 package agh.ics.oop;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -88,20 +88,39 @@ public class RectangularTest {
 
 
         //kombinacje wszystkiego, tylko ze teraz z niepoprawnymi danymi
-        args = new String[]{"f", "forward","braykuv", "l", "b", "kdj", "a","left"};
-        positions = new Vector2d[]{new Vector2d(2, 2)};
-        map = mapSim(args, positions, 5, 5);
-        assertNotNull(map.objectAt(new Vector2d(3, 4)));
+        boolean isEx = false;
+        try{
+            args = new String[]{"f", "forward","braykuv", "l", "b", "kdj", "a","left"};
+            positions = new Vector2d[]{new Vector2d(2, 2)};
+            map = mapSim(args, positions, 5, 5);
+        }
+        catch(IllegalArgumentException ex){
+            isEx = true;
+        }
+        assertTrue(isEx);
 
-        args = new String[]{"b", "left", "b", "hyilcbvyl", "backward", "r", "right", "k","forward", "rrr", "right", "forward", "f"};
-        positions = new Vector2d[]{new Vector2d(2, 2)};
-        map = mapSim(args, positions, 5, 5);
-        assertNotNull(map.objectAt(new Vector2d(4, 0)));
 
-        args = new String[]{"no tak","r", "ojaaaa","right", "right", "forward", "backward", "l", "forward", "b", "b", "b", "ok","b", "b", "right"};
-        positions = new Vector2d[]{new Vector2d(2, 2)};
-        map = mapSim(args, positions, 5, 5);
-        assertNotNull(map.objectAt(new Vector2d(2, 4)));
+        isEx = false;
+        try {
+            args = new String[]{"b", "left", "b", "hyilcbvyl", "backward", "r", "right", "k","forward", "rrr", "right", "forward", "f"};
+            positions = new Vector2d[]{new Vector2d(2, 2)};
+            map = mapSim(args, positions, 5, 5);
+        }
+        catch(IllegalArgumentException ex){
+            isEx = true;
+        }
+        assertTrue(isEx);
+
+        isEx = false;
+        try {
+            args = new String[]{"no tak","r", "ojaaaa","right", "right", "forward", "backward", "l", "forward", "b", "b", "b", "ok","b", "b", "right"};
+            positions = new Vector2d[]{new Vector2d(2, 2)};
+            map = mapSim(args, positions, 5, 5);
+        }
+        catch(IllegalArgumentException ex){
+            isEx = true;
+        }
+        assertTrue(isEx);
     
     }
 
@@ -166,32 +185,27 @@ public class RectangularTest {
         }
 
         //tworzenie zwierzat na sobie lub poza mapa
-        int counter;
-        args = new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "b", "b", "b", "b", "b", "b", "b", "b"};
-        positions = new Vector2d[]{new Vector2d(3, 4), new Vector2d(4, 4), new Vector2d(3, 4), new Vector2d(5, 2)};
-        map = mapSim(args, positions, 5, 5);
-        counter = 0;
-        for(int i=0;i<10;i++){
-            for(int j=0;j<10;j++){
-                if(map.isOccupied(new Vector2d(i, j))){
-                    counter++;
-                }
-            }
+        boolean isEx = false;
+        try {
+            args = new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "b", "b", "b", "b", "b", "b", "b", "b"};
+            positions = new Vector2d[]{new Vector2d(3, 4), new Vector2d(4, 4), new Vector2d(3, 4), new Vector2d(5, 2)};
+            map = mapSim(args, positions, 5, 5);
         }
-        assertEquals(2, counter);
+        catch(IllegalArgumentException ex){
+            isEx = true;
+        }
+        assertTrue(isEx);
 
-        args = new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "b", "b", "b", "b", "b", "b", "b", "b"};
-        positions = new Vector2d[]{new Vector2d(3, 4), new Vector2d(4, 4), new Vector2d(3, 4), new Vector2d(5, 2), new Vector2d(3, 4), new Vector2d(0, 0), new Vector2d(-1,-1)};
-        map = mapSim(args, positions, 5, 5);
-        counter = 0;
-        for(int i=0;i<10;i++){
-            for(int j=0;j<10;j++){
-                if(map.isOccupied(new Vector2d(i, j))){
-                    counter++;
-                }
-            }
+        isEx = false;
+        try{
+            args = new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "b", "b", "b", "b", "b", "b", "b", "b"};
+            positions = new Vector2d[]{new Vector2d(3, 4), new Vector2d(4, 4), new Vector2d(3, 4), new Vector2d(5, 2), new Vector2d(3, 4), new Vector2d(0, 0), new Vector2d(-1,-1)};
+            map = mapSim(args, positions, 5, 5);
         }
-        assertEquals(3, counter);
+        catch(IllegalArgumentException ex){
+            isEx = true;
+        }
+        assertTrue(isEx);
 
         
     }

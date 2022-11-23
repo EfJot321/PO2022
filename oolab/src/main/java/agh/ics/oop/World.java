@@ -4,9 +4,16 @@ public class World {
 
 
     public static void main(String[] args){
-        //zad1(args);
-        //zad2(args);
-        zad3(args);
+        try{
+            //zad1(args);
+            //zad2(args);
+            zad3(args);
+        }
+        catch(IllegalArgumentException ex){
+            System.out.println(ex);
+            return;
+        }
+        
     }
 
     static void zad3(String[] args){

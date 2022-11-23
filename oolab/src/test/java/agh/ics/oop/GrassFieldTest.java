@@ -1,7 +1,7 @@
 package agh.ics.oop;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -55,10 +55,17 @@ public class GrassFieldTest {
         assertNotNull(map.objectAt(new Vector2d(3, 4)));
 
         //kombinacje wszystkiego, tylko ze teraz z niepoprawnymi danymi
-        args = new String[]{"f", "forward","braykuv", "l", "b", "kdj", "a","left"};
-        positions = new Vector2d[]{new Vector2d(2, 2)};
-        map = mapSim(args, positions, 5);
-        assertNotNull(map.objectAt(new Vector2d(3, 4)));
+        boolean isEx=false;
+        try{
+            args = new String[]{"f", "forward","braykuv", "l", "b", "kdj", "a","left"};
+            positions = new Vector2d[]{new Vector2d(2, 2)};
+            map = mapSim(args, positions, 5);
+        }
+        catch(IllegalArgumentException ex){
+            isEx = true;
+        }
+        assertTrue(isEx);
+        
 
     
     }
@@ -71,6 +78,7 @@ public class GrassFieldTest {
 
         
         //cztery zwierzaki
+
         args = new String[]{"f", "b", "l", "r", "f", "f", "f", "f", "l", "l", "r", "b", "f", "b", "f", "f"};
         positions = new Vector2d[]{new Vector2d(2, 2), new Vector2d(3, 4), new Vector2d(3, 2), new Vector2d(8, 0) };
         map = mapSim(args, positions, 1);
@@ -78,7 +86,8 @@ public class GrassFieldTest {
         assertNotNull(map.objectAt(new Vector2d(2, 3)));
         assertNotNull(map.objectAt(new Vector2d(4, 4)));
         assertNotNull(map.objectAt(new Vector2d(9, 0)));
-
+        
+        
 
         args = new String[]{"f", "b", "l", "r", "f", "f", "f", "f", "l", "l", "r", "b", "f", "b", "f", "f", "r", "l", "l", "r", "f", "f", "f", "f", "r", "r", "r", "r"};
         positions = new Vector2d[]{new Vector2d(10, 10), new Vector2d(10, 11), new Vector2d(10, 12), new Vector2d(10, 13) };
@@ -89,32 +98,27 @@ public class GrassFieldTest {
         assertNotNull(map.objectAt(new Vector2d(11, 10)));
 
         //tworzenie zwierzat na sobie
-        int counter;
-        args = new String[]{};
-        positions = new Vector2d[]{new Vector2d(3, 4), new Vector2d(4, 4), new Vector2d(3, 4), new Vector2d(5, 2)};
-        map = mapSim(args, positions, 5);
-        counter = 0;
-        for(int i=-100;i<100;i++){
-            for(int j=-100;j<100;j++){
-                if(map.objectAt(new Vector2d(i, j)) != null && ((IMapElement) map.objectAt(new Vector2d(i, j))).getType().equals("Animal")){
-                    counter++;
-                }
-            }
+        boolean isEx = false;
+        try{
+            args = new String[]{};
+            positions = new Vector2d[]{new Vector2d(3, 4), new Vector2d(4, 4), new Vector2d(3, 4), new Vector2d(5, 2)};
+            map = mapSim(args, positions, 5);
         }
-        assertEquals(3, counter);
+        catch(IllegalArgumentException ex){
+            isEx = true;
+        }
+        assertTrue(isEx);
 
-        args = new String[]{};
-        positions = new Vector2d[]{new Vector2d(3, 4), new Vector2d(4, 4), new Vector2d(3, 4), new Vector2d(5, 2), new Vector2d(3, 4), new Vector2d(0, 0), new Vector2d(-1,-1)};
-        map = mapSim(args, positions, 5);
-        counter = 0;
-        for(int i=-100;i<100;i++){
-            for(int j=-100;j<100;j++){
-                if(map.objectAt(new Vector2d(i, j)) != null && ((IMapElement) map.objectAt(new Vector2d(i, j))).getType().equals("Animal")){
-                    counter++;
-                }
-            }
+        isEx = false;
+        try{
+            args = new String[]{};
+            positions = new Vector2d[]{new Vector2d(3, 4), new Vector2d(4, 4), new Vector2d(3, 4), new Vector2d(5, 2), new Vector2d(3, 4), new Vector2d(0, 0), new Vector2d(-1,-1)};
+            map = mapSim(args, positions, 5);
         }
-        assertEquals(5, counter);
+        catch(IllegalArgumentException ex){
+            isEx = true;
+        }
+        assertTrue(isEx);
 
         
     }

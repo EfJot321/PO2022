@@ -1,7 +1,6 @@
 package agh.ics.oop;
 
 public class OptionsParser {
-
     public MoveDirection[] parse(String[] args){
         int n=0;
         MoveDirection[] toReturn = new MoveDirection[args.length];
@@ -19,8 +18,12 @@ public class OptionsParser {
             if(args[i].equals("l") || args[i].equals("left")){
                 toReturn[i] = MoveDirection.LEFT;
             }
+
             if(toReturn[i] != null){
                 n++;
+            }
+            else{
+                throw new IllegalArgumentException(args[i] + " is not legal move specification");
             }
         }
 
