@@ -60,22 +60,22 @@ public class Animal extends AbstractWorldMapElement{
             }
             Vector2d targetPos = pos.add(distance);
             if(map.canMoveTo(targetPos)){
-                positionChanged(pos, targetPos);
                 pos = targetPos;
+                positionChanged(pos.subtract(distance), pos);
             }
         }
 
     }
 
-    void addObserver(IPositionChangeObserver observer){
+    public void addObserver(IPositionChangeObserver observer){
         observers.add(observer);
     }
 
-    void removeObserver(IPositionChangeObserver observer){
+    public void removeObserver(IPositionChangeObserver observer){
         observers.remove(observer);
     }
 
-    void positionChanged(Vector2d actPos, Vector2d nextpos){
+    private void positionChanged(Vector2d actPos, Vector2d nextpos){
         for(IPositionChangeObserver obs:observers){
             obs.positionChanged(actPos, nextpos);
         }
