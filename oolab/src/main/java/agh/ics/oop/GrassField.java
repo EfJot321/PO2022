@@ -48,6 +48,7 @@ public class GrassField extends AbstractWorldMap{
     public boolean place(Animal animal) {
         if(super.place(animal)) {
             boundarizer.addElement(animal);
+            animal.addObserver(boundarizer);
             return true;
         }
         return false;
@@ -56,7 +57,6 @@ public class GrassField extends AbstractWorldMap{
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         super.positionChanged(oldPosition, newPosition);
-        boundarizer.positionChanged(oldPosition, newPosition);
     }
 
     @Override
