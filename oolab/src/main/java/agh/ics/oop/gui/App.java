@@ -31,9 +31,7 @@ public class App extends Application{
         
         List<String> args = getParameters().getRaw();
         try{
-            for(String s:args){
-                System.out.println(s);
-            }
+
             MoveDirection[] directions = new OptionsParser().parse(notList(args));
             //IWorldMap map = new RectangularMap(15, 5);
             map = new GrassField(10);
