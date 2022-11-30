@@ -15,6 +15,7 @@ abstract class AbstractWorldMapElement implements IMapElement{
         return this.pos.equals(position);
     }
 
+
     @Override
     abstract public String getType();
 }

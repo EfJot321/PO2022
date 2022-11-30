@@ -4,7 +4,10 @@ package agh.ics.oop;
 import java.util.Random;
 
 public class GrassField extends AbstractWorldMap{
+    
     private int nOfGrasses;
+
+    private MapBoundary boundarizer = new MapBoundary();
 
 
     public GrassField(int nOfGrasses){
@@ -13,13 +16,12 @@ public class GrassField extends AbstractWorldMap{
         this.nOfGrasses = nOfGrasses;
 
         for(int i=0;i<nOfGrasses;i++){
-            Grass grass = placeGrass();
-            objects.put(grass.getPosition(), grass);
+            placeGrass();
         }
 
     }
 
-    private Grass placeGrass(){
+    private void placeGrass(){
         Vector2d pos = null;
         int maxPos = (int)(Math.sqrt(nOfGrasses*10));
         boolean notFound = true;
@@ -30,7 +32,10 @@ public class GrassField extends AbstractWorldMap{
                 notFound = true;
             }
         }
-        return new Grass(pos);
+        Grass grass = new Grass(pos);
+        objects.put(grass.getPosition(), grass);
+        boundarizer.addElement(grass);
+
     }
 
     private int randInt(int a, int b){
@@ -39,26 +44,24 @@ public class GrassField extends AbstractWorldMap{
         return Math.abs(rn.nextInt()%n) + a;
     }
 
-
+    @Override
+    public boolean place(Animal animal) {
+        if(super.place(animal)) {
+            boundarizer.addElement(animal);
+            return true;
+        }
+        return false;
+    }
 
     @Override
-    Vector2d[] limes() {
-        Vector2d lim1 = new Vector2d(0, 0);
-        Vector2d lim2 = new Vector2d(5, 5);
-        if(objects.size()>0){
-            lim1 = new Vector2d(0, 0);
-            lim2 = new Vector2d(0, 0);
-            for(Vector2d pos : objects.keySet()){
-                lim1 = lim1.lowerLeft(pos);
-                lim2 = lim2.upperRight(pos);
-            }
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        super.positionChanged(oldPosition, newPosition);
+        boundarizer.positionChanged(oldPosition, newPosition);
+    }
 
-        }
-        //dla lepszego wygladu
-        lim1.subtract(new Vector2d(1, 1));
-        lim2.add(new Vector2d(1, 1));
-
-        return new Vector2d[]{lim1, lim2};
+    @Override
+    public Vector2d[] limes() {
+        return boundarizer.getBoundary();
     }
 
 }

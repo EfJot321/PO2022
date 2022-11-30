@@ -14,4 +14,6 @@ public class Grass extends AbstractWorldMapElement{
     public String getType(){
         return "Grass";
     }
+
+
 }

@@ -16,7 +16,7 @@
             "request": "launch",
             "mainClass": "agh.ics.oop.World",
             "projectName": "oolab",
-            "args": "f b r l f f r r f f f f f f f f"
+            "args": "f f f"
         }
     ]
 }

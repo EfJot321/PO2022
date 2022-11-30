@@ -15,17 +15,17 @@ public class RectangularMap extends AbstractWorldMap{
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if(!position.lowerLeft(lim1).equals(lim1)){
+        if(!position.follows(lim1)){
             return false;
         }
-        if(!position.upperRight(lim2).equals(lim2)){
+        if(!position.precedes(lim2)){
             return false;
         }
         return super.canMoveTo(position);
     }
 
     @Override
-    Vector2d[] limes() {
+    public Vector2d[] limes() {
         return new Vector2d[]{lim1, lim2};
     }
 
