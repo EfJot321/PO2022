@@ -1,39 +1,45 @@
 package agh.ics.oop.gui;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import agh.ics.oop.Vector2d;
 import agh.ics.oop.GrassField;
 import agh.ics.oop.IEngine;
 import agh.ics.oop.IMapElement;
-import agh.ics.oop.IWorldMap;
 import agh.ics.oop.MoveDirection;
 import agh.ics.oop.OptionsParser;
 import agh.ics.oop.SimulationEngine;
 import javafx.application.Application;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class App extends Application{
 
     private GrassField map = null;
-    private Label[][] world;
+    private VBox[][] world;
     
     @Override
     public void init() throws Exception {
         super.init();
         
-        List<String> args = getParameters().getRaw();
+        //List<String> args = getParameters().getRaw();
         try{
-
-            MoveDirection[] directions = new OptionsParser().parse(notList(args));
-            //IWorldMap map = new RectangularMap(15, 5);
+            //MoveDirection[] directions = new OptionsParser().parse(notList(args));
+            String[] stringDirections = {"f", "b", "l", "r", "f", "f", "f", "f", "l", "l", "r", "b", "f", "b", "f", "f"};
+            MoveDirection[] directions = new OptionsParser().parse(stringDirections);
             map = new GrassField(10);
             Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) , new Vector2d(-5, 0)};
             IEngine engine = new SimulationEngine(directions, map, positions);
@@ -54,7 +60,7 @@ public class App extends Application{
         createWorld(grid);
 
 
-        Scene scene = new Scene(grid, 400, 400);
+        Scene scene = new Scene(grid, 800, 800);
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -62,7 +68,7 @@ public class App extends Application{
     }
 
 
-    private void createWorld(GridPane grid){
+    private void createWorld(GridPane grid) throws FileNotFoundException{
         Vector2d lim1 = map.limes()[0];
         Vector2d lim2 = map.limes()[1];
 
@@ -70,7 +76,7 @@ public class App extends Application{
         int height = lim2.subtract(lim1).y+1;
 
         int startX = lim1.x;
-        int endX = lim2.x+1;
+        //int endX = lim2.x+1;
         int startY = lim1.y;
         int endY = lim2.y+1;
 
@@ -78,30 +84,42 @@ public class App extends Application{
         grid.setGridLinesVisible(true);
         grid.setAlignment(Pos.CENTER);
         
-        
+        int wh = 45;
 
         //cyferki
-        addToGrid(new Label("x/y"), 0, 0, grid);
-        grid.getColumnConstraints().add(new ColumnConstraints(25));
-        grid.getRowConstraints().add(new RowConstraints(25));
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(new Label("x/y"));
+        vBox.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        vBox.setAlignment(Pos.CENTER);
+        addToGrid(vBox, 0, 0, grid);
+        grid.getColumnConstraints().add(new ColumnConstraints(wh));
+        grid.getRowConstraints().add(new RowConstraints(wh));
         int xi;
         for(int i=1;i<width+1;i++){
             xi = startX+i-1;
-            grid.getColumnConstraints().add(new ColumnConstraints(25));
-            addToGrid(new Label(Integer.toString(xi)), i, 0, grid);
+            grid.getColumnConstraints().add(new ColumnConstraints(wh));
+            vBox = new VBox();
+            vBox.getChildren().addAll(new Label(Integer.toString(xi)));
+            vBox.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            vBox.setAlignment(Pos.CENTER);
+            addToGrid(vBox, i, 0, grid);
 
         }
         int yi;
         for(int i=1;i<height+1;i++){
             yi = endY-i;
-            grid.getRowConstraints().add(new RowConstraints(25));
-            addToGrid(new Label(Integer.toString(yi)), 0, i, grid);
+            grid.getRowConstraints().add(new RowConstraints(wh));
+            vBox = new VBox();
+            vBox.getChildren().addAll(new Label(Integer.toString(yi)));
+            vBox.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            vBox.setAlignment(Pos.CENTER);
+            addToGrid(vBox, 0, i, grid);
         }
 
 
 
         //5 dnia...
-        world = new Label[width][height];
+        world = new VBox[width][height];
         Vector2d actPos;
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
@@ -110,10 +128,14 @@ public class App extends Application{
                 actPos = new Vector2d(xi, yi);
                 if(map.isOccupied(actPos)){
                     IMapElement element = (IMapElement)map.objectAt(actPos);
-                    world[i][j] = new Label(element.toString());
+                    GuiElementBox geb = new GuiElementBox(element);
+                    vBox = geb.getVBox();
+                    world[i][j] = vBox;
                 }
                 else{
-                    world[i][j] = new Label("");
+                    vBox = new VBox();
+                    vBox.getChildren().addAll(new Label(""));
+                    world[i][j] = vBox;
                 }
                 addToGrid(world[i][j], xi-startX+1, height-(yi-startY), grid);
                 
@@ -137,9 +159,9 @@ public class App extends Application{
         return toReturn;
     }
 
-    private void addToGrid(Label label, int x, int y, GridPane grid){
-        grid.add(label, x, y);
-        GridPane.setHalignment(label, HPos.CENTER);
+    private void addToGrid(VBox vB, int x, int y, GridPane grid){
+        grid.add(vB, x, y);
+        GridPane.setHalignment(vB, HPos.CENTER);
     }
 
 

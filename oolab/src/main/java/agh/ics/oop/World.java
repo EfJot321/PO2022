@@ -9,7 +9,6 @@ public class World {
     public static void main(String[] args){
         Application.launch(App.class, args);
         // try{
-        //     Application.launch(App.class, args);
 
         
         //     MoveDirection[] directions = new OptionsParser().parse(args);

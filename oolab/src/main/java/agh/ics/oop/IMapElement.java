@@ -8,4 +8,6 @@ public interface IMapElement{
 
     String getType();
 
+    String loadSrc();
+
 }

@@ -16,4 +16,10 @@ public class Grass extends AbstractWorldMapElement{
     }
 
 
+    @Override
+    public String loadSrc() {
+        return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/grass.png";
+    }
+
+
 }

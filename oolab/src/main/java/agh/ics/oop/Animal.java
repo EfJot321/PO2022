@@ -81,5 +81,23 @@ public class Animal extends AbstractWorldMapElement{
         }
     }
 
+    @Override
+    public String loadSrc() {
+        if(dir == MapDirection.NORTH){
+            return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/pigN.png";
+        }
+        if(dir == MapDirection.EAST){
+            return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/pigE.png";
+        }
+        if(dir == MapDirection.SOUTH){
+            return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/pigS.png";
+        }
+        if(dir == MapDirection.WEST){
+            return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/pigW.png";
+        }
+        //domyslny obrazek
+        return "src/main/resources/pig.png";
+    }
+
 
 }
