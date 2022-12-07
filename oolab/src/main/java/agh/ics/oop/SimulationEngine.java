@@ -3,11 +3,9 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.DocFlavor.STRING;
 
 import agh.ics.oop.gui.App;
 import javafx.application.Platform;
-import javafx.scene.Parent;
 
 
 public class SimulationEngine implements IEngine, Runnable {
