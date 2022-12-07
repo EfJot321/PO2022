@@ -62,23 +62,26 @@ public class SimulationEngine implements IEngine, Runnable {
 
     @Override
     public void run() {
-        int iterator = 0;
+        
+        
+
+        try {
+            int iterator = 0;
         if(nOfAnimals > 0){
             for(MoveDirection command : moves){
                 animals.get(iterator%nOfAnimals).move(command);
                 iterator++;
                 if(iterator%nOfAnimals == 1){
-                    try {
-                        Thread.sleep(moveDelay);
-                    } catch (InterruptedException e) {
-                        System.out.println("Symulacja zostala przerwana!");
-                    }
+                    Thread.sleep(moveDelay);
                 }
                 
                 Platform.runLater(() -> {mainApp.updateWorld((GrassField)map);});
                 //System.out.print(map);
 
             }
+        }
+        } catch (InterruptedException e) {
+            System.out.println("Symulacja zostala przerwana!");
         }
         
         
