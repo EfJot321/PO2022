@@ -76,7 +76,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 }
                 
                 Platform.runLater(() -> {mainApp.updateWorld((GrassField)map);});
-                System.out.print(map);
+                //System.out.print(map);
 
             }
         }

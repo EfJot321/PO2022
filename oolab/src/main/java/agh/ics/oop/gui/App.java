@@ -46,7 +46,6 @@ public class App extends Application{
         try{
             map = new GrassField(10);
             Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) , new Vector2d(-5, 0)};
-
             engine = new SimulationEngine(map, positions, moveDelay, this);
 
         }
@@ -58,7 +57,6 @@ public class App extends Application{
 
     private void startSimulation(){
         String[] args = arguments.getText().split(" ");
-        System.out.println(args);
 
         engine.setDirections(new OptionsParser().parse(args));
         Thread engineThread = new Thread(engine);
@@ -107,9 +105,6 @@ public class App extends Application{
         //int endX = lim2.x+1;
         int startY = lim1.y;
         int endY = lim2.y+1;
-
-
-        
 
         //cyferki
         VBox vBox = new VBox();
