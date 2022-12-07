@@ -14,9 +14,14 @@ import javafx.scene.text.Text;
 public class GuiElementBox {
     private VBox vBox;
 
-    public GuiElementBox(IMapElement element) throws FileNotFoundException{
+    public GuiElementBox(IMapElement element){
         String source = element.loadSrc();
-        Image image = new Image(new FileInputStream(source));
+        Image image=null;
+        try {
+            image = new Image(new FileInputStream(source));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(20);
         imageView.setFitHeight(20);

@@ -3,17 +3,51 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimulationEngine implements IEngine{
+import javax.print.DocFlavor.STRING;
+
+import agh.ics.oop.gui.App;
+import javafx.application.Platform;
+import javafx.scene.Parent;
+
+
+public class SimulationEngine implements IEngine, Runnable {
     
-    IWorldMap map;
-    MoveDirection[] moves;
+    private IWorldMap map;
+    private MoveDirection[] moves;
 
-    int nOfAnimals = 0;
-    List<Animal> animals;
+    private int nOfAnimals = 0;
+    private List<Animal> animals;
 
+    private App mainApp;
+    private int moveDelay;
+
+    public void setDirections(MoveDirection[] directions){
+        this.moves = directions;
+    }
+
+
+    public SimulationEngine(IWorldMap map, Vector2d[] startPoss, int moveDelay, App mA){
+        this.map = map;
+
+        this.mainApp = mA;
+        this.moveDelay = moveDelay;
+
+        this.animals = new ArrayList<>();
+        for(Vector2d startPos : startPoss){
+            Animal newBorn = new Animal(this.map, startPos);
+            if(map.place(newBorn)){
+                animals.add(newBorn);
+                nOfAnimals++;
+            }
+        }
+
+    }
+
+    //drugi konstruktor zeby testy sie nie rzucaly
     public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] startPoss){
         this.map = map;
         this.moves = moves;
+
 
         this.animals = new ArrayList<>();
         for(Vector2d startPos : startPoss){
@@ -33,6 +67,17 @@ public class SimulationEngine implements IEngine{
             for(MoveDirection command : moves){
                 animals.get(iterator%nOfAnimals).move(command);
                 iterator++;
+                if(iterator%nOfAnimals == 1){
+                    try {
+                        Thread.sleep(moveDelay);
+                    } catch (InterruptedException e) {
+                        System.out.println("Symulacja zostala przerwana!");
+                    }
+                }
+                
+                Platform.runLater(() -> {mainApp.updateWorld((GrassField)map);});
+                System.out.print(map);
+
             }
         }
         

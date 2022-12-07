@@ -1,13 +1,10 @@
 package agh.ics.oop.gui;
 
-import java.io.FileNotFoundException;
-import java.util.List;
+
 
 import agh.ics.oop.Vector2d;
 import agh.ics.oop.GrassField;
-import agh.ics.oop.IEngine;
 import agh.ics.oop.IMapElement;
-import agh.ics.oop.MoveDirection;
 import agh.ics.oop.OptionsParser;
 import agh.ics.oop.SimulationEngine;
 import javafx.application.Application;
@@ -15,12 +12,15 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -29,22 +29,26 @@ import javafx.stage.Stage;
 public class App extends Application{
 
     private GrassField map = null;
-    private VBox[][] world;
+    SimulationEngine engine = null;
+
+    private TextField arguments;
+    private VBox allStaff;
+
+    int wh = 45;
+
+    private int moveDelay = 500;
+
     
     @Override
     public void init() throws Exception {
         super.init();
         
-        //List<String> args = getParameters().getRaw();
         try{
-            //MoveDirection[] directions = new OptionsParser().parse(notList(args));
-            String[] stringDirections = {"f", "b", "l", "r", "f", "f", "f", "f", "l", "l", "r", "b", "f", "b", "f", "f"};
-            MoveDirection[] directions = new OptionsParser().parse(stringDirections);
             map = new GrassField(10);
             Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) , new Vector2d(-5, 0)};
-            IEngine engine = new SimulationEngine(directions, map, positions);
-            engine.run();
-            System.out.println(map);
+
+            engine = new SimulationEngine(map, positions, moveDelay, this);
+
         }
         catch(IllegalArgumentException ex){
             System.out.println(ex);
@@ -52,15 +56,33 @@ public class App extends Application{
         }
     }
 
+    private void startSimulation(){
+        String[] args = arguments.getText().split(" ");
+        System.out.println(args);
+
+        engine.setDirections(new OptionsParser().parse(args));
+        Thread engineThread = new Thread(engine);
+        engineThread.start();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         
-        
-        GridPane grid = new GridPane();
-        createWorld(grid);
+        createWorld(map);
 
+        Button startButton = new Button("Start!");
+        startButton.setOnAction(e -> {startSimulation();});
+        arguments = new TextField();
 
-        Scene scene = new Scene(grid, 800, 800);
+        HBox controls = new HBox(arguments, startButton);
+        controls.setAlignment(Pos.CENTER);
+
+        GridPane grid = createWorld(map);
+
+        allStaff = new VBox(controls, grid);
+        allStaff.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(allStaff, 1100, 800);
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -68,12 +90,18 @@ public class App extends Application{
     }
 
 
-    private void createWorld(GridPane grid) throws FileNotFoundException{
-        Vector2d lim1 = map.limes()[0];
-        Vector2d lim2 = map.limes()[1];
+
+    private GridPane createWorld(GrassField actMap){
+        GridPane grid = new GridPane();
+        grid.setGridLinesVisible(true);
+        grid.setAlignment(Pos.CENTER);
+
+        Vector2d lim1 = actMap.limes()[0];
+        Vector2d lim2 = actMap.limes()[1];
 
         int width = lim2.subtract(lim1).x+1;
         int height = lim2.subtract(lim1).y+1;
+
 
         int startX = lim1.x;
         //int endX = lim2.x+1;
@@ -81,10 +109,7 @@ public class App extends Application{
         int endY = lim2.y+1;
 
 
-        grid.setGridLinesVisible(true);
-        grid.setAlignment(Pos.CENTER);
         
-        int wh = 45;
 
         //cyferki
         VBox vBox = new VBox();
@@ -119,45 +144,43 @@ public class App extends Application{
 
 
         //5 dnia...
-        world = new VBox[width][height];
         Vector2d actPos;
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
                 xi = startX+i;
                 yi = startY+j;
                 actPos = new Vector2d(xi, yi);
-                if(map.isOccupied(actPos)){
-                    IMapElement element = (IMapElement)map.objectAt(actPos);
+                if(actMap.isOccupied(actPos)){
+                    IMapElement element = (IMapElement)actMap.objectAt(actPos);
                     GuiElementBox geb = new GuiElementBox(element);
                     vBox = geb.getVBox();
-                    world[i][j] = vBox;
                 }
                 else{
                     vBox = new VBox();
                     vBox.getChildren().addAll(new Label(""));
-                    world[i][j] = vBox;
                 }
-                addToGrid(world[i][j], xi-startX+1, height-(yi-startY), grid);
+                addToGrid(vBox, xi-startX+1, height-(yi-startY), grid);
                 
 
             }
         }
+
+        return grid;
+        
         
         
 
     }
 
+    public void updateWorld(GrassField actMap){
+        GridPane grid = createWorld(actMap);
+        
+        allStaff.getChildren().remove(1);
+        allStaff.getChildren().add(grid);
 
-
-    private String[] notList(List<String> list){
-        String[] toReturn = new String[list.size()];
-        int i=0;
-        for(String string:list){
-            toReturn[i] = string;
-            i++;
-        }
-        return toReturn;
     }
+
+
 
     private void addToGrid(VBox vB, int x, int y, GridPane grid){
         grid.add(vB, x, y);

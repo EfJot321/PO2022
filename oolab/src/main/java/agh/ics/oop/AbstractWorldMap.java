@@ -49,12 +49,9 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     abstract Vector2d[] limes();
 
     public String toString(){
-        drawWorld();
         Vector2d[] limess = limes();
         return visualizer.draw(limess[0], limess[1]);
     }
 
-    public void drawWorld() {
-
-    }
+  
 }
