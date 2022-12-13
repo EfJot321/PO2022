@@ -22,8 +22,8 @@
             "name": "Launch World",
             "request": "launch",
             "mainClass": "agh.ics.oop.World",
-            "projectName": "oolab",
-            "args": "f f f"
+            "projectName": "Evolution",
+            "args": "f"
         }
     ]
 }
