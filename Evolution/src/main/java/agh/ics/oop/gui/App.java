@@ -16,17 +16,19 @@ import static java.lang.Math.abs;
 public class App extends Application{
 
     private RectangularMap mapp;
-
-    private GridPane gridS = new GridPane();
+    
+    private VBox allStaff;
 
     @Override
     public void init() {
         try {
-            System.out.println("Start");
-            mapp=new RectangularMap(10,7,2);
-            mapp.place(new Animal(mapp,new Vector2d(2,2)));
-            mapp.place(new Animal(mapp,new Vector2d(3,3)));
-            System.out.println("Stop");
+            Vector2d[] startPoss = new Vector2d[3];
+            startPoss[0] = new Vector2d(1, 1);
+            startPoss[1] = new Vector2d(2, 1);
+            startPoss[2] = new Vector2d(4, 3);
+            mapp=new RectangularMap(15,10,5);
+            SimulationEngine engine = new SimulationEngine(mapp, startPoss, 300, this);
+            //engine.run();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -36,13 +38,11 @@ public class App extends Application{
     public void start(Stage primaryStage) throws Exception {
 
 
+        GridPane grid = actualScene(mapp);
 
+        allStaff= new VBox(grid);
 
-//        all= new VBox(hbox,gridPane);
-
-        actualScene(mapp);
-
-        Scene scene = new Scene(gridS, 1000, 700);
+        Scene scene = new Scene(allStaff, 1000, 700);
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -51,11 +51,10 @@ public class App extends Application{
         
     }
 
-    public void actualScene(RectangularMap map){
+    private GridPane actualScene(RectangularMap map){
 
         GridPane grid = new GridPane();
 
-        Scene scene = new Scene(grid, 1100, 700);
 
         Vector2d start=mapp.limes()[0];
         Vector2d end=mapp.limes()[1];
@@ -64,8 +63,6 @@ public class App extends Application{
 
         int height=abs(start.y-end.y)+1;
         int width=abs(start.x-end.x)+1;
-
-
 
         grid.setPrefWidth(width);
         grid.setPrefHeight(height);
@@ -104,15 +101,16 @@ public class App extends Application{
             }
         }
 
-
-        GridPane.setHalignment(label, HPos.CENTER);
-
-        gridS=grid;
-
+        return grid;
 
     }
 
 
+    public void updateScene(RectangularMap map){
+        GridPane grid = actualScene(map);
+        allStaff.getChildren().remove(1);
+        allStaff.getChildren().add(grid);
+    }
     
 
 
