@@ -9,7 +9,7 @@ public class Animal extends AbstractWorldMapElement{
 
     private IWorldMap map;
 
-    private String gen="12345";
+    private String gen="1234511110000";
 
     private int days=0;
 
@@ -42,11 +42,13 @@ public class Animal extends AbstractWorldMapElement{
         int len=gen.length();
         int i=days%len;
         Vector2d vect=translate(gen.charAt(i));
-        pos=pos.add(vect);
+        Vector2d newPos = pos.add(vect);
+        if(map.canMoveTo(newPos)){
+            pos=pos.add(vect);
+            positionChanged(pos.subtract(vect), pos);
+        }
+        
         days+=1;
-
-        positionChanged(pos.subtract(vect), pos);
-
 
     }
 

@@ -23,10 +23,10 @@ public class App extends Application{
     public void init() {
         try {
             Vector2d[] startPoss = new Vector2d[3];
-            startPoss[0] = new Vector2d(1, 1);
-            startPoss[1] = new Vector2d(2, 1);
-            startPoss[2] = new Vector2d(4, 3);
-            mapp=new RectangularMap(15,10,5);
+            startPoss[0] = new Vector2d(1, 15);
+            startPoss[1] = new Vector2d(10, 14);
+            startPoss[2] = new Vector2d(4, 8);
+            mapp = new RectangularMap(20,30,5);
             SimulationEngine engine = new SimulationEngine(mapp, startPoss, 300, this);
             Thread engineThread = new Thread(engine);
             engineThread.start();
