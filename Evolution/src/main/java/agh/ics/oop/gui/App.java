@@ -1,17 +1,14 @@
 package agh.ics.oop.gui;
 
 
-import agh.ics.oop.Animal;
-import agh.ics.oop.IMapElement;
-import agh.ics.oop.RectangularMap;
-import agh.ics.oop.Vector2d;
+import agh.ics.oop.*;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import static java.lang.Math.abs;
@@ -19,6 +16,8 @@ import static java.lang.Math.abs;
 public class App extends Application{
 
     private RectangularMap mapp;
+
+    private GridPane gridS = new GridPane();
 
     @Override
     public void init() {
@@ -35,6 +34,24 @@ public class App extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+
+
+
+//        all= new VBox(hbox,gridPane);
+
+        actualScene(mapp);
+
+        Scene scene = new Scene(gridS, 1000, 700);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+
+        
+    }
+
+    public void actualScene(RectangularMap map){
 
         GridPane grid = new GridPane();
 
@@ -86,13 +103,14 @@ public class App extends Application{
                 }
             }
         }
-        primaryStage.setScene(scene);
-        primaryStage.show();
 
 
-        
+        GridPane.setHalignment(label, HPos.CENTER);
+
+        gridS=grid;
+
+
     }
-
 
 
     

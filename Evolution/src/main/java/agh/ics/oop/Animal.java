@@ -9,6 +9,10 @@ public class Animal extends AbstractWorldMapElement{
 
     private IWorldMap map;
 
+    private String gen="12345";
+
+    private int days=0;
+
     List<IPositionChangeObserver> observers = new ArrayList<>();
 
     public Animal(IWorldMap map, Vector2d initialPosition){
@@ -44,6 +48,41 @@ public class Animal extends AbstractWorldMapElement{
 
     public boolean isAt(Vector2d position){
         return this.pos.equals(position);
+    }
+
+    public void move(){
+
+        int len=gen.length();
+        int x=days%len;
+        Vector2d vect=translate(gen.charAt(x));
+        pos=pos.add(vect);
+        days+=1;
+
+
+    }
+
+    private Vector2d translate(char a){
+
+        switch (a){
+            case '0':
+                return new Vector2d(0,1);
+            case '1':
+                return new Vector2d(1,1);
+            case '2':
+                return new Vector2d(1,0);
+            case '3':
+                return new Vector2d(1,-1);
+            case '4':
+                return new Vector2d(0,-1);
+            case '5':
+                return new Vector2d(-1,-1);
+            case '6':
+                return new Vector2d(-1,0);
+            case '7':
+                return new Vector2d(-1,1);
+        }
+        return new Vector2d(0,0);
+
     }
 
 
