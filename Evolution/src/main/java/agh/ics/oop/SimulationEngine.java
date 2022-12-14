@@ -45,14 +45,12 @@ public class SimulationEngine implements IEngine, Runnable {
         try {
             int iterator = 0;
             if(nOfAnimals > 0){
-                int it =0;
                 while (true){
                     animals.get(iterator%nOfAnimals).move();
                     Thread.sleep(moveDelay);
                     Platform.runLater(() -> {mainApp.updateScene((RectangularMap)map);});
-                    //aktualny stan mapy
-                    it++;
-                    if(it>50){
+                    iterator++;
+                    if(iterator>50){
                         break;
                     }
                 }

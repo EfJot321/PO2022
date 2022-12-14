@@ -28,7 +28,8 @@ public class App extends Application{
             startPoss[2] = new Vector2d(4, 3);
             mapp=new RectangularMap(15,10,5);
             SimulationEngine engine = new SimulationEngine(mapp, startPoss, 300, this);
-            //engine.run();
+            Thread engineThread = new Thread(engine);
+            engineThread.start();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -36,7 +37,6 @@ public class App extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
 
         GridPane grid = actualScene(mapp);
 
@@ -48,8 +48,8 @@ public class App extends Application{
         primaryStage.show();
 
 
-        
     }
+
 
     private GridPane actualScene(RectangularMap map){
 
@@ -108,7 +108,7 @@ public class App extends Application{
 
     public void updateScene(RectangularMap map){
         GridPane grid = actualScene(map);
-        allStaff.getChildren().remove(1);
+        allStaff.getChildren().remove(0);
         allStaff.getChildren().add(grid);
     }
     

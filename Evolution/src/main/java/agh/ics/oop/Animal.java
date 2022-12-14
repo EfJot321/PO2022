@@ -22,19 +22,6 @@ public class Animal extends AbstractWorldMapElement{
     }
 
      public String toString(){
-//        if(dir == MapDirection.NORTH){
-//            return "^";
-//        }
-//        if(dir == MapDirection.EAST){
-//            return ">";
-//        }
-//        if(dir == MapDirection.SOUTH){
-//            return "v";
-//        }
-//        if(dir == MapDirection.WEST){
-//            return "<";
-//        }
-//        return "";
          return "Z";
     }
 
@@ -53,10 +40,12 @@ public class Animal extends AbstractWorldMapElement{
     public void move(){
 
         int len=gen.length();
-        int x=days%len;
-        Vector2d vect=translate(gen.charAt(x));
+        int i=days%len;
+        Vector2d vect=translate(gen.charAt(i));
         pos=pos.add(vect);
         days+=1;
+
+        positionChanged(pos.subtract(vect), pos);
 
 
     }
@@ -86,27 +75,6 @@ public class Animal extends AbstractWorldMapElement{
     }
 
 
-//    public void move(MoveDirection direction){
-//        if(direction == MoveDirection.LEFT){
-//            dir = dir.previous();
-//        }
-//        if(direction == MoveDirection.RIGHT){
-//            dir = dir.next();
-//        }
-//        if(direction == MoveDirection.FORWARD || direction == MoveDirection.BACKWARD){
-//            Vector2d distance = dir.toUnitVector();
-//            if(direction == MoveDirection.BACKWARD){
-//                distance = distance.opposite();
-//            }
-//            Vector2d targetPos = pos.add(distance);
-//            if(map.canMoveTo(targetPos)){
-//                pos = targetPos;
-//                positionChanged(pos.subtract(distance), pos);
-//            }
-//        }
-//
-//    }
-
     public void addObserver(IPositionChangeObserver observer){
         observers.add(observer);
     }
@@ -123,23 +91,8 @@ public class Animal extends AbstractWorldMapElement{
 //
     @Override
     public String loadSrc() {
-////        if(dir == MapDirection.NORTH){
-////            return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/pigN.png";
-////        }
-////        if(dir == MapDirection.EAST){
-////            return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/pigE.png";
-////        }
-////        if(dir == MapDirection.SOUTH){
-////            return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/pigS.png";
-////        }
-////        if(dir == MapDirection.WEST){
-////            return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/pigW.png";
-////        }
-////        //domyslny obrazek
-//       //return "src/main/resources/pig.png";
-
+        //sciezka do obrazka
         return "";
-//
     }
 
 
