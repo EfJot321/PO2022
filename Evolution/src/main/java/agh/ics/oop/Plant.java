@@ -1,8 +1,8 @@
 package agh.ics.oop;
 
-public class Grass extends AbstractWorldMapElement{
+public class Plant extends AbstractWorldMapElement{
 
-    Grass(Vector2d pos){
+    Plant(Vector2d pos){
         this.pos = pos;
     }
 

@@ -4,10 +4,9 @@ package agh.ics.oop.gui;
 import agh.ics.oop.*;
 import javafx.application.Application;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -25,11 +24,7 @@ public class App extends Application{
             
             Configuration conf = new Configuration(src);
 
-            Vector2d[] startPoss = new Vector2d[3];
-            startPoss[0] = new Vector2d(1, 10);
-            startPoss[1] = new Vector2d(10, 7);
-            startPoss[2] = new Vector2d(4, 3);
-            SimulationEngine engine = new SimulationEngine(conf, startPoss, 300, this);
+            SimulationEngine engine = new SimulationEngine(conf, 300, this);
             Thread engineThread = new Thread(engine);
             engineThread.start();
         } catch (Exception e) {
@@ -43,8 +38,7 @@ public class App extends Application{
         GridPane grid = new GridPane();
 
         allStaff= new VBox(grid);
-
-        Scene scene = new Scene(allStaff, 1000, 700);
+        Scene scene = new Scene(allStaff, 1300, 900);
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -53,9 +47,9 @@ public class App extends Application{
     }
 
 
-    private GridPane actualScene(RectangularMap map){
+    private GridPane actualScene(WorldMap map){
 
-        int squareSize = 33;
+        
 
         GridPane grid = new GridPane();
 
@@ -70,6 +64,15 @@ public class App extends Application{
 
         grid.setPrefWidth(width);
         grid.setPrefHeight(height);
+
+        //ustalanie wielkosci pojedynczego kwadracika
+        int squareSize = 40;
+        if(700/height < squareSize){
+            squareSize = (int)(700/height);
+        }
+        if(squareSize < 20){
+            squareSize = 20;
+        }
 
         Label label = new Label("y/x");
 
@@ -96,12 +99,8 @@ public class App extends Application{
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
                 Vector2d v = new Vector2d(i,j);
-                if(map.isOccupied(v)){
-                    IMapElement obj = (IMapElement) map.objectAt(v);
-                    Label label1 = new Label(obj.toString());
-                    grid.add(label1,i+1,height-j);
-                    GridPane.setHalignment(label1, HPos.CENTER);
-                }
+                VBox vbox = new GridElement((IMapElement)map.objectAt(v), map.isItJungle(v)).getBox();
+                grid.add(vbox,i+1,height-j);
             }
         }
 
@@ -110,7 +109,7 @@ public class App extends Application{
     }
 
 
-    public void updateScene(RectangularMap map){
+    public void updateScene(WorldMap map){
         GridPane grid = actualScene(map);
         allStaff.getChildren().remove(0);
         allStaff.getChildren().add(grid);

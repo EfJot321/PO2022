@@ -19,10 +19,10 @@ public class SimulationEngine implements IEngine, Runnable {
     private int moveDelay;
 
 
-    public SimulationEngine(Configuration config, Vector2d[] startPoss, int moveDelay, App mA){
+    public SimulationEngine(Configuration config, int moveDelay, App mA){
         this.mainApp = mA;
         this.moveDelay = moveDelay;
-        this.map = new RectangularMap(config.width, config.height, config.startPlantsNum);
+        this.map = new WorldMap(config.width, config.height, config.startPlantsNum);
         //obsluga zwierzakow
         Vector2d pos;
         boolean notFound;
@@ -40,7 +40,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 }
             }
             //tworze zwierzaka
-            Animal newBorn = new Animal(this.map, pos);
+            Animal newBorn = new Animal(this.map, pos, config.startE);
             if(map.place(newBorn)){
                 animals.add(newBorn);
                 nOfAnimals++;
@@ -67,7 +67,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 while (true){
                     animals.get(iterator%nOfAnimals).move();
                     Thread.sleep(moveDelay);
-                    Platform.runLater(() -> {mainApp.updateScene((RectangularMap)map);});
+                    Platform.runLater(() -> {mainApp.updateScene((WorldMap)map);});
                     iterator++;
                     if(iterator>50){
                         break;

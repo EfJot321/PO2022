@@ -11,14 +11,17 @@ public class Animal extends AbstractWorldMapElement{
 
     private Genom genom;
 
-    private int days=0;
+    private int rotation = 0;
+    private int days;
+    private int energy;
 
     List<IPositionChangeObserver> observers = new ArrayList<>();
 
-    public Animal(IWorldMap map, Vector2d initialPosition){
-//        this.dir = MapDirection.NORTH;
-        this.pos = initialPosition;
+    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy){
         this.map = map;
+        this.pos = initialPosition;
+        this.energy = startEnergy;
+        this.days = 0;
 
         genom = new Genom("1234511110000");
     }
@@ -39,21 +42,47 @@ public class Animal extends AbstractWorldMapElement{
         return this.pos.equals(position);
     }
 
+    private Vector2d giveVector(int rotationValue){
+        //tlumacze gen na najblizsze przesuniecie
+        switch (rotationValue){
+            case 0:
+                return new Vector2d(0,1);
+            case 1:
+                return new Vector2d(1,1);
+            case 2:
+                return new Vector2d(1,0);
+            case 3:
+                return new Vector2d(1,-1);
+            case 4:
+                return new Vector2d(0,-1);
+            case 5:
+                return new Vector2d(-1,-1);
+            case 6:
+                return new Vector2d(-1,0);
+            case 7:
+                return new Vector2d(-1,1);
+        }
+        return new Vector2d(0,0);
+    }
+
     public void move(){
-        Vector2d vect = genom.giveGenVector2d();
+        //zmiana rotatcji
+        rotation = (rotation+genom.giveNextGen())%8;
+        //wyznaczenie wektora odpowiadającego aktualnej rotacji
+        Vector2d vect = giveVector(rotation);
         Vector2d newPos = pos.add(vect);
         if(map.canMoveTo(newPos)){
             pos=pos.add(vect);
             positionChanged(pos.subtract(vect), pos);
         }
-        
-        days+=1;
+        //czas leci...
+        days += 1;
+        //..a sily brak...
+        energy -= 1;
 
     }
 
     
-
-
     public void addObserver(IPositionChangeObserver observer){
         observers.add(observer);
     }
