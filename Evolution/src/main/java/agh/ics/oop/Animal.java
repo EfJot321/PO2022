@@ -9,7 +9,7 @@ public class Animal extends AbstractWorldMapElement{
 
     private IWorldMap map;
 
-    private String gen="1234511110000";
+    private Genom genom;
 
     private int days=0;
 
@@ -19,6 +19,8 @@ public class Animal extends AbstractWorldMapElement{
 //        this.dir = MapDirection.NORTH;
         this.pos = initialPosition;
         this.map = map;
+
+        genom = new Genom("1234511110000");
     }
 
      public String toString(){
@@ -38,10 +40,7 @@ public class Animal extends AbstractWorldMapElement{
     }
 
     public void move(){
-
-        int len=gen.length();
-        int i=days%len;
-        Vector2d vect=translate(gen.charAt(i));
+        Vector2d vect = genom.giveGenVector2d();
         Vector2d newPos = pos.add(vect);
         if(map.canMoveTo(newPos)){
             pos=pos.add(vect);
@@ -52,29 +51,7 @@ public class Animal extends AbstractWorldMapElement{
 
     }
 
-    private Vector2d translate(char a){
-
-        switch (a){
-            case '0':
-                return new Vector2d(0,1);
-            case '1':
-                return new Vector2d(1,1);
-            case '2':
-                return new Vector2d(1,0);
-            case '3':
-                return new Vector2d(1,-1);
-            case '4':
-                return new Vector2d(0,-1);
-            case '5':
-                return new Vector2d(-1,-1);
-            case '6':
-                return new Vector2d(-1,0);
-            case '7':
-                return new Vector2d(-1,1);
-        }
-        return new Vector2d(0,0);
-
-    }
+    
 
 
     public void addObserver(IPositionChangeObserver observer){

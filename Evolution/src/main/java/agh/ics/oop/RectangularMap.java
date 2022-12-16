@@ -14,6 +14,7 @@ public class RectangularMap extends AbstractWorldMap{
 
     public RectangularMap(int width, int height, int n){
         super();
+
         lim1 = new Vector2d(0, 0);
         lim2 = new Vector2d(width-1, height-1);
         this.width=width;
@@ -52,7 +53,6 @@ public class RectangularMap extends AbstractWorldMap{
         }
         Grass grass = new Grass(pos);
         objects.put(grass.getPosition(), grass);
-
 
     }
 

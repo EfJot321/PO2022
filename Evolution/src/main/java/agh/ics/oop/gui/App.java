@@ -15,19 +15,21 @@ import static java.lang.Math.abs;
 
 public class App extends Application{
 
-    private RectangularMap mapp;
     
     private VBox allStaff;
 
     @Override
     public void init() {
         try {
+            String src = "/home/filipjedrzejewski/PO2022/Evolution/src/main/configurations/config1.csv";
+            
+            Configuration conf = new Configuration(src);
+
             Vector2d[] startPoss = new Vector2d[3];
-            startPoss[0] = new Vector2d(1, 15);
-            startPoss[1] = new Vector2d(10, 14);
-            startPoss[2] = new Vector2d(4, 8);
-            mapp = new RectangularMap(20,30,5);
-            SimulationEngine engine = new SimulationEngine(mapp, startPoss, 300, this);
+            startPoss[0] = new Vector2d(1, 10);
+            startPoss[1] = new Vector2d(10, 7);
+            startPoss[2] = new Vector2d(4, 3);
+            SimulationEngine engine = new SimulationEngine(conf, startPoss, 300, this);
             Thread engineThread = new Thread(engine);
             engineThread.start();
         } catch (Exception e) {
@@ -38,7 +40,7 @@ public class App extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        GridPane grid = actualScene(mapp);
+        GridPane grid = new GridPane();
 
         allStaff= new VBox(grid);
 
@@ -53,11 +55,13 @@ public class App extends Application{
 
     private GridPane actualScene(RectangularMap map){
 
+        int squareSize = 33;
+
         GridPane grid = new GridPane();
 
 
-        Vector2d start=mapp.limes()[0];
-        Vector2d end=mapp.limes()[1];
+        Vector2d start=map.limes()[0];
+        Vector2d end=map.limes()[1];
 
         grid.setGridLinesVisible(true);
 
@@ -70,8 +74,8 @@ public class App extends Application{
         Label label = new Label("y/x");
 
         GridPane.setHalignment(label, HPos.CENTER);
-        grid.getColumnConstraints().add(new ColumnConstraints(33));
-        grid.getRowConstraints().add(new RowConstraints(33));
+        grid.getColumnConstraints().add(new ColumnConstraints(squareSize));
+        grid.getRowConstraints().add(new RowConstraints(squareSize));
 
         grid.add(label,0,0);
 
@@ -80,20 +84,20 @@ public class App extends Application{
             Label label1 = new Label(Integer.toString(height+start.x-i-1));
             grid.add(label1,0,i+1);
             GridPane.setHalignment(label1, HPos.CENTER);
-            grid.getRowConstraints().add(new RowConstraints(33));
+            grid.getRowConstraints().add(new RowConstraints(squareSize));
         }
 
         for(int i=0; i<width; i++){
             Label label1 = new Label(Integer.toString(i+start.x));
             grid.add(label1,i+1,0);
             GridPane.setHalignment(label1, HPos.CENTER);
-            grid.getColumnConstraints().add(new ColumnConstraints(33));
+            grid.getColumnConstraints().add(new ColumnConstraints(squareSize));
         }
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
                 Vector2d v = new Vector2d(i,j);
-                if(mapp.isOccupied(v)){
-                    IMapElement obj = (IMapElement) mapp.objectAt(v);
+                if(map.isOccupied(v)){
+                    IMapElement obj = (IMapElement) map.objectAt(v);
                     Label label1 = new Label(obj.toString());
                     grid.add(label1,i+1,height-j);
                     GridPane.setHalignment(label1, HPos.CENTER);
