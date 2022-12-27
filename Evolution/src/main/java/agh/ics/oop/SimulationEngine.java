@@ -69,9 +69,6 @@ public class SimulationEngine implements IEngine, Runnable {
                     Thread.sleep(moveDelay);
                     Platform.runLater(() -> {mainApp.updateScene((WorldMap)map);});
                     iterator++;
-                    if(iterator>50){
-                        break;
-                    }
                 }
             }
         } catch (InterruptedException e) {

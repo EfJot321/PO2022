@@ -14,6 +14,7 @@ public class Animal extends AbstractWorldMapElement{
     private int rotation = 0;
     private int days;
     private int energy;
+    private int nOfChildrens = 0;
 
     List<IPositionChangeObserver> observers = new ArrayList<>();
 
@@ -93,10 +94,23 @@ public class Animal extends AbstractWorldMapElement{
 
     private void positionChanged(Vector2d actPos, Vector2d nextpos){
         for(IPositionChangeObserver obs:observers){
-            obs.positionChanged(actPos, nextpos);
+            obs.positionChanged(actPos, nextpos, this);
         }
     }
-//
+
+    public int getEnergy(){
+        return this.energy;
+    }
+
+    public int getAge(){
+        return this.days;
+    }
+
+    public int getChildrenNum(){
+        return this.nOfChildrens;
+    }
+
+
     @Override
     public String loadSrc() {
         //sciezka do obrazka

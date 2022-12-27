@@ -49,7 +49,8 @@ public class WorldMap extends AbstractWorldMap{
         if(!position.precedes(lim2)){
             return false;
         }
-        return super.canMoveTo(position);
+        //return super.canMoveTo(position);
+        return true;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class WorldMap extends AbstractWorldMap{
              
         }
         Plant grass = new Plant(pos);
-        objects.put(grass.getPosition(), grass);
+        addToMap((IMapElement)grass, grass.getPosition());
 
     }
 

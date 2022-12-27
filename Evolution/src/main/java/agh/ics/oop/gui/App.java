@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 
 import static java.lang.Math.abs;
 
+import java.util.List;
+import java.util.SortedSet;
+
 public class App extends Application{
 
     
@@ -97,8 +100,18 @@ public class App extends Application{
         }
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
+                //wybieram pozycje
                 Vector2d v = new Vector2d(i,j);
-                VBox vbox = new GridElement((IMapElement)map.objectAt(v), map.isItJungle(v)).getBox();
+                //zbieram wszytskie stworzonka ktore tam sa
+                List<IMapElement> vList = map.objectsAt(v);
+                //System.out.println(vList);
+                IMapElement showElement = null;
+                //jesli cokolwiek tam jest to wyswietlam najlepsze co tam jest
+                if(vList != null){
+                    showElement = vList.get(0);
+                }
+                //wysiwtlanie
+                VBox vbox = new GridElement(showElement, map.isItJungle(v)).getBox();
                 grid.add(vbox,i+1,height-j);
             }
         }

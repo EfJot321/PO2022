@@ -9,8 +9,9 @@ public class Configuration {
 
     //pozniej bede sie zastanawial nad typami zmiennych
     public int width, height, worldVariant, startPlantsNum, dE, plantsPerDay, 
-        plantsVariant, startAnimalNum, startE, minE, birthE, minMutNum, 
+        plantsVariant, startAnimalNum, startE, minE, minMutNum, 
         maxMutNum, mutationVariant, genomLen, animalVariant;
+    public float birthE;
     
     
     public Configuration(String source){

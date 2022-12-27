@@ -12,7 +12,7 @@ public class Plant extends AbstractWorldMapElement{
     }
 
     public String getType(){
-        return "Grass";
+        return "Plant";
     }
 
 
