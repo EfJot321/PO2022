@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import static java.lang.Math.abs;
 
 import java.util.List;
-import java.util.SortedSet;
 
 public class App extends Application{
 
