@@ -87,7 +87,6 @@ public class WorldMap extends AbstractWorldMap{
                     }
                 }
             }
-            
         }
         Plant grass = new Plant(pos);
         addToMap((IMapElement)grass, grass.getPosition());
