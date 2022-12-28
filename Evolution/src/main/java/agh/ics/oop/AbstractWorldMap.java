@@ -57,7 +57,7 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
 
     public Vector2d lim1;
     public Vector2d lim2;
-    
+
     private int dE;
 
     public AbstractWorldMap(int width, int height, int dE){
@@ -95,18 +95,26 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
 
     public int eatIfICan(Animal animal){
         //zbieram elementy znajdujace sie na pozycji zwierzaka
-        List<IMapElement> elements = objects.get(animal.getPosition());
+        List<IMapElement> elements = objectsAt(animal.getPosition());
         //jesli zwierzak jest tym wybranym do jedzenia
         if(animal == elements.get(0)){
             //to sprawdzam czy jest trawka dla zwierzaka
             IMapElement lastElement = elements.get(elements.size()-1);
             if(lastElement.getType().equals("Plant")){
-                //jesli jest to zwierzak ja zjada
+                //jak jest trawka to ja zjada
+                elements.remove(lastElement);
+                //a jak przetrawi to ma energie
                 return this.dE;
             }
         }
         return 0;
     }
+
+    public void removeDeadAnimal(Animal animal){
+        removeFromMap(animal, animal.getPosition());
+    }
+
+    
 
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement element){
@@ -114,8 +122,10 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         addToMap(element, newPosition);
     }
 
+
+
     public void addToMap(IMapElement element, Vector2d position){
-        List<IMapElement> elements = objects.get(position);
+        List<IMapElement> elements = objectsAt(position);
         objects.remove(position);
         if(elements == null){
             elements = new ArrayList<IMapElement>();
@@ -129,14 +139,18 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         }
     }
 
+    
+
     public void removeFromMap(IMapElement element, Vector2d position){
-        List<IMapElement> elements = objects.get(position);
+        List<IMapElement> elements = objectsAt(position);
         objects.remove(position);
         elements.remove(element);
         if(elements.size() > 0){
             objects.put(position, elements);
         }
     }
+
+
 
 
     abstract Vector2d[] limes();

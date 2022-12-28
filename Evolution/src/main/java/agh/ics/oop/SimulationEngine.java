@@ -14,18 +14,23 @@ public class SimulationEngine implements IEngine, Runnable {
 
     private int nOfAnimals = 0;
     private List<Animal> animals;
+    private List<Animal> deadAnimals;
 
     private App mainApp;
     private int moveDelay;
+    private int plantsPerDay;
+
 
 
     public SimulationEngine(Configuration config, int moveDelay, App mA){
         this.mainApp = mA;
         this.moveDelay = moveDelay;
+        this.plantsPerDay = config.plantsPerDay;
         this.map = new WorldMap(config.width, config.height, config.startPlantsNum, config.dE);
         //obsluga zwierzakow
         Vector2d pos;
         boolean notFound;
+        this.deadAnimals = new ArrayList<>();
         this.animals = new ArrayList<>();
         for(int i=0;i<config.startAnimalNum;i++){
             //losuje pozycje
@@ -55,9 +60,22 @@ public class SimulationEngine implements IEngine, Runnable {
     public void run() {
 
         try {
-            int iterator = 0;
             if(nOfAnimals > 0){
                 while (true){
+                    //sprawdzam ktore zwierzaki umarly
+                    for(Animal animal : animals){
+                        if(animal.isDead()){
+                            deadAnimals.add(animal);
+                        }
+                    }
+                    //zwierzeta umieraja
+                    for(Animal deadAnimal : deadAnimals){
+                        map.removeDeadAnimal(deadAnimal);
+                        animals.remove(deadAnimal);
+                    }
+                    deadAnimals = new ArrayList<>();
+                    
+                    
                     //zwierzeta ida
                     for(Animal animal : animals){
                         animal.move();
@@ -66,9 +84,16 @@ public class SimulationEngine implements IEngine, Runnable {
                     for(Animal animal : animals){
                         animal.eat();
                     }
+                    //zwierzeta sie reprodukuja
+                    for(Animal animal : animals){
+                        animal.reproduce();
+                    }
+                    //rosna rosliny
+                    map.plantsAreGrowing(plantsPerDay);
+
+                    //wyswietlanie
                     Platform.runLater(() -> {mainApp.updateScene((WorldMap)map);});
                     Thread.sleep(moveDelay);
-                    iterator++;
                 }
             }
         } catch (InterruptedException e) {
