@@ -66,6 +66,13 @@ public class Animal extends AbstractWorldMapElement{
         return new Vector2d(0,0);
     }
 
+    public boolean isDead(){
+        if(energy == 0){
+            return true;
+        }
+        return false;
+    }
+
     public void move(){
         //zmiana rotatcji
         rotation = (rotation+genom.giveNextGen())%8;
@@ -84,6 +91,10 @@ public class Animal extends AbstractWorldMapElement{
 
     public void eat(){
         energy += map.eatIfICan(this);
+    }
+
+    public void reproduce() {
+        //TO DO
     }
 
     

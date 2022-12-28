@@ -20,6 +20,11 @@ public interface IWorldMap {
 
     int eatIfICan(Animal animal);
 
+    void removeDeadAnimal(Animal animal);
+
+    void plantsAreGrowing(int nOfPlants);
+
+
     /**
      * Place a animal on the map.
      *

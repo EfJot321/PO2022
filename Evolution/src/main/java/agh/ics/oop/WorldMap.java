@@ -7,7 +7,6 @@ import java.util.Random;
 
 public class WorldMap extends AbstractWorldMap{
 
-    
 
     private int nOfGrasses;
 
@@ -27,9 +26,7 @@ public class WorldMap extends AbstractWorldMap{
 
         
         nOfGrasses=n;
-        for (int i=0;i<nOfGrasses;i++){
-            placeGrass();
-        }
+        plantsAreGrowing(nOfGrasses);
     }
 
     public boolean isItJungle(Vector2d pos){
@@ -53,6 +50,12 @@ public class WorldMap extends AbstractWorldMap{
         return new Vector2d[]{lim1, lim2};
     }
 
+    public void plantsAreGrowing(int n){
+        for(int i=0;i<n;i++){
+            placeGrass();
+        }
+    }
+
     private void placeGrass(){
         Vector2d pos = null;
         boolean notFound = true;
@@ -73,7 +76,18 @@ public class WorldMap extends AbstractWorldMap{
                     continue;
                 }
             }
-             
+            
+            //sprawdzam czy nie ma tu juz roslinki na wybranej pozycji
+            List<IMapElement> elements = this.objectsAt(pos);
+            if(elements != null){
+                for(IMapElement element : elements){
+                    if(element.getType().equals("Plant")){
+                        notFound = true;
+                        break;
+                    }
+                }
+            }
+            
         }
         Plant grass = new Plant(pos);
         addToMap((IMapElement)grass, grass.getPosition());
