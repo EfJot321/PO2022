@@ -7,18 +7,16 @@ import java.util.Random;
 
 public class WorldMap extends AbstractWorldMap{
 
-    Vector2d lim1;
-    Vector2d lim2;
+    
 
     private int nOfGrasses;
 
-    private int width;
-    private int height;
+    
 
     private List<Vector2d> jungle = new ArrayList<Vector2d>();
 
-    public WorldMap(int width, int height, int n){
-        super();
+    public WorldMap(int width, int height, int n, int dE){
+        super(width, height, dE);
 
         //tworzenie dzungli
         for(int x=(int) Math.floor(width/8);x<Math.ceil(width*7/8);x++){
@@ -27,10 +25,7 @@ public class WorldMap extends AbstractWorldMap{
             }
         }
 
-        lim1 = new Vector2d(0, 0);
-        lim2 = new Vector2d(width-1, height-1);
-        this.width=width;
-        this.height=height;
+        
         nOfGrasses=n;
         for (int i=0;i<nOfGrasses;i++){
             placeGrass();

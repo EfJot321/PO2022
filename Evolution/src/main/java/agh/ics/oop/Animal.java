@@ -80,7 +80,10 @@ public class Animal extends AbstractWorldMapElement{
         days += 1;
         //..a sily brak...
         energy -= 1;
+    }
 
+    public void eat(){
+        energy += map.eatIfICan(this);
     }
 
     

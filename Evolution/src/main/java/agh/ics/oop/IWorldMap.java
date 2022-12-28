@@ -18,6 +18,8 @@ public interface IWorldMap {
      */
     boolean canMoveTo(Vector2d position);
 
+    int eatIfICan(Animal animal);
+
     /**
      * Place a animal on the map.
      *

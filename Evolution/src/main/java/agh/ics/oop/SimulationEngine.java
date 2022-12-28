@@ -22,7 +22,7 @@ public class SimulationEngine implements IEngine, Runnable {
     public SimulationEngine(Configuration config, int moveDelay, App mA){
         this.mainApp = mA;
         this.moveDelay = moveDelay;
-        this.map = new WorldMap(config.width, config.height, config.startPlantsNum);
+        this.map = new WorldMap(config.width, config.height, config.startPlantsNum, config.dE);
         //obsluga zwierzakow
         Vector2d pos;
         boolean notFound;
@@ -47,27 +47,27 @@ public class SimulationEngine implements IEngine, Runnable {
             }
             
         }
-        
-
-        
-
-        
-
+    
     }
 
 
     @Override
     public void run() {
 
-
-
         try {
             int iterator = 0;
             if(nOfAnimals > 0){
                 while (true){
-                    animals.get(iterator%nOfAnimals).move();
-                    Thread.sleep(moveDelay);
+                    //zwierzeta ida
+                    for(Animal animal : animals){
+                        animal.move();
+                    }
+                    //zwierzeta jedza
+                    for(Animal animal : animals){
+                        animal.eat();
+                    }
                     Platform.runLater(() -> {mainApp.updateScene((WorldMap)map);});
+                    Thread.sleep(moveDelay);
                     iterator++;
                 }
             }

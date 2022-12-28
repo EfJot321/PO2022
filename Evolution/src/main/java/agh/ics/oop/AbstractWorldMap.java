@@ -52,11 +52,22 @@ class compareMapElements implements Comparator<IMapElement> {
 abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     protected Map<Vector2d, List<IMapElement>> objects;
 
-    //final MapVisualizer visualizer;
+    public int width;
+    public int height;
 
-    public AbstractWorldMap(){
-       // visualizer = new MapVisualizer(this);
-        objects = new HashMap<>();
+    public Vector2d lim1;
+    public Vector2d lim2;
+    
+    private int dE;
+
+    public AbstractWorldMap(int width, int height, int dE){
+        this.objects = new HashMap<>();
+
+        this.lim1 = new Vector2d(0, 0);
+        this.lim2 = new Vector2d(width-1, height-1);
+        this.width=width;
+        this.height=height;
+        this.dE = dE;
     }
 
     // public boolean canMoveTo(Vector2d position) {
@@ -80,6 +91,21 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
 
     public List<IMapElement> objectsAt(Vector2d position) {
         return objects.get(position);
+    }
+
+    public int eatIfICan(Animal animal){
+        //zbieram elementy znajdujace sie na pozycji zwierzaka
+        List<IMapElement> elements = objects.get(animal.getPosition());
+        //jesli zwierzak jest tym wybranym do jedzenia
+        if(animal == elements.get(0)){
+            //to sprawdzam czy jest trawka dla zwierzaka
+            IMapElement lastElement = elements.get(elements.size()-1);
+            if(lastElement.getType().equals("Plant")){
+                //jesli jest to zwierzak ja zjada
+                return this.dE;
+            }
+        }
+        return 0;
     }
 
 
