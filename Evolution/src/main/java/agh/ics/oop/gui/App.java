@@ -3,31 +3,42 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import static java.lang.Math.abs;
 
+import java.io.File;
 import java.util.List;
 
 public class App extends Application{
 
     
     private VBox allStaff;
+    private String src;
+
 
     @Override
     public void init() {
         try {
-            String src = "/home/filipjedrzejewski/PO2022/Evolution/src/main/configurations/config1.csv";
-            
-            Configuration conf = new Configuration(src);
 
-            SimulationEngine engine = new SimulationEngine(conf, 300, this);
-            Thread engineThread = new Thread(engine);
-            engineThread.start();
+//
+//            String src = "C:\\Users\\MagdalenaSkrok\\podzialaj\\PO2022\\Evolution\\src\\main\\configurations\\config1.csv";
+//
+//          Configuration conf = new Configuration(src);
+//
+//            SimulationEngine engine = new SimulationEngine(conf, 300, this);
+//            Thread engineThread = new Thread(engine);
+//            engineThread.start();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -38,8 +49,34 @@ public class App extends Application{
 
         GridPane grid = new GridPane();
 
+        Button button = new Button("Wybierz plik");
+        button.setDefaultButton(true);
+        button.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                FileChooser fileChooser = new FileChooser();
+                File selectedFile = fileChooser.showOpenDialog(primaryStage);
+                src= selectedFile.getPath();
+                System.out.println(src);
+                new Window(src);
+            }
+        });
+        Configuration conf = new Configuration(src);
+        SimulationEngine engine = new SimulationEngine(conf, 300, this);
+        Thread engineThread = new Thread(engine);
+        engineThread.start();
+        Text text=new Text("Witaj, wgraj plik");
+        VBox firstElements= new VBox(text, button);
+
+        Scene scene1 = new Scene(firstElements, 900, 700);
+
+        primaryStage.setScene(scene1);
+        primaryStage.show();
+
+
+
         allStaff= new VBox(grid);
-        Scene scene = new Scene(allStaff, 1300, 900);
+        Scene scene = new Scene(allStaff, 900, 700);
 
         primaryStage.setScene(scene);
         primaryStage.show();
