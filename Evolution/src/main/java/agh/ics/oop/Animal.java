@@ -16,17 +16,24 @@ public class Animal extends AbstractWorldMapElement{
     private int days;
     private int energy;
     private int nOfChildrens = 0;
+    private int minReproduceEnergy;
+    private float birthE;
+    public boolean afterReproduction;
 
     List<IPositionChangeObserver> observers = new ArrayList<>();
 
-    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int genomLen){
+    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,int genomLen){
         this.map = map;
         this.pos = initialPosition;
         this.energy = startEnergy;
+        this.minReproduceEnergy = mRe;
+        this.birthE = birthE;
         this.days = 0;
         this.genomLen = genomLen;
 
         this.genom = new Genom(this.genomLen);
+
+        this.afterReproduction = false;
 
     }
 
@@ -90,14 +97,53 @@ public class Animal extends AbstractWorldMapElement{
         days += 1;
         //..a sily brak...
         energy -= 1;
+        //ale moge sie reprodukowac
+        afterReproduction = false;
     }
 
     public void eat(){
         energy += map.eatIfICan(this);
     }
 
-    public void reproduce() {
-        //TO DO
+    public Animal reproduce() {
+        if(energy > minReproduceEnergy && !afterReproduction){
+            //szukam kochanka
+            Animal lover = map.getBestLover(this);
+            //jesli jest ktos warty jego milosci
+            if(lover != null){
+                //obliczam energie dla dzieciaka
+                int p1E = this.whileReproduce();
+                int p2E = lover.whileReproduce();
+                int childEnergy = p1E + p2E;
+                //cud stworzenia
+                Animal newBorn = new Animal(map, pos, childEnergy, minReproduceEnergy, birthE, this.genomLen);
+                //dodaje do mapy
+                if(map.place(newBorn)){
+                    //dzieciak nie moze sie od razu rozmnażać (to nieetyczne)
+                    newBorn.afterReproduction = false;
+                    //zwracam dzieciaka do silnika
+                    return newBorn;
+                }
+                else{
+                    //jesli cos sie nie udalo to wracamy do punktu wyjscia
+                    this.energy += p1E;
+                    lover.energy += p2E;
+                }
+                
+            }
+        }
+        return null;
+    }
+
+    public boolean canReproduce(){
+        return (energy >= minReproduceEnergy);
+    }
+
+    public int whileReproduce(){
+        int deltaE = (int)(energy*birthE);
+        energy -= deltaE;
+        afterReproduction = true;
+        return deltaE;
     }
 
     

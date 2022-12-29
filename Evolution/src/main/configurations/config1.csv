@@ -3,12 +3,12 @@ height,20
 worldVariant,0
 startPlantsNum,30
 dE,4
-plantsPerDay,2
+plantsPerDay,7
 plantsVariant,0
-startAnimalNum,5
-startE,13
+startAnimalNum,20
+startE,20
 minE,6
-birthE,0.4
+birthE,0.3
 minMutNum,0
 maxMutNum,3
 mutationVariant,0

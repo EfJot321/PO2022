@@ -16,6 +16,7 @@ public class SimulationEngine implements IEngine, Runnable {
     private int nOfAnimals = 0;
     private List<Animal> animals;
     private List<Animal> deadAnimals;
+    private List<Animal> newBornAnimals;
 
     private Window window;
     private int moveDelay;
@@ -31,10 +32,11 @@ public class SimulationEngine implements IEngine, Runnable {
         //obsluga zwierzakow
         Vector2d pos;
         boolean notFound;
+        this.newBornAnimals = new ArrayList<>();
         this.deadAnimals = new ArrayList<>();
         this.animals = new ArrayList<>();
+        //tworze zwierzaki
         for(int i=0;i<config.startAnimalNum;i++){
-
             //losuje pozycje
             notFound = true;
             pos = null;
@@ -47,7 +49,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 }
             }
             //tworze zwierzaka
-            Animal newBorn = new Animal(this.map, pos, config.startE, config.genomLen);
+            Animal newBorn = new Animal(this.map, pos, config.startE, config.minE, config.birthE, config.genomLen);
             if(map.place(newBorn)){
                 animals.add(newBorn);
                 nOfAnimals++;
@@ -62,7 +64,7 @@ public class SimulationEngine implements IEngine, Runnable {
     public void run() {
 
         try {
-                while (true){
+                while (animals.size() > 0){
                     //sprawdzam ktore zwierzaki umarly
                     for(Animal animal : animals){
                         if(animal.isDead()){
@@ -87,8 +89,19 @@ public class SimulationEngine implements IEngine, Runnable {
                     }
                     //zwierzeta sie reprodukuja
                     for(Animal animal : animals){
-                        animal.reproduce();
+                        Animal newBorn = animal.reproduce();
+                        //dodawanie zwierzaka do listy zwierzakow ktore sie urodzily dzis
+                        if(newBorn != null){
+                            newBornAnimals.add(newBorn);
+                        }
                     }
+                    //dodaje nowonarodzone dzieciaki do listy zwierzakow
+                    for(Animal animal: newBornAnimals){
+                        animals.add(animal);
+                        nOfAnimals++;
+                    }
+                    newBornAnimals = new ArrayList<>();
+
                     //rosna rosliny
                     map.plantsAreGrowing(plantsPerDay);
 

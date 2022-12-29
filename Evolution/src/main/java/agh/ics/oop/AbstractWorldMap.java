@@ -10,8 +10,8 @@ class compareMapElements implements Comparator<IMapElement> {
 
     @Override
     public int compare(IMapElement el1, IMapElement el2) {
-        // 1 - el1 jest lepsze
-        // -1 - el2 jest lepsze
+        // -1 - el1 jest lepsze
+        // 1 - el2 jest lepsze
         // 0 - sa rowne
 
         //jesli ktorys z nich jest roslinka
@@ -27,19 +27,19 @@ class compareMapElements implements Comparator<IMapElement> {
         Animal a2 = (Animal)el2;
 
         //porownuje energie
-        int dE = a1.getEnergy() - a2.getEnergy();
+        int dE = a2.getEnergy() - a1.getEnergy();
         if(dE != 0){
             return dE;
         }
 
         //porownuje wiek
-        int dA = a1.getAge() - a2.getAge();
+        int dA = a2.getAge() - a1.getAge();
         if(dA != 0){
             return dA;
         }
 
         //porownuje liczbe dzieci
-        int dC = a1.getChildrenNum() - a2.getChildrenNum();
+        int dC = a2.getChildrenNum() - a1.getChildrenNum();
         if(dC != 0){
             return dC;
         }
@@ -55,6 +55,8 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     public int width;
     public int height;
 
+    public int nOfGrasses;
+
     public Vector2d lim1;
     public Vector2d lim2;
 
@@ -68,11 +70,12 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         this.width=width;
         this.height=height;
         this.dE = dE;
+        this.nOfGrasses = 0;
     }
 
-    // public boolean canMoveTo(Vector2d position) {
-    //     return !(isOccupied(position) && ((IMapElement) objectsAt(position)).getType().equals("Animal"));
-    // }
+    public boolean canMoveTo(Vector2d position) {
+        return true;    //TODO
+    }
 
     public boolean place(Animal animal) {
         if(canMoveTo(animal.getPosition())){
@@ -103,11 +106,28 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
             if(lastElement.getType().equals("Plant")){
                 //jak jest trawka to ja zjada
                 elements.remove(lastElement);
+                nOfGrasses -= 1;
                 //a jak przetrawi to ma energie
                 return this.dE;
             }
         }
         return 0;
+    }
+
+    public Animal getBestLover(Animal animal){
+        List<IMapElement> elements = objectsAt(animal.getPosition());
+        for(IMapElement element : elements){
+            //sprawdzam czy to nie ten zwierzak ktory kogos szuka
+            //nie musze sprawdzac czy to nie trawa bo gdyby tu by byla trawa to juz jest zjedzona
+            if(element != animal){
+                Animal lover = (Animal)element;
+                if(lover.canReproduce()){
+                    //to jest na pewno najlepszy bo elements jest posortowane po energii
+                    return lover;
+                }
+            }
+        }
+        return null;
     }
 
     public void removeDeadAnimal(Animal animal){
@@ -148,6 +168,8 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         if(elements.size() > 0){
             objects.put(position, elements);
         }
+        
+        
     }
 
 

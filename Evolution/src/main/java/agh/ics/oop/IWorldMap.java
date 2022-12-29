@@ -24,6 +24,8 @@ public interface IWorldMap {
 
     void plantsAreGrowing(int nOfPlants);
 
+    Animal getBestLover(Animal animal);
+
 
     /**
      * Place a animal on the map.
