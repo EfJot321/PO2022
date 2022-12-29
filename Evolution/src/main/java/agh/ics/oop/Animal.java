@@ -9,7 +9,8 @@ public class Animal extends AbstractWorldMapElement{
 
     private IWorldMap map;
 
-    private Genom genom;
+    public Genom genom;
+    private int genomLen;
 
     private int rotation = 0;
     private int days;
@@ -18,13 +19,15 @@ public class Animal extends AbstractWorldMapElement{
 
     List<IPositionChangeObserver> observers = new ArrayList<>();
 
-    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy){
+    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int genomLen){
         this.map = map;
         this.pos = initialPosition;
         this.energy = startEnergy;
         this.days = 0;
+        this.genomLen = genomLen;
 
-        genom = new Genom("1234511110000");
+        this.genom = new Genom(this.genomLen);
+
     }
 
      public String toString(){

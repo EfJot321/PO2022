@@ -59,7 +59,7 @@ public class Configuration {
             minE = Integer.parseInt(nextRecord[1]);
 
             nextRecord = csvReader.readNext();
-            birthE = Integer.parseInt(nextRecord[1]);   //TODO
+            birthE = Float.parseFloat(nextRecord[1]);
 
             nextRecord = csvReader.readNext();
             minMutNum = Integer.parseInt(nextRecord[1]);

@@ -47,7 +47,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 }
             }
             //tworze zwierzaka
-            Animal newBorn = new Animal(this.map, pos, config.startE);
+            Animal newBorn = new Animal(this.map, pos, config.startE, config.genomLen);
             if(map.place(newBorn)){
                 animals.add(newBorn);
                 nOfAnimals++;

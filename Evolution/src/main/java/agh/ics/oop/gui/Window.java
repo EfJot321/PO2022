@@ -49,8 +49,6 @@ public class Window extends Thread{
 
     private GridPane actualScene(WorldMap map){
 
-        
-
         GridPane grid = new GridPane();
 
 
