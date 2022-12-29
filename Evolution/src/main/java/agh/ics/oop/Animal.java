@@ -177,7 +177,7 @@ public class Animal extends AbstractWorldMapElement{
     @Override
     public String loadSrc() {
         //sciezka do obrazka
-        return "";
+        return "C:\\Users\\MagdalenaSkrok\\podzialaj\\PO2022\\Evolution\\src\\main\\resources\\animal.png";
     }
 
 

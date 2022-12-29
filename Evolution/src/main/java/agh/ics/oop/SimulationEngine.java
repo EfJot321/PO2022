@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -106,7 +107,13 @@ public class SimulationEngine implements IEngine, Runnable {
                     map.plantsAreGrowing(plantsPerDay);
 
                     //wyswietlanie
-                    Platform.runLater(() -> {window.updateScene((WorldMap)map);});
+                    Platform.runLater(() -> {
+                        try {
+                            window.updateScene((WorldMap)map);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
                     Thread.sleep(moveDelay);
                 }
             

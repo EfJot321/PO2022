@@ -18,7 +18,7 @@ public class Plant extends AbstractWorldMapElement{
 
     @Override
     public String loadSrc() {
-        return "/home/filipjedrzejewski/PO2022/oolab/src/main/resources/grass.png";
+        return "C:\\Users\\MagdalenaSkrok\\podzialaj\\PO2022\\Evolution\\src\\main\\resources\\grass.jpg";
     }
 
 

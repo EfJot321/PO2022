@@ -1,5 +1,6 @@
 package agh.ics.oop.gui;
 
+import java.io.IOException;
 import java.util.List;
 
 import agh.ics.oop.Configuration;
@@ -47,7 +48,7 @@ public class Window extends Thread{
         
     }
 
-    private GridPane actualScene(WorldMap map){
+    private GridPane actualScene(WorldMap map) throws IOException {
 
         GridPane grid = new GridPane();
 
@@ -117,7 +118,7 @@ public class Window extends Thread{
     }
 
 
-    public void updateScene(WorldMap map){
+    public void updateScene(WorldMap map) throws IOException {
 
         GridPane grid = actualScene(map);
         allStaff.getChildren().remove(0);
