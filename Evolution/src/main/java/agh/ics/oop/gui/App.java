@@ -1,169 +1,58 @@
 package agh.ics.oop.gui;
 
 
-import agh.ics.oop.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import static java.lang.Math.abs;
-
 import java.io.File;
-import java.util.List;
 
 public class App extends Application{
-
-    
-    private VBox allStaff;
-    private String src;
 
 
     @Override
     public void init() {
-        try {
 
-//
-//            String src = "C:\\Users\\MagdalenaSkrok\\podzialaj\\PO2022\\Evolution\\src\\main\\configurations\\config1.csv";
-//
-//          Configuration conf = new Configuration(src);
-//
-//            SimulationEngine engine = new SimulationEngine(conf, 300, this);
-//            Thread engineThread = new Thread(engine);
-//            engineThread.start();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
     }
+
+    private void runNewSimulation(){
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+        String src= selectedFile.getPath();
+        Window simWin = new Window(src);
+        Thread newWidowThread = new Thread(simWin);
+        newWidowThread.start();
+    }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        GridPane grid = new GridPane();
-
         Button button = new Button("Wybierz plik");
-        button.setDefaultButton(true);
-        button.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                FileChooser fileChooser = new FileChooser();
-                File selectedFile = fileChooser.showOpenDialog(primaryStage);
-                src= selectedFile.getPath();
-                System.out.println(src);
-                new Window(src);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                runNewSimulation();
             }
         });
-        Configuration conf = new Configuration(src);
-        SimulationEngine engine = new SimulationEngine(conf, 300, this);
-        Thread engineThread = new Thread(engine);
-        engineThread.start();
-        Text text=new Text("Witaj, wgraj plik");
+
+        Text text=new Text("Witaj wędrowcze, wgraj plik");
         VBox firstElements= new VBox(text, button);
+        firstElements.setAlignment(Pos.CENTER);
 
-        Scene scene1 = new Scene(firstElements, 900, 700);
-
-        primaryStage.setScene(scene1);
-        primaryStage.show();
-
-
-
-        allStaff= new VBox(grid);
-        Scene scene = new Scene(allStaff, 900, 700);
+        Scene scene = new Scene(firstElements, 900, 700);
 
         primaryStage.setScene(scene);
         primaryStage.show();
 
-
-    }
-
-
-    private GridPane actualScene(WorldMap map){
-
         
 
-        GridPane grid = new GridPane();
-
-
-        Vector2d start=map.limes()[0];
-        Vector2d end=map.limes()[1];
-
-        grid.setGridLinesVisible(true);
-
-        int height=abs(start.y-end.y)+1;
-        int width=abs(start.x-end.x)+1;
-
-        grid.setPrefWidth(width);
-        grid.setPrefHeight(height);
-
-        //ustalanie wielkosci pojedynczego kwadracika
-        int squareSize = 40;
-        if(700/height < squareSize){
-            squareSize = (int)(700/height);
-        }
-        if(squareSize < 20){
-            squareSize = 20;
-        }
-
-        Label label = new Label("y/x");
-
-        GridPane.setHalignment(label, HPos.CENTER);
-        grid.getColumnConstraints().add(new ColumnConstraints(squareSize));
-        grid.getRowConstraints().add(new RowConstraints(squareSize));
-
-        grid.add(label,0,0);
-
-
-        for(int i=0; i<height; i++){
-            Label label1 = new Label(Integer.toString(height+start.x-i-1));
-            grid.add(label1,0,i+1);
-            GridPane.setHalignment(label1, HPos.CENTER);
-            grid.getRowConstraints().add(new RowConstraints(squareSize));
-        }
-
-        for(int i=0; i<width; i++){
-            Label label1 = new Label(Integer.toString(i+start.x));
-            grid.add(label1,i+1,0);
-            GridPane.setHalignment(label1, HPos.CENTER);
-            grid.getColumnConstraints().add(new ColumnConstraints(squareSize));
-        }
-        for(int i=0;i<width;i++){
-            for(int j=0;j<height;j++){
-                //wybieram pozycje
-                Vector2d v = new Vector2d(i,j);
-                //zbieram wszytskie stworzonka ktore tam sa
-                List<IMapElement> vList = map.objectsAt(v);
-                //System.out.println(vList);
-                IMapElement showElement = null;
-                //jesli cokolwiek tam jest to wyswietlam najlepsze co tam jest
-                if(vList != null){
-                    showElement = vList.get(0);
-                }
-                //wysiwtlanie
-                VBox vbox = new GridElement(showElement, map.isItJungle(v)).getBox();
-                grid.add(vbox,i+1,height-j);
-            }
-        }
-
-        return grid;
 
     }
 
-
-    public void updateScene(WorldMap map){
-        GridPane grid = actualScene(map);
-        allStaff.getChildren().remove(0);
-        allStaff.getChildren().add(grid);
-    }
-    
-
-
-    
 }

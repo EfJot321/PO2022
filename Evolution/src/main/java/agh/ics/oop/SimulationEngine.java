@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import agh.ics.oop.gui.App;
+
+import agh.ics.oop.gui.Window;
 import javafx.application.Platform;
 
 
@@ -16,14 +17,14 @@ public class SimulationEngine implements IEngine, Runnable {
     private List<Animal> animals;
     private List<Animal> deadAnimals;
 
-    private App mainApp;
+    private Window window;
     private int moveDelay;
     private int plantsPerDay;
 
 
 
-    public SimulationEngine(Configuration config, int moveDelay, App mA){
-        this.mainApp = mA;
+    public SimulationEngine(Configuration config, int moveDelay, Window window){
+        this.window = window;
         this.moveDelay = moveDelay;
         this.plantsPerDay = config.plantsPerDay;
         this.map = new WorldMap(config.width, config.height, config.startPlantsNum, config.dE);
@@ -33,6 +34,7 @@ public class SimulationEngine implements IEngine, Runnable {
         this.deadAnimals = new ArrayList<>();
         this.animals = new ArrayList<>();
         for(int i=0;i<config.startAnimalNum;i++){
+
             //losuje pozycje
             notFound = true;
             pos = null;
@@ -60,7 +62,6 @@ public class SimulationEngine implements IEngine, Runnable {
     public void run() {
 
         try {
-            if(nOfAnimals > 0){
                 while (true){
                     //sprawdzam ktore zwierzaki umarly
                     for(Animal animal : animals){
@@ -92,10 +93,10 @@ public class SimulationEngine implements IEngine, Runnable {
                     map.plantsAreGrowing(plantsPerDay);
 
                     //wyswietlanie
-                    Platform.runLater(() -> {mainApp.updateScene((WorldMap)map);});
+                    Platform.runLater(() -> {window.updateScene((WorldMap)map);});
                     Thread.sleep(moveDelay);
                 }
-            }
+            
         } catch (InterruptedException e) {
             System.out.println("Symulacja zostala przerwana!");
         }
