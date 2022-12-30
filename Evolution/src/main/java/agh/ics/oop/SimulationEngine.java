@@ -129,4 +129,8 @@ public class SimulationEngine implements IEngine, Runnable {
         int n = b-a+1;
         return Math.abs(rn.nextInt()%n) + a;
     }
+
+    public int getNOfAnimals(){
+        return nOfAnimals;
+    }
 }

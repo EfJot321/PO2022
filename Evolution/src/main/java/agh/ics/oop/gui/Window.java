@@ -11,9 +11,11 @@ import agh.ics.oop.WorldMap;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 
@@ -22,14 +24,18 @@ public class Window extends Thread{
     private SimulationEngine engine;
     private VBox allStaff;
     private Stage simulationStage;
+    final ScrollPane sp = new ScrollPane();
 
     public Window(String src){
         Configuration conf = new Configuration(src);
         engine = new SimulationEngine(conf, 300, this);
 
         GridPane grid = new GridPane();
-        allStaff= new VBox(grid);
-        Scene scene = new Scene(allStaff, 1000, 800);
+        Text numberOfAnimals=new Text("Liczba zwierzat" + engine.getNOfAnimals());
+
+        allStaff= new VBox(grid, numberOfAnimals);
+        sp.setContent(allStaff);
+        Scene scene = new Scene(sp, 1000, 600);
 
 
         simulationStage = new Stage();
@@ -119,9 +125,12 @@ public class Window extends Thread{
 
 
     public void updateScene(WorldMap map) throws IOException {
+        Text numberOfAnimals=new Text("Liczba zwierzat" + engine.getNOfAnimals());
 
         GridPane grid = actualScene(map);
         allStaff.getChildren().remove(0);
-        allStaff.getChildren().add(grid);
+        allStaff.getChildren().add(0,grid);
+        allStaff.getChildren().remove(1);
+        allStaff.getChildren().add(1,numberOfAnimals);
     }
 }
