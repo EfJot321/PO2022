@@ -17,14 +17,14 @@ class compareMapElements implements Comparator<IMapElement> {
         //jesli ktorys z nich jest roslinka
         if(el2.getType().equals("Plant")){
             Animal animal=(Animal)el1;
-            if(animal.isDead()){
+            if(animal.dead){
                 return 1;
             }
             return -1;
         }
         if(el1.getType().equals("Plant")){
             Animal animal=(Animal)el2;
-            if(animal.isDead()){
+            if(animal.dead){
                 return -1;
             }
             return 1;
@@ -110,10 +110,16 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         //jesli zwierzak jest tym wybranym do jedzenia
         if(animal == elements.get(0)){
             //to sprawdzam czy jest trawka dla zwierzaka
-            IMapElement lastElement = elements.get(elements.size()-1);
-            if(lastElement.getType().equals("Plant")){
+            IMapElement plantElement = null;
+            for(IMapElement element : elements){
+                if(element.getType().equals("Plant")){
+                    plantElement = element;
+                    break;
+                }
+            }
+            if(plantElement != null){
                 //jak jest trawka to ja zjada
-                elements.remove(lastElement);
+                elements.remove(plantElement);
                 nOfGrasses -= 1;
                 //a jak przetrawi to ma energie
                 return this.dE;
@@ -129,7 +135,7 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
             //nie musze sprawdzac czy to nie trawa bo gdyby tu by byla trawa to juz jest zjedzona
             if(element != animal){
                 Animal lover = (Animal)element;
-                if(lover.canReproduce() && !lover.isDead()){
+                if(lover.canReproduce() && !lover.dead){
                     //to jest na pewno najlepszy bo elements jest posortowane po energii
                     return lover;
                 }

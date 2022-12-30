@@ -68,13 +68,15 @@ public class SimulationEngine implements IEngine, Runnable {
                 while (animals.size() > 0){
                     //sprawdzam ktore zwierzaki umarly
                     for(Animal animal : animals){
-                        if(animal.isDead()){
+                        animal.isDead();
+                        if(animal.dead){
                             deadAnimals.add(animal);
                         }
                     }
                     //zwierzeta umieraja
                     for(Animal deadAnimal : deadAnimals){
                         animals.remove(deadAnimal);
+                        nOfAnimals -= 1;
                     }
                     deadAnimals = new ArrayList<>();
                     

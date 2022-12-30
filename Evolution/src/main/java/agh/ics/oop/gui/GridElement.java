@@ -36,7 +36,7 @@ public class GridElement {
 
             if(element.getType().equals("Animal")){
                 Animal animal=(Animal) element;
-                if( !animal.isDead()) {
+                if( !animal.dead) {
                     posBox.setBackground(new Background(new BackgroundFill(Color.BROWN, CornerRadii.EMPTY, Insets.EMPTY)));
                 }
             }

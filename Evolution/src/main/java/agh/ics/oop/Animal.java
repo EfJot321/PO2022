@@ -19,6 +19,7 @@ public class Animal extends AbstractWorldMapElement{
     private int minReproduceEnergy;
     private float birthE;
     public boolean afterReproduction;
+    public boolean dead;
 
 
     List<IPositionChangeObserver> observers = new ArrayList<>();
@@ -35,6 +36,7 @@ public class Animal extends AbstractWorldMapElement{
         this.genom = new Genom(this.genomLen);
 
         this.afterReproduction = false;
+        this.dead = false;
 
     }
 
@@ -77,16 +79,13 @@ public class Animal extends AbstractWorldMapElement{
         return new Vector2d(0,0);
     }
 
-    public boolean isDead(){
-        if(this.energy==0){
-            return true;
-        }
-        return false;
+    public void isDead(){
+        dead = (energy == 0);
     }
 
 
     public void move(){
-        if(!this.isDead()) {
+        if(!this.dead) {
             //zmiana rotatcji
             rotation = (rotation + genom.giveNextGen()) % 8;
             //wyznaczenie wektora odpowiadającego aktualnej rotacji
