@@ -20,6 +20,7 @@ public class Animal extends AbstractWorldMapElement{
     private float birthE;
     public boolean afterReproduction;
 
+
     List<IPositionChangeObserver> observers = new ArrayList<>();
 
     public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,int genomLen){
@@ -77,28 +78,31 @@ public class Animal extends AbstractWorldMapElement{
     }
 
     public boolean isDead(){
-        if(energy == 0){
+        if(this.energy==0){
             return true;
         }
         return false;
     }
 
+
     public void move(){
-        //zmiana rotatcji
-        rotation = (rotation+genom.giveNextGen())%8;
-        //wyznaczenie wektora odpowiadającego aktualnej rotacji
-        Vector2d vect = giveVector(rotation);
-        Vector2d newPos = pos.add(vect);
-        if(map.canMoveTo(newPos)){
-            pos=pos.add(vect);
-            positionChanged(pos.subtract(vect), pos);
+        if(!this.isDead()) {
+            //zmiana rotatcji
+            rotation = (rotation + genom.giveNextGen()) % 8;
+            //wyznaczenie wektora odpowiadającego aktualnej rotacji
+            Vector2d vect = giveVector(rotation);
+            Vector2d newPos = pos.add(vect);
+            if (map.canMoveTo(newPos)) {
+                pos = pos.add(vect);
+                positionChanged(pos.subtract(vect), pos);
+            }
+            //czas leci...
+            days += 1;
+            //..a sily brak...
+            energy -= 1;
+            //ale moge sie reprodukowac
+            afterReproduction = false;
         }
-        //czas leci...
-        days += 1;
-        //..a sily brak...
-        energy -= 1;
-        //ale moge sie reprodukowac
-        afterReproduction = false;
     }
 
     public void eat(){

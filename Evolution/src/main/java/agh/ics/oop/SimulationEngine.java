@@ -74,7 +74,6 @@ public class SimulationEngine implements IEngine, Runnable {
                     }
                     //zwierzeta umieraja
                     for(Animal deadAnimal : deadAnimals){
-                        map.removeDeadAnimal(deadAnimal);
                         animals.remove(deadAnimal);
                     }
                     deadAnimals = new ArrayList<>();
@@ -89,10 +88,10 @@ public class SimulationEngine implements IEngine, Runnable {
                         animal.eat();
                     }
                     //zwierzeta sie reprodukuja
-                    for(Animal animal : animals){
+                    for(Animal animal : animals) {
                         Animal newBorn = animal.reproduce();
                         //dodawanie zwierzaka do listy zwierzakow ktore sie urodzily dzis
-                        if(newBorn != null){
+                        if (newBorn != null) {
                             newBornAnimals.add(newBorn);
                         }
                     }
@@ -105,7 +104,6 @@ public class SimulationEngine implements IEngine, Runnable {
 
                     //rosna rosliny
                     map.plantsAreGrowing(plantsPerDay);
-
                     //wyswietlanie
                     Platform.runLater(() -> {
                         try {
@@ -129,5 +127,4 @@ public class SimulationEngine implements IEngine, Runnable {
         int n = b-a+1;
         return Math.abs(rn.nextInt()%n) + a;
     }
-
 }

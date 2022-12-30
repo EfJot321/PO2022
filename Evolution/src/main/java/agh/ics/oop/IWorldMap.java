@@ -20,8 +20,6 @@ public interface IWorldMap {
 
     int eatIfICan(Animal animal);
 
-    void removeDeadAnimal(Animal animal);
-
     void plantsAreGrowing(int nOfPlants);
 
     Animal getBestLover(Animal animal);
@@ -55,4 +53,6 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectsAt(Vector2d position);
+
+
 }

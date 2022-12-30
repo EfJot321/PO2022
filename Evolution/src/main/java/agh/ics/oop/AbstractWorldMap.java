@@ -16,9 +16,17 @@ class compareMapElements implements Comparator<IMapElement> {
 
         //jesli ktorys z nich jest roslinka
         if(el2.getType().equals("Plant")){
+            Animal animal=(Animal)el1;
+            if(animal.isDead()){
+                return 1;
+            }
             return -1;
         }
         if(el1.getType().equals("Plant")){
+            Animal animal=(Animal)el2;
+            if(animal.isDead()){
+                return -1;
+            }
             return 1;
         }
 
@@ -121,7 +129,7 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
             //nie musze sprawdzac czy to nie trawa bo gdyby tu by byla trawa to juz jest zjedzona
             if(element != animal){
                 Animal lover = (Animal)element;
-                if(lover.canReproduce()){
+                if(lover.canReproduce() && !lover.isDead()){
                     //to jest na pewno najlepszy bo elements jest posortowane po energii
                     return lover;
                 }
@@ -130,9 +138,7 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         return null;
     }
 
-    public void removeDeadAnimal(Animal animal){
-        removeFromMap(animal, animal.getPosition());
-    }
+
 
     
 
@@ -168,8 +174,6 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         if(elements.size() > 0){
             objects.put(position, elements);
         }
-        
-        
     }
 
 
@@ -177,10 +181,7 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
 
     abstract Vector2d[] limes();
 
-//    public String toString(){
-//        Vector2d[] limess = limes();
-//        return visualizer.draw(limess[0], limess[1]);
-//    }
+
 
 
 }

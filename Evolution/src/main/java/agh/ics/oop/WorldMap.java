@@ -6,11 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 public class WorldMap extends AbstractWorldMap{
-
-
-
-    
-
     private List<Vector2d> jungle = new ArrayList<Vector2d>();
 
     public WorldMap(int width, int height, int n, int dE){

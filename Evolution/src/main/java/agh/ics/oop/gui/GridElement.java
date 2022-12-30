@@ -28,19 +28,24 @@ public class GridElement {
         posBox = new VBox();
         posBox.setAlignment(Pos.CENTER);
         //jesli jest cos
+        //jesli to dzungla to daje zielen
+        if(isJungle){
+            posBox.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        }
         if(element != null){
+
             if(element.getType().equals("Animal")){
-                posBox.setBackground(new Background(new BackgroundFill(Color.BROWN, CornerRadii.EMPTY, Insets.EMPTY)));
+                Animal animal=(Animal) element;
+                if( !animal.isDead()) {
+                    posBox.setBackground(new Background(new BackgroundFill(Color.BROWN, CornerRadii.EMPTY, Insets.EMPTY)));
+                }
             }
             else{
                 posBox.setBackground(new Background(new BackgroundFill(Color.DARKGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
             }
         }
-        //jesli to dzungla to daje zielen
-        else if(isJungle){
-            posBox.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-        }
+
     }
 
     public VBox getBox(){
