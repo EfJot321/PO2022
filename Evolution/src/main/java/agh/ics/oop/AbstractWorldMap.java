@@ -60,8 +60,11 @@ class compareMapElements implements Comparator<IMapElement> {
 abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     protected Map<Vector2d, List<IMapElement>> objects;
 
+
     public int width;
     public int height;
+
+    public int numberOfPlants;
 
     public int nOfGrasses;
 

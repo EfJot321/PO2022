@@ -133,4 +133,6 @@ public class SimulationEngine implements IEngine, Runnable {
     public int getNOfAnimals(){
         return nOfAnimals;
     }
+
+
 }

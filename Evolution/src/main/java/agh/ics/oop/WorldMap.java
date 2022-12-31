@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
+
 public class WorldMap extends AbstractWorldMap{
     private List<Vector2d> jungle = new ArrayList<Vector2d>();
+
+
 
     public WorldMap(int width, int height, int n, int dE){
         super(width, height, dE);
 
+        numberOfPlants=n;
         //tworzenie dzungli
         for(int x=(int) Math.floor(width/8);x<Math.ceil(width*7/8);x++){
             for(int y=(int) Math.floor(height/3);y<Math.ceil(height*2/3);y++){
@@ -48,6 +53,7 @@ public class WorldMap extends AbstractWorldMap{
                 placeGrass();
             }
         }
+
     }
 
     private void placeGrass(){
@@ -94,4 +100,8 @@ public class WorldMap extends AbstractWorldMap{
         return Math.abs(rn.nextInt()%n) + a;
     }
 
+    @Override
+    public int getNumberOfGrasses() {
+        return nOfGrasses;
+    }
 }

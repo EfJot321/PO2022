@@ -32,10 +32,11 @@ public class Window extends Thread{
 
         GridPane grid = new GridPane();
         Text numberOfAnimals=new Text("Liczba zwierzat" + engine.getNOfAnimals());
+        Text numberOfPlants=new Text("Liczba roslin" + 0);
 
-        allStaff= new VBox(grid, numberOfAnimals);
+        allStaff= new VBox(grid, numberOfAnimals, numberOfPlants);
         sp.setContent(allStaff);
-        Scene scene = new Scene(sp, 1000, 600);
+        Scene scene = new Scene(sp, 1000, 700);
 
 
         simulationStage = new Stage();
@@ -126,11 +127,15 @@ public class Window extends Thread{
 
     public void updateScene(WorldMap map) throws IOException {
         Text numberOfAnimals=new Text("Liczba zwierzat" + engine.getNOfAnimals());
+        Text numberOfPlants=new Text("Liczba roslin" + map.getNumberOfGrasses());
+
 
         GridPane grid = actualScene(map);
         allStaff.getChildren().remove(0);
         allStaff.getChildren().add(0,grid);
         allStaff.getChildren().remove(1);
         allStaff.getChildren().add(1,numberOfAnimals);
+        allStaff.getChildren().remove(2);
+        allStaff.getChildren().add(2,numberOfPlants);
     }
 }

@@ -9,6 +9,8 @@ package agh.ics.oop;
  */
 
 public interface IWorldMap {
+
+
     /**
      * Indicate if any object can move to the given position.
      *
@@ -54,5 +56,6 @@ public interface IWorldMap {
      */
     Object objectsAt(Vector2d position);
 
+    int getNumberOfGrasses();
 
 }
