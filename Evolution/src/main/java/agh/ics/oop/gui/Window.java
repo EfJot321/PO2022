@@ -31,10 +31,13 @@ public class Window extends Thread{
         engine = new SimulationEngine(conf, 300, this);
 
         GridPane grid = new GridPane();
-        Text numberOfAnimals=new Text("Liczba zwierzat" + engine.getNOfAnimals());
-        Text numberOfPlants=new Text("Liczba roslin" + 0);
+        Text numberOfAnimals=new Text("Liczba zwierzat " + 0);
+        Text numberOfPlants=new Text("Liczba roslin " + 0);
+        Text gaps=new Text("Liczba pustych pol " + 0);
+        Text avgEnergy=new Text("Sredni poziom energii " + 0);
+        Text avdDays=new Text("Srednia dlugosc zycia " + 0);
 
-        allStaff= new VBox(grid, numberOfAnimals, numberOfPlants);
+        allStaff= new VBox(grid, numberOfAnimals, numberOfPlants, gaps, avgEnergy, avdDays);
         sp.setContent(allStaff);
         Scene scene = new Scene(sp, 1000, 700);
 
@@ -126,8 +129,13 @@ public class Window extends Thread{
 
 
     public void updateScene(WorldMap map) throws IOException {
-        Text numberOfAnimals=new Text("Liczba zwierzat" + engine.getNOfAnimals());
-        Text numberOfPlants=new Text("Liczba roslin" + map.getNumberOfGrasses());
+        Text numberOfAnimals=new Text("Liczba zwierzat " + engine.getNOfAnimals());
+        Text numberOfPlants=new Text("Liczba roslin " + map.getNumberOfGrasses());
+        int gaps=map.getSize()- engine.getNOfAnimals()-map.getNumberOfGrasses();
+        Text size=new Text("Liczba pustych pol " + gaps);
+        Text avgEnergy=new Text("Sredni poziom energii " + engine.getAverageEnergy());
+        Text avgDays=new Text("Srednia dlugosc zycia " + engine.getAverageLivingDays());
+
 
 
         GridPane grid = actualScene(map);
@@ -137,5 +145,11 @@ public class Window extends Thread{
         allStaff.getChildren().add(1,numberOfAnimals);
         allStaff.getChildren().remove(2);
         allStaff.getChildren().add(2,numberOfPlants);
+        allStaff.getChildren().remove(3);
+        allStaff.getChildren().add(3,size);
+        allStaff.getChildren().remove(4);
+        allStaff.getChildren().add(4,avgEnergy);
+        allStaff.getChildren().remove(5);
+        allStaff.getChildren().add(5,avgDays);
     }
 }

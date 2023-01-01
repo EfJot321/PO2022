@@ -58,4 +58,6 @@ public interface IWorldMap {
 
     int getNumberOfGrasses();
 
+    int getSize();
+
 }

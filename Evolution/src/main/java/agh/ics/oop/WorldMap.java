@@ -15,7 +15,6 @@ public class WorldMap extends AbstractWorldMap{
     public WorldMap(int width, int height, int n, int dE){
         super(width, height, dE);
 
-        numberOfPlants=n;
         //tworzenie dzungli
         for(int x=(int) Math.floor(width/8);x<Math.ceil(width*7/8);x++){
             for(int y=(int) Math.floor(height/3);y<Math.ceil(height*2/3);y++){
@@ -103,5 +102,8 @@ public class WorldMap extends AbstractWorldMap{
     @Override
     public int getNumberOfGrasses() {
         return nOfGrasses;
+    }
+    public int getSize(){
+        return this.height*this.width;
     }
 }

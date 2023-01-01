@@ -176,6 +176,10 @@ public class Animal extends AbstractWorldMapElement{
         return this.nOfChildrens;
     }
 
+    public List<Integer> getGenom(){
+        return this.genom.genes;
+    }
+
 
     @Override
     public String loadSrc() {

@@ -23,6 +23,8 @@ public class SimulationEngine implements IEngine, Runnable {
     private int moveDelay;
     private int plantsPerDay;
 
+    private int oldDead =0;
+
 
 
     public SimulationEngine(Configuration config, int moveDelay, Window window){
@@ -75,10 +77,12 @@ public class SimulationEngine implements IEngine, Runnable {
                     }
                     //zwierzeta umieraja
                     for(Animal deadAnimal : deadAnimals){
-                        animals.remove(deadAnimal);
                         nOfAnimals -= 1;
+                        animals.remove(deadAnimal);
+
                     }
-                    deadAnimals = new ArrayList<>();
+                    nOfAnimals+=oldDead;
+                    oldDead=deadAnimals.size();
                     
                     
                     //zwierzeta ida
@@ -133,6 +137,28 @@ public class SimulationEngine implements IEngine, Runnable {
     public int getNOfAnimals(){
         return nOfAnimals;
     }
+
+    public int getAverageEnergy(){
+        int avgEnergy=0;
+        for(int i=0; i<animals.size(); i++){
+            avgEnergy+=animals.get(i).getEnergy();
+        }
+        avgEnergy/=animals.size();
+        return avgEnergy;
+    }
+
+    public int getAverageLivingDays(){
+        int avgDays=0;
+        if(deadAnimals.size()!=0) {
+            for (int i = 0; i < deadAnimals.size(); i++) {
+                avgDays += deadAnimals.get(i).getAge();
+            }
+            avgDays /= deadAnimals.size();
+            return avgDays;
+        }
+        return avgDays;
+    }
+
 
 
 }
