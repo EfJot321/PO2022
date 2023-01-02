@@ -1,9 +1,6 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Genom {
     
@@ -16,37 +13,55 @@ public class Genom {
         this.genomLen = len;
         genes = new ArrayList<>();
         //obliczanie procentow dla genow rodzicow
-        int percentA1=a1.getEnergy()/(a1.getEnergy()+a2.getEnergy());
-        int percentA2=a2.getEnergy()/(a1.getEnergy()+a2.getEnergy());
+        double percentA1=100*a1.getEnergy()/(a1.getEnergy()+a2.getEnergy());
+        double percentA2=100*a2.getEnergy()/(a1.getEnergy()+a2.getEnergy());
+//        System.out.println("rodzic1:");
+//        System.out.println(a1.getGenom());
+//        System.out.println("rodzic2:");
+//        System.out.println(a2.getGenom());
+//        System.out.println(percentA1);
+//        System.out.println(percentA2);
         //zamiana procentow na liczbe elementow z genow rodzicow
-        int countA1= (int) Math.ceil(percentA1*len);
-        int countA2= (int) Math.floor(percentA2*len);
+        int countA1= (int) Math.ceil(percentA1*len/100);
+        int countA2= (int) Math.floor(percentA2*len/100);
+//        System.out.println(a1.genom.genomLen);
+//        System.out.println(countA1);
+//        System.out.println(countA2);
         //losowanie strony od ktorej zaczne
         int side = randInt(0, 1);
+//        System.out.println(side);
         if(side==1){
             //dodawanie od pierwszego rodzica od lewej
             for(int i=0;i<countA1;i++){
                 genes.add(a1.getGenom().get(i));
+//                System.out.println(genes);
             }
             //dodawanei od drugirgo rodzica od prawej
             for(int i=0;i<countA2;i++){
-                genes.add(a2.getGenom().get(a2.getGenom().size()-i-1));
+                genes.add(a2.getGenom().get(a2.getGenom().size()+i-countA2));
+//                System.out.println(genes);
             }
         }
         else{
             //dodawanie od drugirgo rodzica od lewej
             for(int i=0;i<countA2;i++){
                 genes.add(a2.getGenom().get(i));
+//                System.out.println(genes);
             }
             //dodawanie od pierwszego rodzica od prawej
             for(int i=0;i<countA1;i++){
-                genes.add(a1.getGenom().get(a1.getGenom().size()-i-1));
+                genes.add(a1.getGenom().get(a1.getGenom().size()+i-countA1));
             }
         }
+//        System.out.println(a1.getGenom());
+//        System.out.println(a2.getGenom());
+        System.out.println("dziecko");
+        System.out.println(genes);
         //mutacje
         //ile mutacji
         int nOfMutation=randInt(0, genes.size()-1);
-        Set<Integer> changes=null;
+        System.out.println(nOfMutation);
+        Set<Integer> changes=new TreeSet<>();
         //gdzie mutacje
         while(changes.size()<nOfMutation){
             changes.add(randInt(0,genes.size()-1));
@@ -54,10 +69,15 @@ public class Genom {
         //mutujemy - pelna losowosc
         Object[] changesArray=changes.toArray();
         for(int i=0; i<nOfMutation;i++){
-            genes.remove(changesArray[i]);
-            genes.add((int)changesArray[i],(randInt(0,7)));
-
+            int oldGen= genes.get((int)changesArray[i]);
+            int mutation=randInt(0,7);
+            while(oldGen==mutation){
+                mutation=randInt(0,7);
+            }
+            genes.remove((int)changesArray[i]);
+            genes.add((int)changesArray[i],mutation);
         }
+        System.out.println(genes);
 
         //mutujemy - lekka korekta
 //        Object[] changesArray1=changes.toArray();

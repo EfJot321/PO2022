@@ -40,6 +40,22 @@ public class Animal extends AbstractWorldMapElement{
 
     }
 
+    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,Genom genom, int genomLen){
+        this.map = map;
+        this.pos = initialPosition;
+        this.energy = startEnergy;
+        this.minReproduceEnergy = mRe;
+        this.birthE = birthE;
+        this.days = 0;
+        this.genomLen = genomLen;
+
+        this.genom = genom;
+
+        this.afterReproduction = false;
+        this.dead = false;
+
+    }
+
      public String toString(){
          return "Z";
     }
@@ -119,7 +135,8 @@ public class Animal extends AbstractWorldMapElement{
                 int p2E = lover.whileReproduce();
                 int childEnergy = p1E + p2E;
                 //cud stworzenia
-                Animal newBorn = new Animal(map, pos, childEnergy, minReproduceEnergy, birthE, this.genomLen);
+                Genom newGenom= new Genom(this, lover, this.genomLen);
+                Animal newBorn = new Animal(map, pos, childEnergy, minReproduceEnergy, birthE, newGenom, newGenom.genes.size());
                 //dodaje do mapy
                 if(map.place(newBorn)){
                     //dzieciak nie moze sie od razu rozmnażać (to nieetyczne)

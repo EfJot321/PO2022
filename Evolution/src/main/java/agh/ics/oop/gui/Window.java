@@ -36,8 +36,9 @@ public class Window extends Thread{
         Text gaps=new Text("Liczba pustych pol " + 0);
         Text avgEnergy=new Text("Sredni poziom energii " + 0);
         Text avdDays=new Text("Srednia dlugosc zycia " + 0);
+        Text mostPopularGenom=new Text("Najbardziej popularny genom  " + engine.getMostPopularGenom());
 
-        allStaff= new VBox(grid, numberOfAnimals, numberOfPlants, gaps, avgEnergy, avdDays);
+        allStaff= new VBox(grid, numberOfAnimals, numberOfPlants, gaps, avgEnergy, mostPopularGenom, avdDays);
         sp.setContent(allStaff);
         Scene scene = new Scene(sp, 1000, 700);
 
@@ -134,6 +135,7 @@ public class Window extends Thread{
         int gaps=map.getSize()- engine.getNOfAnimals()-map.getNumberOfGrasses();
         Text size=new Text("Liczba pustych pol " + gaps);
         Text avgEnergy=new Text("Sredni poziom energii " + engine.getAverageEnergy());
+        Text mostPopularGenom=new Text("Najbardziej popularny genom  " + engine.getMostPopularGenom());
         Text avgDays=new Text("Srednia dlugosc zycia " + engine.getAverageLivingDays());
 
 
@@ -150,6 +152,8 @@ public class Window extends Thread{
         allStaff.getChildren().remove(4);
         allStaff.getChildren().add(4,avgEnergy);
         allStaff.getChildren().remove(5);
-        allStaff.getChildren().add(5,avgDays);
+        allStaff.getChildren().add(5,mostPopularGenom);
+        allStaff.getChildren().remove(6);
+        allStaff.getChildren().add(6,avgDays);
     }
 }

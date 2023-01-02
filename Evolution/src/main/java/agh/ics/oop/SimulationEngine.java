@@ -8,7 +8,24 @@ import java.util.Random;
 
 import agh.ics.oop.gui.Window;
 import javafx.application.Platform;
+class GenomStat{
 
+    private Genom genom;
+    private int stats;
+    public GenomStat(Genom genom, int stats){
+        this.genom=genom;
+        this.stats=stats;
+    }
+    public int getStats(){
+        return this.stats;
+    }
+    public Genom getGenom(){
+        return this.genom;
+    }
+    public void addToStats(){
+        this.stats+=1;
+    }
+}
 
 public class SimulationEngine implements IEngine, Runnable {
 
@@ -159,6 +176,56 @@ public class SimulationEngine implements IEngine, Runnable {
         return avgDays;
     }
 
+    public Genom getMostPopularGenom(){
+        List<GenomStat> popularGenoms = new ArrayList<>();
+        for(int i=0;i<animals.size();i++){
+            boolean ifExist=false;
+            for(int j=0; j<popularGenoms.size();j++){
+
+               if(compareGenoms(animals.get(i).genom,popularGenoms.get(j).getGenom())){
+                   System.out.println(animals.get(i).genom);
+                   System.out.println(popularGenoms.get(j).getGenom());
+                   System.out.println(compareGenoms(animals.get(i).genom,popularGenoms.get(j).getGenom()));
+                   popularGenoms.get(j).addToStats();
+                   ifExist=true;
+                   break;
+               }
+            }
+            if(!ifExist){
+                GenomStat genomStats=new GenomStat(animals.get(i).genom,1);
+                popularGenoms.add(genomStats);
+            }
+        }
+        int stats=0;
+        Genom mostPopular=null;
+        for(int i=0; i<popularGenoms.size();i++){
+            if(popularGenoms.get(i).getStats()>stats){
+                stats=popularGenoms.get(i).getStats();
+                mostPopular=popularGenoms.get(i).getGenom();
+            }
+        }
+        return mostPopular;
+    }
+
+    private boolean compareGenoms(Genom g1, Genom g2){
+        for(int i=0;i<g1.genes.size();i++){
+            if(g1.genes.get(i)==g2.genes.get(0)){
+                boolean equals=true;
+                int counter=1;
+                while(counter<g1.genes.size()){
+                    if(g1.genes.get((i+counter)%(g1.genes.size()))!=g2.genes.get(counter)){
+                        equals=false;
+                        break;
+                    }
+                    counter+=1;
+                }
+                if(equals){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 
 }
