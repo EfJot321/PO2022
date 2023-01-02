@@ -181,11 +181,7 @@ public class SimulationEngine implements IEngine, Runnable {
         for(int i=0;i<animals.size();i++){
             boolean ifExist=false;
             for(int j=0; j<popularGenoms.size();j++){
-
                if(compareGenoms(animals.get(i).genom,popularGenoms.get(j).getGenom())){
-                   System.out.println(animals.get(i).genom);
-                   System.out.println(popularGenoms.get(j).getGenom());
-                   System.out.println(compareGenoms(animals.get(i).genom,popularGenoms.get(j).getGenom()));
                    popularGenoms.get(j).addToStats();
                    ifExist=true;
                    break;

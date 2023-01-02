@@ -8,8 +8,11 @@ import agh.ics.oop.IMapElement;
 import agh.ics.oop.SimulationEngine;
 import agh.ics.oop.Vector2d;
 import agh.ics.oop.WorldMap;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -26,11 +29,17 @@ public class Window extends Thread{
     private Stage simulationStage;
     final ScrollPane sp = new ScrollPane();
 
+    private boolean isRun=true;
+
+
+    private Button button;
+
     public Window(String src){
         Configuration conf = new Configuration(src);
         engine = new SimulationEngine(conf, 300, this);
 
         GridPane grid = new GridPane();
+
         Text numberOfAnimals=new Text("Liczba zwierzat " + 0);
         Text numberOfPlants=new Text("Liczba roslin " + 0);
         Text gaps=new Text("Liczba pustych pol " + 0);
@@ -38,7 +47,11 @@ public class Window extends Thread{
         Text avdDays=new Text("Srednia dlugosc zycia " + 0);
         Text mostPopularGenom=new Text("Najbardziej popularny genom  " + engine.getMostPopularGenom());
 
-        allStaff= new VBox(grid, numberOfAnimals, numberOfPlants, gaps, avgEnergy, mostPopularGenom, avdDays);
+        button=new Button("Pauza");
+
+
+
+        allStaff= new VBox(grid, numberOfAnimals, numberOfPlants, gaps, avgEnergy, mostPopularGenom, avdDays, button);
         sp.setContent(allStaff);
         Scene scene = new Scene(sp, 1000, 700);
 
@@ -52,6 +65,28 @@ public class Window extends Thread{
         try{
             Thread engineThread = new Thread(engine);
             engineThread.start();
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent e) {
+                    if(isRun){
+                        synchronized (engineThread) {
+                            try {
+                                engineThread.wait();
+                            } catch (InterruptedException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        }
+
+                    }
+                    else{
+                        synchronized (engineThread) {
+                            engineThread.notifyAll();
+                        }
+
+                    }
+                    isRun=!isRun;
+                }
+            });
+
         }   
         catch(Exception e){
             System.out.println(e);
@@ -62,7 +97,6 @@ public class Window extends Thread{
     private GridPane actualScene(WorldMap map) throws IOException {
 
         GridPane grid = new GridPane();
-
 
         Vector2d start=map.limes()[0];
         Vector2d end=map.limes()[1];
@@ -137,8 +171,6 @@ public class Window extends Thread{
         Text avgEnergy=new Text("Sredni poziom energii " + engine.getAverageEnergy());
         Text mostPopularGenom=new Text("Najbardziej popularny genom  " + engine.getMostPopularGenom());
         Text avgDays=new Text("Srednia dlugosc zycia " + engine.getAverageLivingDays());
-
-
 
         GridPane grid = actualScene(map);
         allStaff.getChildren().remove(0);
