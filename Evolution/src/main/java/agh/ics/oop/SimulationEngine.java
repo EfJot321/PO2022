@@ -42,6 +42,8 @@ public class SimulationEngine implements IEngine, Runnable {
 
     private int oldDead =0;
 
+    private int days=0;
+
 
 
     public SimulationEngine(Configuration config, int moveDelay, Window window){
@@ -69,7 +71,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 }
             }
             //tworze zwierzaka
-            Animal newBorn = new Animal(this.map, pos, config.startE, config.minE, config.birthE, config.genomLen);
+            Animal newBorn = new Animal(this.map, pos, config.startE, config.minE, config.birthE, config.genomLen, config.minMutNum, config.maxMutNum);
             if(map.place(newBorn)){
                 animals.add(newBorn);
                 nOfAnimals++;
@@ -135,6 +137,7 @@ public class SimulationEngine implements IEngine, Runnable {
                             throw new RuntimeException(e);
                         }
                     });
+                    days+=1;
                     Thread.sleep(moveDelay);
                 }
             
@@ -153,6 +156,9 @@ public class SimulationEngine implements IEngine, Runnable {
 
     public int getNOfAnimals(){
         return nOfAnimals;
+    }
+    public int getDay(){
+        return days;
     }
 
     public int getAverageEnergy(){

@@ -18,13 +18,16 @@ public class Animal extends AbstractWorldMapElement{
     private int nOfChildrens = 0;
     private int minReproduceEnergy;
     private float birthE;
+
+    private int minNumMut;
+    private int maxNumMut;
     public boolean afterReproduction;
     public boolean dead;
 
 
     List<IPositionChangeObserver> observers = new ArrayList<>();
 
-    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,int genomLen){
+    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,int genomLen, int minNumMut, int maxNumMut){
         this.map = map;
         this.pos = initialPosition;
         this.energy = startEnergy;
@@ -32,6 +35,8 @@ public class Animal extends AbstractWorldMapElement{
         this.birthE = birthE;
         this.days = 0;
         this.genomLen = genomLen;
+        this.minNumMut=minNumMut;
+        this.maxNumMut=maxNumMut;
 
         this.genom = new Genom(this.genomLen);
 
@@ -40,7 +45,7 @@ public class Animal extends AbstractWorldMapElement{
 
     }
 
-    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,Genom genom, int genomLen){
+    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,Genom genom, int genomLen, int minNumMut, int maxNumMut){
         this.map = map;
         this.pos = initialPosition;
         this.energy = startEnergy;
@@ -136,7 +141,7 @@ public class Animal extends AbstractWorldMapElement{
                 int childEnergy = p1E + p2E;
                 //cud stworzenia
                 Genom newGenom= new Genom(this, lover, this.genomLen);
-                Animal newBorn = new Animal(map, pos, childEnergy, minReproduceEnergy, birthE, newGenom, newGenom.genes.size());
+                Animal newBorn = new Animal(map, pos, childEnergy, minReproduceEnergy, birthE, newGenom, newGenom.genes.size(), minNumMut, maxNumMut);
                 //dodaje do mapy
                 if(map.place(newBorn)){
                     //dzieciak nie moze sie od razu rozmnażać (to nieetyczne)
@@ -195,6 +200,14 @@ public class Animal extends AbstractWorldMapElement{
 
     public List<Integer> getGenom(){
         return this.genom.genes;
+    }
+
+    public int getMinNumMut(){
+        return minNumMut;
+    }
+
+    public int getMaxNumMut(){
+        return maxNumMut;
     }
 
 

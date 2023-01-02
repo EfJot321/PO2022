@@ -1,13 +1,10 @@
 package agh.ics.oop.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import agh.ics.oop.Configuration;
-import agh.ics.oop.IMapElement;
-import agh.ics.oop.SimulationEngine;
-import agh.ics.oop.Vector2d;
-import agh.ics.oop.WorldMap;
+import agh.ics.oop.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -27,14 +24,20 @@ public class Window extends Thread{
     private SimulationEngine engine;
     private VBox allStaff;
     private Stage simulationStage;
+
+    private  ArrayList<String> toSave=new ArrayList<>();
     final ScrollPane sp = new ScrollPane();
 
     private boolean isRun=true;
 
+    private boolean save;
+
 
     private Button button;
 
-    public Window(String src){
+    public Window(String src, boolean save){
+        this.save=save;
+
         Configuration conf = new Configuration(src);
         engine = new SimulationEngine(conf, 300, this);
 
@@ -48,8 +51,6 @@ public class Window extends Thread{
         Text mostPopularGenom=new Text("Najbardziej popularny genom  " + engine.getMostPopularGenom());
 
         button=new Button("Pauza");
-
-
 
         allStaff= new VBox(grid, numberOfAnimals, numberOfPlants, gaps, avgEnergy, mostPopularGenom, avdDays, button);
         sp.setContent(allStaff);
@@ -169,8 +170,23 @@ public class Window extends Thread{
         int gaps=map.getSize()- engine.getNOfAnimals()-map.getNumberOfGrasses();
         Text size=new Text("Liczba pustych pol " + gaps);
         Text avgEnergy=new Text("Sredni poziom energii " + engine.getAverageEnergy());
-        Text mostPopularGenom=new Text("Najbardziej popularny genom  " + engine.getMostPopularGenom());
+        Text mostPopularGenom=new Text("Najpopularniejszy genom  " + engine.getMostPopularGenom());
         Text avgDays=new Text("Srednia dlugosc zycia " + engine.getAverageLivingDays());
+
+        if(this.save){
+            toSave.add("Dzien:" + engine.getDay());
+            toSave.add("Liczba zwierzat " + engine.getNOfAnimals());
+            toSave.add("Liczba pustych pol " + gaps);
+            toSave.add("Sredni poziom energii " + engine.getAverageEnergy());
+            toSave.add("Najpopularniejszy genom  " + engine.getMostPopularGenom());
+            toSave.add("Srednia dlugosc zycia " + engine.getAverageLivingDays());
+            SaveData sd = new SaveData(toSave);
+
+        }
+        else{
+            SaveData sd = new SaveData(toSave);
+        }
+
 
         GridPane grid = actualScene(map);
         allStaff.getChildren().remove(0);

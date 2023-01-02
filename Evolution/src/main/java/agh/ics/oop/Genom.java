@@ -42,7 +42,7 @@ public class Genom {
         }
         //mutacje
         //ile mutacji
-        int nOfMutation=randInt(0, genes.size()-1);
+        int nOfMutation=randInt(a1.getMinNumMut(), a2.getMaxNumMut());
         Set<Integer> changes=new TreeSet<>();
         //gdzie mutacje
         while(changes.size()<nOfMutation){
