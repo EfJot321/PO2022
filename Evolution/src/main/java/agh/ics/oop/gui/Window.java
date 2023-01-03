@@ -68,23 +68,7 @@ public class Window extends Thread{
             engineThread.start();
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override public void handle(ActionEvent e) {
-                    if(isRun){
-                        synchronized (engineThread) {
-                            try {
-                                engineThread.wait();
-                            } catch (InterruptedException ex) {
-                                throw new RuntimeException(ex);
-                            }
-                        }
-
-                    }
-                    else{
-                        synchronized (engineThread) {
-                            engineThread.notifyAll();
-                        }
-
-                    }
-                    isRun=!isRun;
+                    engine.pauseOrResume();
                 }
             });
 
@@ -95,7 +79,7 @@ public class Window extends Thread{
         
     }
 
-    private GridPane actualScene(WorldMap map) throws IOException {
+    private GridPane actualScene(IWorldMap map) throws IOException {
 
         GridPane grid = new GridPane();
 
@@ -146,7 +130,7 @@ public class Window extends Thread{
                 //wybieram pozycje
                 Vector2d v = new Vector2d(i,j);
                 //zbieram wszytskie stworzonka ktore tam sa
-                List<IMapElement> vList = map.objectsAt(v);
+                List<IMapElement> vList = (List<IMapElement>) map.objectsAt(v);
                 //System.out.println(vList);
                 IMapElement showElement = null;
                 //jesli cokolwiek tam jest to wyswietlam najlepsze co tam jest
@@ -154,7 +138,7 @@ public class Window extends Thread{
                     showElement = vList.get(0);
                 }
                 //wyswietlanie
-                VBox vbox = new GridElement(showElement, map.isItJungle(v)).getBox();
+                VBox vbox = new GridElement(showElement, false).getBox();
                 grid.add(vbox,i+1,height-j);
             }
         }
@@ -164,7 +148,7 @@ public class Window extends Thread{
     }
 
 
-    public void updateScene(WorldMap map) throws IOException {
+    public void updateScene(IWorldMap map) throws IOException {
         Text numberOfAnimals=new Text("Liczba zwierzat " + engine.getNOfAnimals());
         Text numberOfPlants=new Text("Liczba roslin " + map.getNumberOfGrasses());
         int gaps=map.getSize()- engine.getNOfAnimals()-map.getNumberOfGrasses();

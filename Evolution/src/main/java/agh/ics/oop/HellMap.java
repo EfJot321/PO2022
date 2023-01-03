@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Random;
 
 
-
-public class WorldMap extends AbstractWorldMap{
+public class HellMap extends AbstractWorldMap{
     private List<Vector2d> jungle = new ArrayList<Vector2d>();
 
 
 
-    public WorldMap(int width, int height, int n, int dE){
+    public HellMap(int width, int height, int n, int dE){
         super(width, height, dE);
 
         //tworzenie dzungli
@@ -31,15 +30,13 @@ public class WorldMap extends AbstractWorldMap{
 
     @Override
     public Vector2d moveTo(Vector2d actPosition, Vector2d position) {
-        if(position.y < 0 || position.y >= height){
-            return actPosition;
+        if(!position.follows(lim1)){
+            return new Vector2d(randInt(0, width-1), randInt(0, height-1));
         }
-        if(position.x < 0){
-            return position.add(new Vector2d(width,0));
+        if(!position.precedes(lim2)){
+            return new Vector2d(randInt(0, width-1), randInt(0, height-1));
         }
-        if(position.x >= width){
-            return position.subtract(new Vector2d(width,0));
-        }
+        //return super.canMoveTo(position);
         return position;
     }
 

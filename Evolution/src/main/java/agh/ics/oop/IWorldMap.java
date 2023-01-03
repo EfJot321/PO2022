@@ -18,11 +18,13 @@ public interface IWorldMap {
      *            The position checked for the movement possibility.
      * @return True if the object can move to that position.
      */
-    boolean canMoveTo(Vector2d position);
+    Vector2d moveTo(Vector2d actPosition, Vector2d position);
 
     int eatIfICan(Animal animal);
 
     void plantsAreGrowing(int nOfPlants);
+
+    Vector2d[] limes();
 
     Animal getBestLover(Animal animal);
 
@@ -34,7 +36,7 @@ public interface IWorldMap {
      *            The animal to place on the map.
      * @return True if the animal was placed. The animal cannot be placed if the map is already occupied.
      */
-    boolean place(Animal animal);
+    void place(Animal animal);
 
     /**
      * Return true if given position on the map is occupied. Should not be

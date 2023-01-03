@@ -84,19 +84,15 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         this.nOfGrasses = 0;
     }
 
-    public boolean canMoveTo(Vector2d position) {
-        return true;    //TODO
+    public Vector2d moveTo(Vector2d position) {
+        return null;
     }
 
-    public boolean place(Animal animal) {
-        if(canMoveTo(animal.getPosition())){
-            //dodawanie zwierzaka do mapy
-            addToMap(animal, animal.getPosition());
-            //dodawanie siebie jako obserwatora do zwierzaka
-            animal.addObserver(this);
-            return true;
-        }
-        throw new IllegalArgumentException(animal.getPosition().toString() + " is wrong place.");
+    public void place(Animal animal) {
+        //dodawanie zwierzaka do mapy
+        addToMap(animal, animal.getPosition());
+        //dodawanie siebie jako obserwatora do zwierzaka
+        animal.addObserver(this);
     }
 
     public boolean isOccupied(Vector2d position) {
@@ -188,7 +184,7 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
 
 
 
-    abstract Vector2d[] limes();
+    public Vector2d[] limes(){return null;}
 
 
 

@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Animal extends AbstractWorldMapElement{
 //    private MapDirection dir;
@@ -12,7 +13,7 @@ public class Animal extends AbstractWorldMapElement{
     public Genom genom;
     private int genomLen;
 
-    private int rotation = 0;
+    private int rotation;
     private int days;
     private int energy;
     private int nOfChildrens = 0;
@@ -38,6 +39,8 @@ public class Animal extends AbstractWorldMapElement{
         this.minNumMut=minNumMut;
         this.maxNumMut=maxNumMut;
 
+        this.rotation = randInt(0,7);
+
         this.genom = new Genom(this.genomLen);
 
         this.afterReproduction = false;
@@ -54,11 +57,19 @@ public class Animal extends AbstractWorldMapElement{
         this.days = 0;
         this.genomLen = genomLen;
 
+        this.rotation = randInt(0,7);
+
         this.genom = genom;
 
         this.afterReproduction = false;
         this.dead = false;
 
+    }
+
+    private int randInt(int a, int b){
+        Random rn = new Random();
+        int n = b-a+1;
+        return Math.abs(rn.nextInt()%n) + a;
     }
 
      public String toString(){
@@ -111,11 +122,14 @@ public class Animal extends AbstractWorldMapElement{
             rotation = (rotation + genom.giveNextGen()) % 8;
             //wyznaczenie wektora odpowiadającego aktualnej rotacji
             Vector2d vect = giveVector(rotation);
-            Vector2d newPos = pos.add(vect);
-            if (map.canMoveTo(newPos)) {
-                pos = pos.add(vect);
-                positionChanged(pos.subtract(vect), pos);
+            Vector2d newPos = map.moveTo(pos,pos.add(vect));
+            if(newPos.equals(pos)){
+                //obracam sie jesli nigdzie nie poszedlem
+                rotation = (rotation+4)%8;
             }
+            vect = pos;
+            pos = newPos;
+            positionChanged(vect, pos);
             //czas leci...
             days += 1;
             //..a sily brak...
@@ -143,17 +157,12 @@ public class Animal extends AbstractWorldMapElement{
                 Genom newGenom= new Genom(this, lover, this.genomLen);
                 Animal newBorn = new Animal(map, pos, childEnergy, minReproduceEnergy, birthE, newGenom, newGenom.genes.size(), minNumMut, maxNumMut);
                 //dodaje do mapy
-                if(map.place(newBorn)){
-                    //dzieciak nie moze sie od razu rozmnażać (to nieetyczne)
-                    newBorn.afterReproduction = false;
-                    //zwracam dzieciaka do silnika
-                    return newBorn;
-                }
-                else{
-                    //jesli cos sie nie udalo to wracamy do punktu wyjscia
-                    this.energy += p1E;
-                    lover.energy += p2E;
-                }
+                map.place(newBorn);
+                //dzieciak nie moze sie od razu rozmnażać (to nieetyczne)
+                newBorn.afterReproduction = false;
+                //zwracam dzieciaka do silnika
+                return newBorn;
+
                 
             }
         }

@@ -44,13 +44,23 @@ public class SimulationEngine implements IEngine, Runnable {
 
     private int days=0;
 
+    private boolean paused = false;
+    private final Object pauseLock = new Object();
+
 
 
     public SimulationEngine(Configuration config, int moveDelay, Window window){
         this.window = window;
         this.moveDelay = moveDelay;
         this.plantsPerDay = config.plantsPerDay;
-        this.map = new WorldMap(config.width, config.height, config.startPlantsNum, config.dE);
+        if(config.worldVariant == 0){
+            //kula ziemska
+            this.map = new WorldMap(config.width, config.height, config.startPlantsNum, config.dE);
+        }
+        else{
+            //pieklo
+            this.map = new HellMap(config.width, config.height, config.startPlantsNum, config.dE);
+        }
         //obsluga zwierzakow
         Vector2d pos;
         boolean notFound;
@@ -72,10 +82,10 @@ public class SimulationEngine implements IEngine, Runnable {
             }
             //tworze zwierzaka
             Animal newBorn = new Animal(this.map, pos, config.startE, config.minE, config.birthE, config.genomLen, config.minMutNum, config.maxMutNum);
-            if(map.place(newBorn)){
-                animals.add(newBorn);
-                nOfAnimals++;
-            }
+            map.place(newBorn);
+            animals.add(newBorn);
+            nOfAnimals++;
+
             
         }
     
@@ -87,6 +97,14 @@ public class SimulationEngine implements IEngine, Runnable {
 
         try {
                 while (animals.size() > 0){
+
+                    if(paused){
+                        synchronized (pauseLock) {
+                            pauseLock.wait();
+                        }
+                    }
+
+
                     //sprawdzam ktore zwierzaki umarly
                     for(Animal animal : animals){
                         animal.isDead();
@@ -132,7 +150,7 @@ public class SimulationEngine implements IEngine, Runnable {
                     //wyswietlanie
                     Platform.runLater(() -> {
                         try {
-                            window.updateScene((WorldMap)map);
+                            window.updateScene(map);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -146,6 +164,15 @@ public class SimulationEngine implements IEngine, Runnable {
         }
 
 
+    }
+
+    public void pauseOrResume(){
+        paused = !paused;
+        if(!paused){
+            synchronized (pauseLock) {
+                pauseLock.notifyAll(); // Unblocks thread
+            }
+        }
     }
 
     private int randInt(int a, int b){
