@@ -109,15 +109,19 @@ public class HellMap extends AbstractWorldMap{
         }
     }
 
+    private Vector2d randPos(Vector2d pos){
+        Vector2d toReturn = new Vector2d(randInt(0, width-1), randInt(0, height-1));
+        while(toReturn.equals(pos)){
+            toReturn = new Vector2d(randInt(0, width-1), randInt(0, height-1));
+        }
+        return toReturn;
+    }
+
     @Override
     public Vector2d moveTo(Vector2d actPosition, Vector2d position) {
-        if(!position.follows(lim1)){
-            return new Vector2d(randInt(0, width-1), randInt(0, height-1));
+        if(!position.follows(lim1) || !position.precedes(lim2)){
+            return randPos(actPosition);
         }
-        if(!position.precedes(lim2)){
-            return new Vector2d(randInt(0, width-1), randInt(0, height-1));
-        }
-        //return super.canMoveTo(position);
         return position;
     }
 

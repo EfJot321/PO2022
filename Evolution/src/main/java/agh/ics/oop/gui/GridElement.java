@@ -37,12 +37,21 @@ public class GridElement {
             if(element.getType().equals("Animal")){
                 Animal animal=(Animal) element;
                 if( !animal.dead) {
-                    if(animal.canReproduce()){
-                        posBox.setBackground(new Background(new BackgroundFill(Color.rgb(160,82,45), CornerRadii.EMPTY, Insets.EMPTY)));
+                    //krytycznie malo energii
+                    if(animal.getEnergy() < 4){
+                        posBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,19,0), CornerRadii.EMPTY, Insets.EMPTY)));
                     }
                     else{
-                        posBox.setBackground(new Background(new BackgroundFill(Color.rgb(139,69,19), CornerRadii.EMPTY, Insets.EMPTY)));
+                        //energia kiedy moze sie rozmnazac
+                        if(animal.canReproduce()){
+                            posBox.setBackground(new Background(new BackgroundFill(Color.rgb(65,29,19), CornerRadii.EMPTY, Insets.EMPTY)));
+                        }
+                        //energia kiedy nawet rozmnazac sie nie moze
+                        else{
+                            posBox.setBackground(new Background(new BackgroundFill(Color.rgb(160,80,45), CornerRadii.EMPTY, Insets.EMPTY)));
+                        }
                     }
+                    
                 }
             }
             else{

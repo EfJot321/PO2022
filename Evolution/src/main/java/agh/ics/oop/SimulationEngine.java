@@ -99,68 +99,68 @@ public class SimulationEngine implements IEngine, Runnable {
     public void run() {
 
         try {
-                while (animals.size() > 0){
+            while (animals.size() > 0){
 
-                    if(paused){
-                        synchronized (pauseLock) {
-                            pauseLock.wait();
-                        }
+                if(paused){
+                    synchronized (pauseLock) {
+                        pauseLock.wait();
                     }
-
-
-                    //sprawdzam ktore zwierzaki umarly
-                    for(Animal animal : animals){
-                        animal.isDead();
-                        if(animal.dead){
-                            deadAnimals.add(animal);
-                        }
-                    }
-                    //zwierzeta umieraja
-                    for(Animal deadAnimal : deadAnimals){
-                        nOfAnimals -= 1;
-                        animals.remove(deadAnimal);
-
-                    }
-                    nOfAnimals+=oldDead;
-                    oldDead=deadAnimals.size();
-                    
-                    
-                    //zwierzeta ida
-                    for(Animal animal : animals){
-                        animal.move();
-                    }
-                    //zwierzeta jedza
-                    for(Animal animal : animals){
-                        animal.eat();
-                    }
-                    //zwierzeta sie reprodukuja
-                    for(Animal animal : animals) {
-                        Animal newBorn = animal.reproduce();
-                        //dodawanie zwierzaka do listy zwierzakow ktore sie urodzily dzis
-                        if (newBorn != null) {
-                            newBornAnimals.add(newBorn);
-                        }
-                    }
-                    //dodaje nowonarodzone dzieciaki do listy zwierzakow
-                    for(Animal animal: newBornAnimals){
-                        animals.add(animal);
-                        nOfAnimals++;
-                    }
-                    newBornAnimals = new ArrayList<>();
-
-                    //rosna rosliny
-                    map.plantsAreGrowing(plantsPerDay);
-                    //wyswietlanie
-                    Platform.runLater(() -> {
-                        try {
-                            window.updateScene(map);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-                    days+=1;
-                    Thread.sleep(moveDelay);
                 }
+
+
+                //sprawdzam ktore zwierzaki umarly
+                for(Animal animal : animals){
+                    animal.isDead();
+                    if(animal.dead){
+                        deadAnimals.add(animal);
+                    }
+                }
+                //zwierzeta umieraja
+                for(Animal deadAnimal : deadAnimals){
+                    nOfAnimals -= 1;
+                    animals.remove(deadAnimal);
+
+                }
+                nOfAnimals+=oldDead;
+                oldDead=deadAnimals.size();
+                    
+                    
+                //zwierzeta ida
+                for(Animal animal : animals){
+                    animal.move();
+                }
+                //zwierzeta jedza
+                for(Animal animal : animals){
+                    animal.eat();
+                }
+                //zwierzeta sie reprodukuja
+                for(Animal animal : animals) {
+                    Animal newBorn = animal.reproduce();
+                    //dodawanie zwierzaka do listy zwierzakow ktore sie urodzily dzis
+                    if (newBorn != null) {
+                        newBornAnimals.add(newBorn);
+                    }
+                }
+                //dodaje nowonarodzone dzieciaki do listy zwierzakow
+                for(Animal animal: newBornAnimals){
+                    animals.add(animal);
+                    nOfAnimals++;
+                }
+                newBornAnimals = new ArrayList<>();
+
+                //rosna rosliny
+                map.plantsAreGrowing(plantsPerDay);
+                //wyswietlanie
+                Platform.runLater(() -> {
+                    try {
+                        window.updateScene(map);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                days+=1;
+                Thread.sleep(moveDelay);
+            }
             
         } catch (InterruptedException e) {
             System.out.println("Symulacja zostala przerwana!");

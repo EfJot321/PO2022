@@ -139,6 +139,12 @@ public class Animal extends AbstractWorldMapElement{
                 //obracam sie jesli nigdzie nie poszedlem
                 rotation = (rotation+4)%8;
             }
+            else{
+                if(!newPos.equals(pos) && !newPos.equals(pos.add(vect))){
+                    //jezeli jestem w piekielnym portalu i mnie przenioslo gdzies to odejmuje energie tak jakbym rodzil
+                    this.energy -= (int)(this.energy*this.birthE);
+                }
+            }
             vect = pos;
             pos = newPos;
             positionChanged(vect, pos);
