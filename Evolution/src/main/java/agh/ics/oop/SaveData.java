@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class SaveData {
 
-    public SaveData(ArrayList<String> data){
+    public SaveData(ArrayList<String> data, String path){
         try {
-            PrintWriter myWriter = new PrintWriter(new FileWriter("finalData.csv"));
+            PrintWriter myWriter = new PrintWriter(new FileWriter(path));
             myWriter.println("");
             for(int i=0;i<data.size();i++){
                 myWriter.println(data.get(i));

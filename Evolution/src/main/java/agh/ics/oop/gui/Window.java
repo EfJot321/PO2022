@@ -30,11 +30,16 @@ public class Window extends Thread{
 
     private boolean save;
 
-
     private Button button;
 
-    public Window(String src, boolean save){
+    private String path;
+    private SaveData sd;
+
+
+    public Window(String src, boolean save, String path){
+
         this.save=save;
+        this.path = path;
 
         Configuration conf = new Configuration(src);
         engine = new SimulationEngine(conf, 100, this);
@@ -63,6 +68,7 @@ public class Window extends Thread{
     public void run() {
         try{
             Thread engineThread = new Thread(engine);
+            engineThread.setDaemon(true);
             engineThread.start();
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override public void handle(ActionEvent e) {
@@ -156,17 +162,14 @@ public class Window extends Thread{
         Text avgDays=new Text("Srednia dlugosc zycia " + engine.getAverageLivingDays());
 
         if(this.save){
+            //zapis do pliku
             toSave.add("Dzien:" + engine.getDay());
             toSave.add("Liczba zwierzat " + engine.getNOfAnimals());
             toSave.add("Liczba pustych pol " + gaps);
             toSave.add("Sredni poziom energii " + engine.getAverageEnergy());
             toSave.add("Najpopularniejszy genom  " + engine.getMostPopularGenom());
             toSave.add("Srednia dlugosc zycia " + engine.getAverageLivingDays());
-            SaveData sd = new SaveData(toSave);
-
-        }
-        else{
-            SaveData sd = new SaveData(toSave);
+            sd = new SaveData(toSave, this.path);
         }
 
 
