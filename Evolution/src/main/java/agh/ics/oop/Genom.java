@@ -6,15 +6,12 @@ public class Genom {
     
     private int ind;
     private int genomLen;
-    private int minM, maxM;
     private boolean isCrazy;
     public List<Integer> genes;
 
     //konstruktor gdy podano mi rodzicow
     public Genom(Animal a1, Animal a2, int len, int minM, int maxM, boolean isCrazy, boolean randMut){
         this.genomLen = len;
-        this.minM = minM;
-        this.maxM = maxM;
         this.isCrazy = isCrazy;
 
         genes = new ArrayList<>();
