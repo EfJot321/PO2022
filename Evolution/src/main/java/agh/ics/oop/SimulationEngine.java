@@ -47,19 +47,22 @@ public class SimulationEngine implements IEngine, Runnable {
     private boolean paused = false;
     private final Object pauseLock = new Object();
 
+    private int genomLen;
+
 
 
     public SimulationEngine(Configuration config, int moveDelay, Window window){
         this.window = window;
         this.moveDelay = moveDelay;
         this.plantsPerDay = config.plantsPerDay;
+        this.genomLen = config.genomLen;
         if(config.worldVariant == 0){
             //kula ziemska
-            this.map = new WorldMap(config.width, config.height, config.startPlantsNum, config.dE);
+            this.map = new WorldMap(config.width, config.height, config.startPlantsNum, config.dE, (config.plantsVariant==1));
         }
         else{
             //pieklo
-            this.map = new HellMap(config.width, config.height, config.startPlantsNum, config.dE);
+            this.map = new HellMap(config.width, config.height, config.startPlantsNum, config.dE, (config.plantsVariant==1));
         }
         //obsluga zwierzakow
         Vector2d pos;
@@ -81,7 +84,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 }
             }
             //tworze zwierzaka
-            Animal newBorn = new Animal(this.map, pos, config.startE, config.minE, config.birthE, config.genomLen, config.minMutNum, config.maxMutNum);
+            Animal newBorn = new Animal(this.map, pos, config.startE, config.minE, config.birthE, config.genomLen, config.minMutNum, config.maxMutNum, (config.animalVariant==1), (config.mutationVariant==1));
             map.place(newBorn);
             animals.add(newBorn);
             nOfAnimals++;
@@ -237,16 +240,18 @@ public class SimulationEngine implements IEngine, Runnable {
     }
 
     private boolean compareGenoms(Genom g1, Genom g2){
-        for(int i=0;i<g1.genes.size();i++){
-            if(g1.genes.get(i)==g2.genes.get(0)){
+        for(int i=0;i<genomLen;i++){
+            int g2Ind = 0;
+            if(g1.genes.get(i)==g2.genes.get(g2Ind)){
                 boolean equals=true;
-                int counter=1;
-                while(counter<g1.genes.size()){
-                    if(g1.genes.get((i+counter)%(g1.genes.size()))!=g2.genes.get(counter)){
+                for(g2Ind=0;g2Ind<genomLen;g2Ind++){
+                    int g1Ind = (i+g2Ind)%genomLen;
+                    int gen1 = g1.genes.get(g1Ind);
+                    int gen2 = g2.genes.get(g2Ind);
+                    if(gen1 != gen2){
                         equals=false;
                         break;
                     }
-                    counter+=1;
                 }
                 if(equals){
                     return true;

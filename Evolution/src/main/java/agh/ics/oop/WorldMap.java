@@ -9,18 +9,33 @@ import java.util.Random;
 
 public class WorldMap extends AbstractWorldMap{
     private List<Vector2d> jungle = new ArrayList<Vector2d>();
+    private int minDead = 0;
+    private boolean isEquator;
 
 
 
-    public WorldMap(int width, int height, int n, int dE){
+    public WorldMap(int width, int height, int n, int dE, boolean isEquator){
         super(width, height, dE);
 
-        //tworzenie dzungli
-        for(int x=(int) Math.floor(width/8);x<Math.ceil(width*7/8);x++){
-            for(int y=(int) Math.floor(height/3);y<Math.ceil(height*2/3);y++){
-                jungle.add(new Vector2d(x, y));
+        this.isEquator = isEquator;
+
+        if(isEquator){
+            //tworzenie dzungli na rowniku
+            for(int x=(int) Math.floor(width/8);x<Math.ceil(width*7/8);x++){
+                for(int y=(int) Math.floor(height/3);y<Math.ceil(height*2/3);y++){
+                    jungle.add(new Vector2d(x, y));
+                }
             }
         }
+        else {
+            //tworzenie dzungli wszedzie bo nikt jeszcze nie zmarl
+            for(int i=0;i<width;i++){
+                for(int j=0;j<height;j++){
+                    jungle.add(new Vector2d(i, j));
+                }
+            }
+        }
+
 
         plantsAreGrowing(n);
     }
@@ -49,12 +64,85 @@ public class WorldMap extends AbstractWorldMap{
     }
 
     public void plantsAreGrowing(int n){
+        if(!isEquator){
+            //updateuje jungle jesli nie ma rownika tylko toksyczne trupy
+            findJungle();
+        }
+
         for(int i=0;i<n;i++){
             if(nOfGrasses < width*height){
                 placeGrass();
             }
         }
 
+    }
+
+    private void findJungle(){
+        //szukam elementown jungli ktore maja za duzo smierci na sobie
+        List<Vector2d> toDelete = new ArrayList<>();
+        for(Vector2d element : jungle){
+            int counter = 0;
+            if(objectsAt(element) != null){
+                for(IMapElement ele : objectsAt(element)){
+                    if(ele.getType().equals("Animal")){
+                        Animal a = (Animal) ele;
+                        if(a.dead){
+                            counter += 1;
+                        }
+                    }
+                }
+            }
+
+            if(counter > minDead){
+                toDelete.add(element);
+            }
+        }
+        //usuwam te elementy
+        for(Vector2d element : toDelete){
+            jungle.remove(element);
+        }
+        //jezeli z jungli juz nic nie zostalo to musze ustalic nowa najmniejsza liczbe smierci
+        if(jungle.size() <= 0){
+            minDead = Integer.MAX_VALUE;
+            for(int i=0;i<width;i++){
+                for(int j=0;j<height;j++){
+                    int counter = 0;
+                    if(objectsAt(new Vector2d(i,j)) != null){
+                        for(IMapElement element : objectsAt(new Vector2d(i,j))){
+                            if(element.getType().equals("Animal")){
+                                Animal a = (Animal) element;
+                                if(a.dead){
+                                    counter += 1;
+                                }
+                            }
+                        }
+                    }
+                    if(counter < minDead){
+                        minDead = counter;
+                    }
+                }
+            }
+            //i tworze jungle zgodnie z aktualna najmniejsza liczba smierci
+            for(int i=0;i<width;i++){
+                for(int j=0;j<height;j++){
+                    int counter = 0;
+                    Vector2d pos = new Vector2d(i,j);
+                    if(objectsAt(pos) != null){
+                        for(IMapElement element : objectsAt(pos)){
+                            if(element.getType().equals("Animal")){
+                                Animal a = (Animal) element;
+                                if(a.dead){
+                                    counter += 1;
+                                }
+                            }
+                        }
+                    }
+                    if(counter <= minDead){
+                        jungle.add(pos);
+                    }
+                }
+            }
+        }
     }
 
     private void placeGrass(){

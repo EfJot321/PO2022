@@ -39,7 +39,7 @@ public class Window extends Thread{
         this.save=save;
 
         Configuration conf = new Configuration(src);
-        engine = new SimulationEngine(conf, 300, this);
+        engine = new SimulationEngine(conf, 100, this);
 
         GridPane grid = new GridPane();
 
@@ -95,7 +95,7 @@ public class Window extends Thread{
         grid.setPrefHeight(height);
 
         //ustalanie wielkosci pojedynczego kwadracika
-        int squareSize = 40;
+        int squareSize = 20;
         if(700/height < squareSize){
             squareSize = (int)(700/height);
         }

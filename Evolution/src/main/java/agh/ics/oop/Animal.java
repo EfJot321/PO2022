@@ -10,8 +10,6 @@ public class Animal extends AbstractWorldMapElement{
 
     private IWorldMap map;
 
-    public Genom genom;
-    private int genomLen;
 
     private int rotation;
     private int days;
@@ -20,46 +18,60 @@ public class Animal extends AbstractWorldMapElement{
     private int minReproduceEnergy;
     private float birthE;
 
+
+    public Genom genom;
+    private int genomLen;
     private int minNumMut;
     private int maxNumMut;
+    private  boolean randMut;
+    private boolean isCrazy;
+
     public boolean afterReproduction;
     public boolean dead;
 
 
     List<IPositionChangeObserver> observers = new ArrayList<>();
 
-    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,int genomLen, int minNumMut, int maxNumMut){
+    //konstruktor bez danego genomu
+    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,int genomLen, int minNumMut, int maxNumMut, boolean crazy, boolean randMut){
         this.map = map;
         this.pos = initialPosition;
         this.energy = startEnergy;
         this.minReproduceEnergy = mRe;
         this.birthE = birthE;
         this.days = 0;
+
         this.genomLen = genomLen;
-        this.minNumMut=minNumMut;
-        this.maxNumMut=maxNumMut;
+        this.minNumMut = minNumMut;
+        this.maxNumMut = maxNumMut;
+        this.randMut = randMut;
+        this.isCrazy = crazy;
+        this.genom = new Genom(this.genomLen, this.isCrazy);
 
         this.rotation = randInt(0,7);
-
-        this.genom = new Genom(this.genomLen);
 
         this.afterReproduction = false;
         this.dead = false;
 
     }
 
-    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,Genom genom, int genomLen, int minNumMut, int maxNumMut){
+    //konstruktor z danym genomem
+    public Animal(IWorldMap map, Vector2d initialPosition, int startEnergy, int mRe, float birthE,Genom genom, int genomLen, int minNumMut, int maxNumMut, boolean crazy, boolean randMut){
         this.map = map;
         this.pos = initialPosition;
         this.energy = startEnergy;
         this.minReproduceEnergy = mRe;
         this.birthE = birthE;
         this.days = 0;
+
         this.genomLen = genomLen;
+        this.minNumMut = minNumMut;
+        this.maxNumMut = maxNumMut;
+        this.randMut = randMut;
+        this.isCrazy = crazy;
+        this.genom = genom;
 
         this.rotation = randInt(0,7);
-
-        this.genom = genom;
 
         this.afterReproduction = false;
         this.dead = false;
@@ -154,8 +166,8 @@ public class Animal extends AbstractWorldMapElement{
                 int p2E = lover.whileReproduce();
                 int childEnergy = p1E + p2E;
                 //cud stworzenia
-                Genom newGenom= new Genom(this, lover, this.genomLen);
-                Animal newBorn = new Animal(map, pos, childEnergy, minReproduceEnergy, birthE, newGenom, newGenom.genes.size(), minNumMut, maxNumMut);
+                Genom newGenom= new Genom(this, lover, this.genomLen, this.minNumMut, this.maxNumMut, this.isCrazy, this.randMut);
+                Animal newBorn = new Animal(map, pos, childEnergy, minReproduceEnergy, birthE, newGenom, genomLen, minNumMut, maxNumMut, isCrazy, randMut);
                 //dodaje do mapy
                 map.place(newBorn);
                 //dzieciak nie moze sie od razu rozmnażać (to nieetyczne)
@@ -210,15 +222,6 @@ public class Animal extends AbstractWorldMapElement{
     public List<Integer> getGenom(){
         return this.genom.genes;
     }
-
-    public int getMinNumMut(){
-        return minNumMut;
-    }
-
-    public int getMaxNumMut(){
-        return maxNumMut;
-    }
-
 
     @Override
     public String loadSrc() {

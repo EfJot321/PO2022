@@ -1,0 +1,16 @@
+width,30
+height,20
+hellWorld,0
+startPlantsNum,35
+dE,6
+plantsPerDay,3
+plantsOnEquator,1
+startAnimalNum,30
+startE,30
+minE,6
+birthE,0.2
+minMutNum,0
+maxMutNum,3
+randomMutation,0
+genomLen,5
+crazyAnimal,1

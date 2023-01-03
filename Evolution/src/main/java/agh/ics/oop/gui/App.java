@@ -47,7 +47,7 @@ public class App extends Application{
 
 
 
-        Text text=new Text("Witaj wędrowcze, wgraj plik");
+        Text text=new Text("Witaj wedrowcze, wybierz plik");
         VBox firstElements= new VBox(text, button, cb);
         firstElements.setAlignment(Pos.CENTER);
 
