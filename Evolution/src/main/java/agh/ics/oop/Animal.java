@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Animal extends AbstractWorldMapElement{
-//    private MapDirection dir;
     private Vector2d pos;
 
     private IWorldMap map;
