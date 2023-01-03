@@ -28,8 +28,6 @@ public class Window extends Thread{
     private  ArrayList<String> toSave=new ArrayList<>();
     final ScrollPane sp = new ScrollPane();
 
-    private boolean isRun=true;
-
     private boolean save;
 
 
@@ -130,7 +128,7 @@ public class Window extends Thread{
                 //wybieram pozycje
                 Vector2d v = new Vector2d(i,j);
                 //zbieram wszytskie stworzonka ktore tam sa
-                List<IMapElement> vList = (List<IMapElement>) map.objectsAt(v);
+                List<IMapElement> vList = map.objectsAt(v);
                 //System.out.println(vList);
                 IMapElement showElement = null;
                 //jesli cokolwiek tam jest to wyswietlam najlepsze co tam jest

@@ -4,9 +4,6 @@ import agh.ics.oop.Animal;
 import agh.ics.oop.IMapElement;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -19,8 +16,6 @@ import java.io.*;
 public class GridElement {
 
     private VBox posBox = null;
-    private InputStream animalSource=getClass().getResourceAsStream("animal.png");
-    private InputStream grassSource=getClass().getResourceAsStream("grass.png");
 
 
 

@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.List;
+
 /**
  * The interface responsible for interacting with the map of the world.
  * Assumes that Vector2d and MoveDirection classes are defined.
@@ -56,7 +58,7 @@ public interface IWorldMap {
      *            The position of the object.
      * @return Object or null if the position is not occupied.
      */
-    Object objectsAt(Vector2d position);
+    List<IMapElement> objectsAt(Vector2d position);
 
     int getNumberOfGrasses();
 
