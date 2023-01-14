@@ -12,10 +12,11 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 
-public class App extends Application{
+public class App extends Application {
 
     private int nOfSimulations = 0;
 
@@ -26,32 +27,32 @@ public class App extends Application{
 
     }
 
-    private String createFile(){
-        String path = "./src/main/saves/dataSave"+nOfSimulations+".csv";
-        try{
+    private String createFile() {
+        String path = "./src/main/saves/dataSave" + nOfSimulations + ".csv";
+        try {
             File myObj = new File(path);
-            if(myObj.createNewFile()) {
+            if (myObj.createNewFile()) {
                 System.out.println("Stworzono plik: " + myObj.getName());
-            }else {
+            } else {
                 //jezeli istnieje to usuwam i tworze nowy
                 myObj.delete();
                 createFile();
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Wystapil blad!");
             e.printStackTrace();
         }
         return path;
     }
 
-    private void runNewSimulation(boolean save){
+    private void runNewSimulation(boolean save) {
         //ucheckowanie checkboxa od zapisu
         cb.setSelected(false);
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
-        String src= selectedFile.getPath();
+        String src = selectedFile.getPath();
         String newPath = "";
-        if(save){
+        if (save) {
             newPath = createFile();
         }
         Window simWin = new Window(src, save, newPath);
@@ -68,15 +69,15 @@ public class App extends Application{
         Button button = new Button("Wybierz plik");
 
         button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
+            @Override
+            public void handle(ActionEvent e) {
                 runNewSimulation(cb.isSelected());
             }
         });
 
 
-
-        Text text=new Text("Witaj wedrowcze, wybierz plik konfiguracyjny");
-        VBox firstElements= new VBox(text, button, cb);
+        Text text = new Text("Witaj wedrowcze, wybierz plik konfiguracyjny");
+        VBox firstElements = new VBox(text, button, cb);
         firstElements.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(firstElements, 900, 700);

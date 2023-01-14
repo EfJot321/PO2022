@@ -1,32 +1,30 @@
 package agh.ics.oop;
 
 import java.io.FileReader;
-import com.opencsv.CSVReader;
 
+import com.opencsv.CSVReader;
 
 
 public class Configuration {
 
     //pozniej bede sie zastanawial nad typami zmiennych
-    public int width, height, worldVariant, startPlantsNum, dE, plantsPerDay, 
-        plantsVariant, startAnimalNum, startE, minE, minMutNum, 
-        maxMutNum, mutationVariant, genomLen, animalVariant;
-    public float birthE;
-    
-    
-    public Configuration(String source){
+    public int width, height, worldVariant, startPlantsNum, dE, plantsPerDay,
+            plantsVariant, startAnimalNum, startE, minE, minMutNum,
+            maxMutNum, mutationVariant, genomLen, animalVariant; // public?
+    public float birthE; // jw.
+
+
+    public Configuration(String source) {
         readFile(source);
     }
 
 
-    private void readFile(String file){
+    private void readFile(String file) {
         try {
-  
             FileReader filereader = new FileReader(file);
-      
+
             CSVReader csvReader = new CSVReader(filereader);
             String[] nextRecord;
-            
 
             nextRecord = csvReader.readNext();
             width = Integer.parseInt(nextRecord[1]);
@@ -76,11 +74,10 @@ public class Configuration {
             nextRecord = csvReader.readNext();
             animalVariant = Integer.parseInt(nextRecord[1]);
 
-            
+
             csvReader.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) { // nie wolno łapać Exception
+            e.printStackTrace(); // to nie jest najlepsza obsługa wyjątku
         }
     }
 

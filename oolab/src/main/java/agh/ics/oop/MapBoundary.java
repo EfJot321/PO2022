@@ -21,21 +21,21 @@ class compX implements Comparator<Vecment> {
     @Override
     public int compare(Vecment arg0, Vecment arg1) {
         //porownywanie x
-        if(arg0.position.x < arg1.position.x){
+        if (arg0.position.x < arg1.position.x) {
             return -1;
         }
-        if(arg0.position.x > arg1.position.x){
+        if (arg0.position.x > arg1.position.x) {
             return 1;
         }
         //jezeli x sa rowne to porownuje y
-        if(arg0.position.y < arg1.position.y){
+        if (arg0.position.y < arg1.position.y) {
             return -1;
         }
-        if(arg0.position.y > arg1.position.y){
+        if (arg0.position.y > arg1.position.y) {
             return 1;
         }
         //jezeli jest zwierzem to -1 a jak nie to 1
-        if(arg0.element.getType().equals("Animal")){
+        if (arg0.element.getType().equals("Animal")) {
             return -1;
         }
         return 1;
@@ -47,28 +47,28 @@ class compY implements Comparator<Vecment> {
     @Override
     public int compare(Vecment arg0, Vecment arg1) {
         //porownywanie y
-        if(arg0.position.y < arg1.position.y){
+        if (arg0.position.y < arg1.position.y) {
             return -1;
         }
-        if(arg0.position.y > arg1.position.y){
+        if (arg0.position.y > arg1.position.y) {
             return 1;
         }
         //jezeli y sa rowne to porownuje x
-        if(arg0.position.x < arg1.position.x){
+        if (arg0.position.x < arg1.position.x) {
             return -1;
         }
-        if(arg0.position.x > arg1.position.x){
+        if (arg0.position.x > arg1.position.x) {
             return 1;
         }
         //jezeli jest zwierzem to -1 a jak nie to 1
-        if(arg0.element.getType().equals("Animal")){
+        if (arg0.element.getType().equals("Animal")) {
             return -1;
         }
         return 1;
     }
 }
 
-public class MapBoundary implements IPositionChangeObserver{
+public class MapBoundary implements IPositionChangeObserver {
 
     private SortedSet<Vecment> setX = new TreeSet<Vecment>(new compX());
     private SortedSet<Vecment> setY = new TreeSet<Vecment>(new compY());
@@ -76,9 +76,9 @@ public class MapBoundary implements IPositionChangeObserver{
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
 
-        for(Vecment tourist:setX){
+        for (Vecment tourist : setX) {
             //sprawdzam czy element jest na tej pozycji, nie musze sprawdzac czy to trawa bo zwierzeta sa przed trawa
-            if(tourist.position.equals(oldPosition)){
+            if (tourist.position.equals(oldPosition)) {
                 //bye
                 setX.remove(tourist);
                 setY.remove(tourist);
@@ -92,7 +92,7 @@ public class MapBoundary implements IPositionChangeObserver{
                 break;
             }
         }
-        
+
     }
 
 
@@ -106,7 +106,7 @@ public class MapBoundary implements IPositionChangeObserver{
         Vector2d lim1 = new Vector2d(setX.first().position.x, setY.first().position.y);
         Vector2d lim2 = new Vector2d(setX.last().position.x, setY.last().position.y);
 
-        return new Vector2d[] {lim1, lim2};
+        return new Vector2d[]{lim1, lim2};
     }
-    
+
 }

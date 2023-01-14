@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class compareMapElements implements Comparator<IMapElement> {
+class compareMapElements implements Comparator<IMapElement> { // MapElemetsComparator - to klasa, nie metoda
 
     @Override
     public int compare(IMapElement el1, IMapElement el2) {
@@ -15,40 +15,40 @@ class compareMapElements implements Comparator<IMapElement> {
         // 0 - sa rowne
 
         //jesli ktorys z nich jest roslinka
-        if(el2.getType().equals("Plant")){
-            Animal animal=(Animal)el1;
-            if(animal.dead){
+        if (el2.getType().equals("Plant")) {
+            Animal animal = (Animal) el1;
+            if (animal.dead) {
                 return 1;
             }
             return -1;
         }
-        if(el1.getType().equals("Plant")){
-            Animal animal=(Animal)el2;
-            if(animal.dead){
+        if (el1.getType().equals("Plant")) {
+            Animal animal = (Animal) el2;
+            if (animal.dead) {
                 return -1;
             }
             return 1;
         }
 
         //juz wiem ze to zwierzaki
-        Animal a1 = (Animal)el1;
-        Animal a2 = (Animal)el2;
+        Animal a1 = (Animal) el1;
+        Animal a2 = (Animal) el2;
 
         //porownuje energie
         int dE = a2.getEnergy() - a1.getEnergy();
-        if(dE != 0){
+        if (dE != 0) {
             return dE;
         }
 
         //porownuje wiek
         int dA = a2.getAge() - a1.getAge();
-        if(dA != 0){
+        if (dA != 0) {
             return dA;
         }
 
         //porownuje liczbe dzieci
         int dC = a2.getChildrenNum() - a1.getChildrenNum();
-        if(dC != 0){
+        if (dC != 0) {
             return dC;
         }
 
@@ -57,11 +57,11 @@ class compareMapElements implements Comparator<IMapElement> {
     }
 }
 
-abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
+abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     protected Map<Vector2d, List<IMapElement>> objects;
 
 
-    public int width;
+    public int width; // public yet again
     public int height;
 
     public int numberOfPlants;
@@ -73,13 +73,13 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
 
     private int dE;
 
-    public AbstractWorldMap(int width, int height, int dE){
+    public AbstractWorldMap(int width, int height, int dE) {
         this.objects = new HashMap<>();
 
         this.lim1 = new Vector2d(0, 0);
-        this.lim2 = new Vector2d(width-1, height-1);
-        this.width=width;
-        this.height=height;
+        this.lim2 = new Vector2d(width - 1, height - 1);
+        this.width = width;
+        this.height = height;
         this.dE = dE;
         this.nOfGrasses = 0;
     }
@@ -103,20 +103,20 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         return objects.get(position);
     }
 
-    public int eatIfICan(Animal animal){
+    public int eatIfICan(Animal animal) {
         //zbieram elementy znajdujace sie na pozycji zwierzaka
         List<IMapElement> elements = objectsAt(animal.getPosition());
         //jesli zwierzak jest tym wybranym do jedzenia
-        if(animal == elements.get(0)){
+        if (animal == elements.get(0)) {
             //to sprawdzam czy jest trawka dla zwierzaka
             IMapElement plantElement = null;
-            for(IMapElement element : elements){
-                if(element.getType().equals("Plant")){
+            for (IMapElement element : elements) {
+                if (element.getType().equals("Plant")) {
                     plantElement = element;
                     break;
                 }
             }
-            if(plantElement != null){
+            if (plantElement != null) {
                 //jak jest trawka to ja zjada
                 elements.remove(plantElement);
                 nOfGrasses -= 1;
@@ -127,14 +127,14 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
         return 0;
     }
 
-    public Animal getBestLover(Animal animal){
+    public Animal getBestLover(Animal animal) {
         List<IMapElement> elements = objectsAt(animal.getPosition());
-        for(IMapElement element : elements){
+        for (IMapElement element : elements) {
             //sprawdzam czy to nie ten zwierzak ktory kogos szuka
             //nie musze sprawdzac czy to nie trawa bo gdyby tu by byla trawa to juz jest zjedzona
-            if(element != animal){
-                Animal lover = (Animal)element;
-                if(lover.canReproduce() && !lover.dead){
+            if (element != animal) {
+                Animal lover = (Animal) element;
+                if (lover.canReproduce() && !lover.dead) {
                     //to jest na pewno najlepszy bo elements jest posortowane po energii
                     return lover;
                 }
@@ -144,49 +144,40 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     }
 
 
-
-    
-
-
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement element){
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement element) {
         removeFromMap(element, oldPosition);
         addToMap(element, newPosition);
     }
 
 
-
-    public void addToMap(IMapElement element, Vector2d position){
+    public void addToMap(IMapElement element, Vector2d position) {
         List<IMapElement> elements = objectsAt(position);
         objects.remove(position);
-        if(elements == null){
+        if (elements == null) {
             elements = new ArrayList<IMapElement>();
             elements.add(element);
             objects.put(position, elements);
-        }
-        else {
+        } else {
             elements.add(element);
             elements.sort(new compareMapElements());
             objects.put(position, elements);
         }
     }
 
-    
 
-    public void removeFromMap(IMapElement element, Vector2d position){
+    public void removeFromMap(IMapElement element, Vector2d position) {
         List<IMapElement> elements = objectsAt(position);
         objects.remove(position);
         elements.remove(element);
-        if(elements.size() > 0){
+        if (elements.size() > 0) {
             objects.put(position, elements);
         }
     }
 
 
-
-
-    public Vector2d[] limes(){return null;}
-
-
+    public Vector2d[] limes() {
+        return null;  // ta metoda nie wydaje się przydatna
+    }
 
 
 }

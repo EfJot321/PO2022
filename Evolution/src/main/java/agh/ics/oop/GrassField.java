@@ -1,3 +1,4 @@
+// po to mamy gita, żeby móc bez większych obaw usunąć plik
 //package agh.ics.oop;
 //
 //

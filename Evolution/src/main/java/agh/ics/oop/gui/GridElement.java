@@ -18,38 +18,35 @@ public class GridElement {
     private VBox posBox = null;
 
 
-
     public GridElement(IMapElement element, boolean isJungle) throws IOException {
         posBox = new VBox();
         posBox.setAlignment(Pos.CENTER);
         //jesli jest cos
         //jesli to dzungla to daje zielen
-        if(isJungle){
+        if (isJungle) {
             posBox.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         }
-        if(element != null){
+        if (element != null) {
 
-            if(element.getType().equals("Animal")){
-                Animal animal=(Animal) element;
-                if( !animal.dead) {
+            if (element.getType().equals("Animal")) {
+                Animal animal = (Animal) element;
+                if (!animal.dead) {
                     //krytycznie malo energii
-                    if(animal.getEnergy() < 4){
-                        posBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,19,0), CornerRadii.EMPTY, Insets.EMPTY)));
-                    }
-                    else{
+                    if (animal.getEnergy() < 4) {
+                        posBox.setBackground(new Background(new BackgroundFill(Color.rgb(255, 19, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+                    } else {
                         //energia kiedy moze sie rozmnazac
-                        if(animal.canReproduce()){
-                            posBox.setBackground(new Background(new BackgroundFill(Color.rgb(65,29,19), CornerRadii.EMPTY, Insets.EMPTY)));
+                        if (animal.canReproduce()) {
+                            posBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 29, 19), CornerRadii.EMPTY, Insets.EMPTY)));
                         }
                         //energia kiedy nawet rozmnazac sie nie moze
-                        else{
-                            posBox.setBackground(new Background(new BackgroundFill(Color.rgb(160,80,45), CornerRadii.EMPTY, Insets.EMPTY)));
+                        else {
+                            posBox.setBackground(new Background(new BackgroundFill(Color.rgb(160, 80, 45), CornerRadii.EMPTY, Insets.EMPTY)));
                         }
                     }
-                    
+
                 }
-            }
-            else{
+            } else {
                 posBox.setBackground(new Background(new BackgroundFill(Color.DARKGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
             }
@@ -57,11 +54,9 @@ public class GridElement {
 
     }
 
-    public VBox getBox(){
+    public VBox getBox() {
         return posBox;
     }
-
-
 
 
 }

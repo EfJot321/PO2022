@@ -2,16 +2,16 @@ package agh.ics.oop;
 
 import java.util.Objects;
 
-public class Vector2d{
+public class Vector2d {
     public final int x;
     public final int y;
 
-    public Vector2d(int X, int Y){
+    public Vector2d(int X, int Y) {
         this.x = X;
         this.y = Y;
     }
 
-    public String toString(){
+    public String toString() {
         String toReturn = "(";
         toReturn += x;
         toReturn += ",";
@@ -20,21 +20,21 @@ public class Vector2d{
         return toReturn;
     }
 
-    boolean precedes(Vector2d other){
-        if(this.x <= other.x && this.y <= other.y){
-            return  true;
+    boolean precedes(Vector2d other) {
+        if (this.x <= other.x && this.y <= other.y) {
+            return true;
         }
         return false;
     }
 
-    boolean follows(Vector2d other){
-        if(this.x >= other.x && this.y >= other.y){
-            return  true;
+    boolean follows(Vector2d other) {
+        if (this.x >= other.x && this.y >= other.y) {
+            return true;
         }
         return false;
     }
 
-    public Vector2d add(Vector2d other){
+    public Vector2d add(Vector2d other) {
         int X = this.x + other.x;
         int Y = this.y + other.y;
 
@@ -42,7 +42,7 @@ public class Vector2d{
         return toReturn;
     }
 
-    public Vector2d subtract(Vector2d other){
+    public Vector2d subtract(Vector2d other) {
         int X = this.x - other.x;
         int Y = this.y - other.y;
 
@@ -50,14 +50,14 @@ public class Vector2d{
         return toReturn;
     }
 
-    public Vector2d upperRight(Vector2d other){
+    public Vector2d upperRight(Vector2d other) {
         int X = this.x;
         int Y = this.y;
 
-        if(X < other.x){
+        if (X < other.x) {
             X = other.x;
         }
-        if(Y < other.y){
+        if (Y < other.y) {
             Y = other.y;
         }
 
@@ -65,14 +65,14 @@ public class Vector2d{
         return toReturn;
     }
 
-    public Vector2d lowerLeft(Vector2d other){
+    public Vector2d lowerLeft(Vector2d other) {
         int X = this.x;
         int Y = this.y;
 
-        if(X > other.x){
+        if (X > other.x) {
             X = other.x;
         }
-        if(Y > other.y){
+        if (Y > other.y) {
             Y = other.y;
         }
 
@@ -80,7 +80,7 @@ public class Vector2d{
         return toReturn;
     }
 
-    public Vector2d opposite(){
+    public Vector2d opposite() {
         int X = -this.x;
         int Y = -this.y;
 
@@ -88,20 +88,20 @@ public class Vector2d{
         return toReturn;
     }
 
-    public boolean equals(Object other){
+    public boolean equals(Object other) {
         if (this == other)
             return true;
         if (!(other instanceof Vector2d))
             return false;
         Vector2d v2 = (Vector2d) other;
-        if(this.x == v2.x && this.y == v2.y){
+        if (this.x == v2.x && this.y == v2.y) {
             return true;
         }
         return false;
     }
 
-    public int hashCode(){
-        return Objects.hash(x,y);
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
 

@@ -14,9 +14,9 @@ import javafx.scene.text.Text;
 public class GuiElementBox {
     private VBox vBox;
 
-    public GuiElementBox(IMapElement element){
+    public GuiElementBox(IMapElement element) {
         String source = element.loadSrc();
-        Image image=null;
+        Image image = null;
         try {
             image = new Image(new FileInputStream(source));
         } catch (FileNotFoundException e) {
@@ -28,10 +28,9 @@ public class GuiElementBox {
 
         Text txt;
 
-        if(element.getType().equals("Animal")){
+        if (element.getType().equals("Animal")) {
             txt = new Text(element.getPosition().toString());
-        }
-        else{
+        } else {
             txt = new Text(element.getType());
         }
 
@@ -40,7 +39,7 @@ public class GuiElementBox {
         vBox.setAlignment(Pos.CENTER);
     }
 
-    public VBox getVBox(){
+    public VBox getVBox() {
         return vBox;
     }
 }

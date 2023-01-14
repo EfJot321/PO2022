@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public interface IMapElement{
+public interface IMapElement {
 
     Vector2d getPosition();
 

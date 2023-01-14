@@ -6,11 +6,11 @@ import javafx.application.Application;
 public class World {
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Application.launch(App.class, args);
         // try{
 
-        
+
         //     MoveDirection[] directions = new OptionsParser().parse(args);
         //     //IWorldMap map = new RectangularMap(15, 5);
         //     IWorldMap map = new GrassField(10);
@@ -23,23 +23,23 @@ public class World {
         //     System.out.println(ex);
         //     return;
         // }
-        
+
     }
 
 
-    static void run(Direction[] tab){
-        for(Direction ele : tab){
+    static void run(Direction[] tab) {
+        for (Direction ele : tab) {
             System.out.print("Zwierzak ");
-            if(ele == Direction.FORWARD){
+            if (ele == Direction.FORWARD) {
                 System.out.println("idzie do przodu.");
             }
-            if(ele == Direction.BACKWARD){
+            if (ele == Direction.BACKWARD) {
                 System.out.println("idzie do tylu.");
             }
-            if(ele == Direction.RIGHT){
+            if (ele == Direction.RIGHT) {
                 System.out.println("skreca w prawo.");
             }
-            if(ele == Direction.LEFT){
+            if (ele == Direction.LEFT) {
                 System.out.println("skreca w lewo.");
             }
         }

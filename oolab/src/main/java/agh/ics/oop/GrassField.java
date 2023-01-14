@@ -3,32 +3,32 @@ package agh.ics.oop;
 
 import java.util.Random;
 
-public class GrassField extends AbstractWorldMap{
-    
+public class GrassField extends AbstractWorldMap {
+
     private int nOfGrasses;
 
     private MapBoundary boundarizer = new MapBoundary();
 
 
-    public GrassField(int nOfGrasses){
+    public GrassField(int nOfGrasses) {
         super();
 
         this.nOfGrasses = nOfGrasses;
 
-        for(int i=0;i<nOfGrasses;i++){
+        for (int i = 0; i < nOfGrasses; i++) {
             placeGrass();
         }
 
     }
 
-    private void placeGrass(){
+    private void placeGrass() {
         Vector2d pos = null;
-        int maxPos = (int)(Math.sqrt(nOfGrasses*10));
+        int maxPos = (int) (Math.sqrt(nOfGrasses * 10));
         boolean notFound = true;
-        while(notFound){
+        while (notFound) {
             pos = new Vector2d(randInt(0, maxPos), randInt(0, maxPos));
             notFound = false;
-            if(isOccupied(pos)){
+            if (isOccupied(pos)) {
                 notFound = true;
             }
         }
@@ -38,15 +38,15 @@ public class GrassField extends AbstractWorldMap{
 
     }
 
-    private int randInt(int a, int b){
+    private int randInt(int a, int b) {
         Random rn = new Random();
-        int n = b-a+1;
-        return Math.abs(rn.nextInt()%n) + a;
+        int n = b - a + 1;
+        return Math.abs(rn.nextInt() % n) + a;
     }
 
     @Override
     public boolean place(Animal animal) {
-        if(super.place(animal)) {
+        if (super.place(animal)) {
             boundarizer.addElement(animal);
             animal.addObserver(boundarizer);
             return true;

@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-abstract class AbstractWorldMapElement implements IMapElement{
+abstract class AbstractWorldMapElement implements IMapElement {
 
     Vector2d pos;
 
